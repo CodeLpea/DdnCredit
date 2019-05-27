@@ -110,5 +110,10 @@ public interface Constants {
         String NET_PORT = "NET_PORT";
         String NET_USER = "NET_USER";
         String NET_OPSE = "NET_OPSE";
+
+        /**
+         * 语音音量
+         * */
+        String VOICE_LEVEL="VOICE_LEVEL";
     }
 }

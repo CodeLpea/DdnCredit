@@ -59,12 +59,11 @@ public class AppUtils {
 
     /**
      * 根据wifi信息获取本地mac
-     *
-     * @param context
+
      * @return
      */
-    public static String getLocalMacAddressFromWifiInfo(Context context) {
-        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+    public static String getLocalMacAddressFromWifiInfo() {
+        WifiManager wifi = (WifiManager) Myapplication.getInstance().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo winfo = wifi.getConnectionInfo();
         String mac = winfo.getMacAddress();
         return mac;
@@ -74,7 +73,7 @@ public class AppUtils {
      *7.0权限
      * @param
      * @return
-     */
+     *//*
     public static String getMacFromHardware() {
         try {
             List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
@@ -100,6 +99,6 @@ public class AppUtils {
             e.printStackTrace();
         }
         return "02:00:00:00:00:00";
-    }
+    }*/
 
 }

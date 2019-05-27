@@ -35,6 +35,7 @@ import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAM
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolID;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolName;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.TOKEN;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_LEVEL;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VendorId;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.isExplore;
 
@@ -223,6 +224,7 @@ public class SPUtil {
                 defaulConfig.edit().putString(NET_PORT, "8000").apply();
                 defaulConfig.edit().putString(NET_USER, "admin").apply();
                 defaulConfig.edit().putString(NET_OPSE, "XiaoNuo2018").apply();
+                defaulConfig.edit().putInt(VOICE_LEVEL, 10).apply();
                 defaulConfig.edit().putString(SERIAL1_NAME, "XiaoNuo2018").apply();
                 defaulConfig.edit().putString(SERIAL1_BAUDRATE, "XiaoNuo2018").apply();
                 defaulConfig.edit().putString(SERIAL1_DATA_BIT, Myapplication.getInstance().getString(R.string.data_bit_8)).apply();
