@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.didanuo.robot.libconfig.InvisibleConfig;
 import com.didanuo.robot.libconfig.InvisibleConfigKey;
-import com.example.lp.ddncredit.Utils.AppUtils;
+import com.example.lp.ddncredit.utils.AppUtils;
 import com.example.lp.ddncredit.http.model.ResponseEntry;
 import com.example.lp.ddncredit.http.model.SchoolKeyEntry;
 import com.example.lp.ddncredit.http.model.SchoolStaffsInfoEntry;

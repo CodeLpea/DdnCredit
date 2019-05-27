@@ -14,9 +14,9 @@ import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.didanuo.robot.libconfig.InvisibleConfig;
 import com.didanuo.robot.libconfig.InvisibleConfigKey;
-import com.example.lp.ddncredit.Utils.AppUtils;
-import com.example.lp.ddncredit.Utils.FileUtil;
-import com.example.lp.ddncredit.Utils.TimeUtil;
+import com.example.lp.ddncredit.utils.AppUtils;
+import com.example.lp.ddncredit.utils.FileUtil;
+import com.example.lp.ddncredit.utils.TimeUtil;
 
 /**
  * Created by Long on 2018/7/23.

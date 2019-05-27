@@ -32,9 +32,25 @@
         </activity>
 
 
-        <service android:name=".rfid.FirstRFIDCollectService"
+        <service android:name=".rfid.RFIDCollectService"
             android:enabled="true"
             android:exported="false"/>
+
+
+        <receiver
+            android:name=".broadCastReceiver.AppRebootBroadCastReceiver"
+            android:enabled="true">
+            <intent-filter> <!--开机自启广播-->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            </intent-filter>
+            <intent-filter> <!--在线升级安装重启广播-->
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

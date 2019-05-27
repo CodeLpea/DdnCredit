@@ -3,6 +3,7 @@ package com.example.lp.ddncredit.http.model;
 import com.google.gson.annotations.SerializedName;
 
 /**
+ * 上传当前版本信息，查看是否有最新版本
  * Created by Long on 2018/10/8.
  */
 

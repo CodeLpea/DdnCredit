@@ -1,49 +1,23 @@
 package com.example.lp.ddncredit.rfid;
 
 import android.content.Context;
-import android.util.Log;
-
-
-import com.didanuo.robot.libserialport.SerialPort;
-import com.example.lp.ddncredit.Utils.TypesToHexString;
-
-import java.io.File;
+import com.example.lp.ddncredit.Myapplication;
+import com.rfid.reader.Reader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
- * Created by Long on 2018/7/31.
+ * 接收RFID数据
+ * lp
+ * 2019/05/27
  */
-
 public class RFIDCollector {
     private static final String TAG = "RFIDCollector";
     private Context mContext;
-    private SerialPort mSerialPort;
-    private OutputStream mOutputStream;
-    private InputStream mInputStream;
+    private Reader reader;
+
     private OnDataReceiveListener mOnDataReceiveListener;
     public RFIDCollector(Context context){
         mContext = context;
-    }
-
-    private File mDevice = null;
-    private int mBaudRate = 9600;
-    private int mFlags = 0;
-
-    public RFIDCollector setDevice(String tty){
-        mDevice = new File(tty);
-        return this;
-    }
-
-    public RFIDCollector setBaudRate(int baudrate){
-        mBaudRate = baudrate;
-        return this;
-    }
-
-    public RFIDCollector setFlags(int flags){
-        mFlags = flags;
-        return this;
     }
 
     public RFIDCollector setOnDataReceiveListener(OnDataReceiveListener listener){
@@ -53,11 +27,7 @@ public class RFIDCollector {
 
     public void execute(){
         try{
-            Log.i(TAG, "mDevice = " + mDevice + " mBaudRate = " + mBaudRate + " mFlags = " + mFlags);
-            //mSerialPort = new SerialPort(new File("/dev/ttyS1"), 19200, 0);
-            mSerialPort = new SerialPort(mDevice, mBaudRate, mFlags);
-            mOutputStream = mSerialPort.getOutputStream();
-            mInputStream = mSerialPort.getInputStream();
+            reader= Myapplication.getInstance().getReader();
         }catch(IOException e){
             e.printStackTrace();
             return;
@@ -75,12 +45,9 @@ public class RFIDCollector {
             try {
                 isRunning = false;
                 mRead.join();
-                mOutputStream.close();
-                mInputStream.close();
-                mSerialPort.close();
             } catch (InterruptedException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -99,20 +66,22 @@ public class RFIDCollector {
             while(isRunning){
                 //检查是否有数据
                 try{
-                    if(mInputStream.available() > 0){
-                        Log.i(TAG, "data available : " + mInputStream.available());
-                        byte[] data = new byte[mInputStream.available()];
-                        int size = 0;
-                        //读取数据
-                        size = mInputStream.read(data);
-                        if(size > 0){
-                            Log.i(TAG, mDevice.getName() + " read data size : " +  size +  " data : " + TypesToHexString.byte2hex(data));
-                            mOnDataReceiveListener.process(data, size);
-                        }else{
-                            delay(100);
-                        }
+                    delay(100);
+                    byte[] errCode = new byte[1];
+                    byte[] uid = new byte[32];
+                    byte[] uidLen = new byte[1];
+                    int result;
+                    //long startTime = System.currentTimeMillis();
+                    result = reader.Iso14443a_GetUid(uid, uidLen, errCode);
+                    if (result != 0) {
+                        return;
+                    } else {
+                        mOnDataReceiveListener.process(uid, uidLen[0]);
                     }
-                }catch(IOException e){
+                /*    long endTime = System.currentTimeMillis();    //获取结束时间
+                    Log.i(TAG, "run: "+ "总程序运行时间：" + (endTime - startTime) + "ms\n\n" );  //输出程序运行时间*/
+
+                }catch(Exception e){
                     e.printStackTrace();
                 }
 

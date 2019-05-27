@@ -4,9 +4,9 @@ import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.lp.ddncredit.Utils.SPUtil;
-import com.example.lp.ddncredit.Voice.TtsSpeek;
-import com.example.lp.ddncredit.handler.StudentHandler;
+import com.example.lp.ddncredit.Myapplication;
+import com.example.lp.ddncredit.utils.SPUtil;
+import com.example.lp.ddncredit.voice.TtsSpeek;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -86,17 +86,17 @@ public class ResultHandlerEventBusReceiver {
             }
             if (rfidNumber != 0) {
                 boolean result = false;
-                //判断是家长打卡
+                /*//判断是家长打卡
                 result = new StudentHandler(mContext)
                         .setRFID(rfid)
                         .execute();
                 if (result == false) {
                     TtsSpeek.getInstance().SpeechAdd("此卡未绑定", SPUtil.readInt(SP_NAME,VOICE_LEVEL));
-                }
+                }*/
                 mLastRfid = rfidNumber;
                 mLastRfidTime = System.currentTimeMillis();
             } else {
-                TtsSpeek.getInstance().SpeechAdd("读卡异常", SPUtil.readInt(SP_NAME,VOICE_LEVEL));
+                TtsSpeek.getInstance(Myapplication.getInstance()).SpeechAdd("读卡异常", SPUtil.readInt(SP_NAME,VOICE_LEVEL));
             }
 
     }

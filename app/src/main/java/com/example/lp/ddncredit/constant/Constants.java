@@ -33,6 +33,8 @@ public interface Constants {
     String REMOTE_CTROL_DIR = ROOT_DIR + File.separator + "remotectrl";
 
 
+
+
     //串口设置参数
     String SERIAL1_NAME = "serial1_name";
     String SERIAL1_BAUDRATE = "serial1_baudrate";
