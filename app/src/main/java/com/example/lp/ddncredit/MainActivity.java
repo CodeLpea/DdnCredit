@@ -7,30 +7,22 @@ import android.os.Bundle;
 import com.example.lp.ddncredit.rfid.RFIDCollectService;
 
 public class MainActivity extends AppCompatActivity {
-    private Intent firstRfidIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initService();
+        ServiceManager.getInstance().startServices();//开启所有服务
+
     }
 
 
 
-
-
-    /**
-     * 开启串口读取卡号服务
-     * */
-    private void initService() {
-        firstRfidIntent= new Intent(this, RFIDCollectService.class);
-        this.startService(firstRfidIntent);
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        this.stopService(firstRfidIntent);
+        ServiceManager.getInstance().stopServices();//关闭所有服务
     }
 }

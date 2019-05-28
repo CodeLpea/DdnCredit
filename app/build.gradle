@@ -39,6 +39,10 @@ dependencies {
     implementation 'com.squareup.okio:okio:1.9.0'
     implementation files('libs/Config_V1.0.jar')
     implementation project(':reader')
+    implementation 'com.liulishuo.okdownload:okdownload:1.0.4'
+    implementation 'com.liulishuo.okdownload:sqlite:1.0.4'
+    implementation 'com.liulishuo.okdownload:okhttp:1.0.4'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

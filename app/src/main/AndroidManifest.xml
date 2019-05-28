@@ -35,8 +35,9 @@
         <service android:name=".rfid.RFIDCollectService"
             android:enabled="true"
             android:exported="false"/>
-
-
+        <service android:name=".versionConTrol.SoftWareUpgradeService"
+            android:enabled="true"
+            android:exported="false"/>
         <receiver
             android:name=".broadCastReceiver.AppRebootBroadCastReceiver"
             android:enabled="true">

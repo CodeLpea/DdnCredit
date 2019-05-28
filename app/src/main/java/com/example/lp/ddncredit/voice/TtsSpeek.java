@@ -24,7 +24,7 @@ public class TtsSpeek {
 
     private static TtsSpeek instance;
 
-    // 单例模式中获取唯一的MyApplication实例
+    // 单例模式中获取唯一的TtsSpeek实例
     public static TtsSpeek getInstance() {
         if (instance == null) {
             instance = new TtsSpeek(Myapplication.getInstance());

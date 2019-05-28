@@ -223,7 +223,7 @@ public class SPUtil {
                 defaulConfig.edit().putString(NET_PORT, "8000").apply();
                 defaulConfig.edit().putString(NET_USER, "admin").apply();
                 defaulConfig.edit().putString(NET_OPSE, "XiaoNuo2018").apply();
-                defaulConfig.edit().putInt(VOICE_LEVEL, 10).apply();
+                defaulConfig.edit().putInt(VOICE_LEVEL, 5).apply();
                 defaulConfig.edit().putString(SERIAL1_NAME, "/dev/ttyS1").apply();
                 defaulConfig.edit().putString(SERIAL1_BAUDRATE, "9600").apply();
                 defaulConfig.edit().putString(SERIAL1_DATA_BIT, Myapplication.getInstance().getString(R.string.data_bit_8)).apply();

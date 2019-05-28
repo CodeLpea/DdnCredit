@@ -1,6 +1,9 @@
 package com.example.lp.ddncredit.rfid;
 
 import android.content.Context;
+
+import com.example.lp.ddncredit.attendance.FfidResultEventBusReceiver;
+
 import static com.example.lp.ddncredit.utils.StringTool.byteHexToSting;
 import static com.example.lp.ddncredit.utils.StringTool.getRfid;
 
@@ -23,7 +26,7 @@ public class RFIDOnDataReceiveListener implements RFIDCollector.OnDataReceiveLis
             System.out.println("UID->" + byteHexToSting(data) );
             rfid=getRfid(byteHexToSting(data)).longValue();
             System.out.println("==============1============rfid=" +rfid);//得到id卡号
-            ResultHandlerEventBusReceiver.getInstance().post(Long.valueOf(rfid));
+            FfidResultEventBusReceiver.getInstance().post(Long.valueOf(rfid));
 
 
     }

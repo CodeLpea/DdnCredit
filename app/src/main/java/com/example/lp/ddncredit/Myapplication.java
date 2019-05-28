@@ -3,7 +3,7 @@ package com.example.lp.ddncredit;
 import android.app.Application;
 import com.example.lp.ddncredit.utils.SPUtil;
 import com.example.lp.ddncredit.voice.TtsSpeek;
-import com.example.lp.ddncredit.rfid.ResultHandlerEventBusReceiver;
+import com.example.lp.ddncredit.attendance.FfidResultEventBusReceiver;
 import static com.example.lp.ddncredit.constant.Constants.CONFIG_DIR;
 
 
@@ -40,8 +40,8 @@ public class Myapplication  extends Application{
     }
 
     private void initEventBus() {
-        ResultHandlerEventBusReceiver.getInstance().inject(this);
-        ResultHandlerEventBusReceiver.getInstance().register();
+        FfidResultEventBusReceiver.getInstance().inject(this);
+        FfidResultEventBusReceiver.getInstance().register();
     }
 
     private void initVoice() {

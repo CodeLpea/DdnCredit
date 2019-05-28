@@ -1,4 +1,4 @@
-package com.example.lp.ddncredit.handler;
+package com.example.lp.ddncredit.attendance;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,15 +10,17 @@ import java.io.File;
 
 
 /**
- * Created by Long on 2018/8/7.
+ * 家长考勤管理
+ * lp
+ * 2019/05/28
  */
 
-public class StudentHandler {
-    private static final String TAG = "StudentHandler";
+public class parentAttendManagement {
+    private static final String TAG = "parentAttendManagement";
     private Context mContext;
    /* private ParentInfoDaoUtils mParentInfoDaoUtils;
     private long mRfid;
-    public StudentHandler(Context context){
+    public parentAttendManagement(Context context){
         mContext = context;
         mParentInfoDaoUtils = new ParentInfoDaoUtils(mContext);
     }
@@ -28,7 +30,7 @@ public class StudentHandler {
      * @param rfid
      * @return
      *//*
-    public StudentHandler setRFID(long rfid){
+    public parentAttendManagement setRFID(long rfid){
         mRfid = rfid;
         return this;
     }

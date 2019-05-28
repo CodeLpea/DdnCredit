@@ -270,7 +270,7 @@ public class CloudClient {
     public UpgradePackageVersionInfoEntry getUpgradePackageVersionInfo(String appVersion){
         UpgradePackageVersionInfoEntry versionInfo = null;
         UpgradePackageVersionInfoRequest upgradePackageVersionInfoRequest = new UpgradePackageVersionInfoRequest();
-        upgradePackageVersionInfoRequest.setHardWareDeviceType("RockChip-RK3288");
+        upgradePackageVersionInfoRequest.setHardWareDeviceType("NuoShua");
         upgradePackageVersionInfoRequest.setHardWareDeviceNumber(AppUtils.getLocalMacAddressFromWifiInfo());
         upgradePackageVersionInfoRequest.setCurrentApkVersion(appVersion);
         upgradePackageVersionInfoRequest.setSoftWareType(SOFTWARE_SYSTEM_TYTE);

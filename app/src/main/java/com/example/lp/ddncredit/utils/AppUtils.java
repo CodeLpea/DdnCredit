@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 
 import com.example.lp.ddncredit.Myapplication;
 
@@ -59,9 +60,12 @@ public class AppUtils {
      * @return
      */
     public static String getLocalMacAddressFromWifiInfo() {
-        WifiManager wifi = (WifiManager) Myapplication.getInstance().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        WifiInfo winfo = wifi.getConnectionInfo();
-        String mac = winfo.getMacAddress();
+          String mac=null;
+            String macAddress = NetUtil.getEthMacAddress();
+            if(macAddress != null && !macAddress.contains(NetUtil.MAC_ERROR)) {
+                mac = macAddress.replace(":", "");
+            }
+        Log.i("mac", mac);
         return mac;
     }
     /**

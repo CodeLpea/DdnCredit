@@ -1,10 +1,9 @@
-package com.example.lp.ddncredit.rfid;
+package com.example.lp.ddncredit.attendance;
 
 import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
 
-import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.utils.SPUtil;
 import com.example.lp.ddncredit.voice.TtsSpeek;
 
@@ -22,22 +21,22 @@ import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_
  * Created by Long on 2018/8/8.
  */
 
-public class ResultHandlerEventBusReceiver {
+public class FfidResultEventBusReceiver {
     private static final String TAG = "ResultHandlerEventBusRe";
-    private static ResultHandlerEventBusReceiver mInstance;
+    private static FfidResultEventBusReceiver mInstance;
     private static final Object mLock = new Object();
     private static long mLastRfid = -1;
     private static long mLastRfidTime = 0;
     private Context mContext;
 
-    private ResultHandlerEventBusReceiver(){
+    private FfidResultEventBusReceiver(){
 
     }
 
-    public static ResultHandlerEventBusReceiver getInstance(){
+    public static FfidResultEventBusReceiver getInstance(){
         synchronized (mLock){
             if(mInstance == null){
-                mInstance = new ResultHandlerEventBusReceiver();
+                mInstance = new FfidResultEventBusReceiver();
             }
             return mInstance;
         }
@@ -87,7 +86,7 @@ public class ResultHandlerEventBusReceiver {
             if (rfidNumber != 0) {
                 boolean result = false;
                 /*//判断是家长打卡
-                result = new StudentHandler(mContext)
+                result = new parentAttendManagement(mContext)
                         .setRFID(rfid)
                         .execute();
                 if (result == false) {
@@ -95,7 +94,7 @@ public class ResultHandlerEventBusReceiver {
                 }*/
                 mLastRfid = rfidNumber;
                 mLastRfidTime = System.currentTimeMillis();
-                TtsSpeek.getInstance().SpeechAdd(String.valueOf(rfidNumber),10);
+                TtsSpeek.getInstance().SpeechAdd(String.valueOf(rfidNumber),SPUtil.readInt(SP_NAME,VOICE_LEVEL));
             } else {
                 TtsSpeek.getInstance().SpeechAdd("读卡异常", SPUtil.readInt(SP_NAME,VOICE_LEVEL));
             }
