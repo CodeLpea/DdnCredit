@@ -86,7 +86,7 @@ public class FfidResultEventBusReceiver {
             if (rfidNumber != 0) {
                 boolean result = false;
                 /*//判断是家长打卡
-                result = new parentAttendManagement(mContext)
+                result = new ParentAttendManager(mContext)
                         .setRFID(rfid)
                         .execute();
                 if (result == false) {

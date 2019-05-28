@@ -4,6 +4,9 @@ import android.app.Application;
 import com.example.lp.ddncredit.utils.SPUtil;
 import com.example.lp.ddncredit.voice.TtsSpeek;
 import com.example.lp.ddncredit.attendance.FfidResultEventBusReceiver;
+
+import org.litepal.LitePal;
+
 import static com.example.lp.ddncredit.constant.Constants.CONFIG_DIR;
 
 
@@ -23,6 +26,7 @@ public class Myapplication  extends Application{
     public void onCreate() {
         super.onCreate();
         instance=this;
+        LitePal.initialize(this);
         initSP();
 
         initEventBus();

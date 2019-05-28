@@ -15,12 +15,12 @@ import java.io.File;
  * 2019/05/28
  */
 
-public class parentAttendManagement {
-    private static final String TAG = "parentAttendManagement";
+public class ParentAttendManager {
+    private static final String TAG = "ParentAttendManager";
     private Context mContext;
    /* private ParentInfoDaoUtils mParentInfoDaoUtils;
     private long mRfid;
-    public parentAttendManagement(Context context){
+    public ParentAttendManager(Context context){
         mContext = context;
         mParentInfoDaoUtils = new ParentInfoDaoUtils(mContext);
     }
@@ -30,7 +30,7 @@ public class parentAttendManagement {
      * @param rfid
      * @return
      *//*
-    public parentAttendManagement setRFID(long rfid){
+    public ParentAttendManager setRFID(long rfid){
         mRfid = rfid;
         return this;
     }
