@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import com.example.lp.ddncredit.Myapplication;
+
 
 /**
  * RFID开启接收服务
@@ -49,7 +49,7 @@ public class RFIDCollectService extends Service {
         if(mRfidCollector != null){
             mRfidCollector.stop();
             mRfidCollector = null;
-            Myapplication.getInstance().closeReader();
+            ReaderIml.getInstance().closeReader();
         }
     }
 

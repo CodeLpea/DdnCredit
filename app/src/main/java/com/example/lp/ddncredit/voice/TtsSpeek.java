@@ -5,6 +5,8 @@ import android.media.AudioManager;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
+import com.example.lp.ddncredit.Myapplication;
+
 import java.util.Locale;
 /**
  * TTS语音工具
@@ -23,9 +25,9 @@ public class TtsSpeek {
     private static TtsSpeek instance;
 
     // 单例模式中获取唯一的MyApplication实例
-    public static TtsSpeek getInstance(Context context) {
+    public static TtsSpeek getInstance() {
         if (instance == null) {
-            instance = new TtsSpeek(context);
+            instance = new TtsSpeek(Myapplication.getInstance());
         }
         return instance;
     }

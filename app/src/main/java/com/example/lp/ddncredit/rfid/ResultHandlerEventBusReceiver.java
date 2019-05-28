@@ -95,8 +95,9 @@ public class ResultHandlerEventBusReceiver {
                 }*/
                 mLastRfid = rfidNumber;
                 mLastRfidTime = System.currentTimeMillis();
+                TtsSpeek.getInstance().SpeechAdd(String.valueOf(rfidNumber),10);
             } else {
-                TtsSpeek.getInstance(Myapplication.getInstance()).SpeechAdd("读卡异常", SPUtil.readInt(SP_NAME,VOICE_LEVEL));
+                TtsSpeek.getInstance().SpeechAdd("读卡异常", SPUtil.readInt(SP_NAME,VOICE_LEVEL));
             }
 
     }

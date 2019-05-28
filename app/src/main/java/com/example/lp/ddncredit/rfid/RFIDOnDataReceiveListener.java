@@ -19,13 +19,12 @@ public class RFIDOnDataReceiveListener implements RFIDCollector.OnDataReceiveLis
 
     @Override
     public void process(byte[] data, int size) {
-        long rfid = 0;
-        if(size >= 5){
+            long rfid = 0;
             System.out.println("UID->" + byteHexToSting(data) );
             rfid=getRfid(byteHexToSting(data)).longValue();
             System.out.println("==============1============rfid=" +rfid);//得到id卡号
             ResultHandlerEventBusReceiver.getInstance().post(Long.valueOf(rfid));
-        }
+
 
     }
 }

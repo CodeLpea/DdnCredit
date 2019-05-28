@@ -1,8 +1,9 @@
 package com.example.lp.ddncredit.rfid;
 
 import android.content.Context;
-import com.example.lp.ddncredit.Myapplication;
+
 import com.rfid.reader.Reader;
+
 import java.io.IOException;
 
 /**
@@ -27,7 +28,7 @@ public class RFIDCollector {
 
     public void execute(){
         try{
-            reader= Myapplication.getInstance().getReader();
+            reader= ReaderIml.getInstance().getReader();
         }catch(IOException e){
             e.printStackTrace();
             return;
@@ -45,6 +46,7 @@ public class RFIDCollector {
             try {
                 isRunning = false;
                 mRead.join();
+                mRead=null;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (Exception e) {
@@ -66,21 +68,18 @@ public class RFIDCollector {
             while(isRunning){
                 //检查是否有数据
                 try{
-                    delay(100);
                     byte[] errCode = new byte[1];
                     byte[] uid = new byte[32];
                     byte[] uidLen = new byte[1];
                     int result;
                     //long startTime = System.currentTimeMillis();
                     result = reader.Iso14443a_GetUid(uid, uidLen, errCode);
-                    if (result != 0) {
-                        return;
-                    } else {
+                    if (result == 0) {
                         mOnDataReceiveListener.process(uid, uidLen[0]);
                     }
                 /*    long endTime = System.currentTimeMillis();    //获取结束时间
                     Log.i(TAG, "run: "+ "总程序运行时间：" + (endTime - startTime) + "ms\n\n" );  //输出程序运行时间*/
-
+                    delay(400);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
