@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.didanuo.robot.libconfig.InvisibleConfig;
 import com.didanuo.robot.libconfig.InvisibleConfigKey;
+import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.utils.AppUtils;
 import com.example.lp.ddncredit.http.model.ResponseEntry;
 import com.example.lp.ddncredit.http.model.SchoolKeyEntry;
@@ -85,7 +86,7 @@ public class CloudClient {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request().newBuilder().
-                    addHeader("device_no", AppUtils.getLocalMacAddressFromWifiInfo())
+                    addHeader("device_no", AppUtils.getLocalMacAddressFromWifiInfo(Myapplication.getInstance()))
                     .build();
             Log.i(TAG, "request body : " + request.toString() + " headers : " + request.header("device_no"));
             return chain.proceed(request);
@@ -271,7 +272,7 @@ public class CloudClient {
         UpgradePackageVersionInfoEntry versionInfo = null;
         UpgradePackageVersionInfoRequest upgradePackageVersionInfoRequest = new UpgradePackageVersionInfoRequest();
         upgradePackageVersionInfoRequest.setHardWareDeviceType("NuoShua");
-        upgradePackageVersionInfoRequest.setHardWareDeviceNumber(AppUtils.getLocalMacAddressFromWifiInfo());
+        upgradePackageVersionInfoRequest.setHardWareDeviceNumber(AppUtils.getLocalMacAddressFromWifiInfo(Myapplication.getInstance()));
         upgradePackageVersionInfoRequest.setCurrentApkVersion(appVersion);
         upgradePackageVersionInfoRequest.setSoftWareType(SOFTWARE_SYSTEM_TYTE);
         String requestStr = mGson.toJson(upgradePackageVersionInfoRequest);

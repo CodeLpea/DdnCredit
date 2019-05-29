@@ -1,4 +1,4 @@
-package com.example.lp.ddncredit.dateBase;
+package com.example.lp.ddncredit.datebase;
 
 
 import org.litepal.annotation.Column;

@@ -35,11 +35,14 @@
         <service android:name=".rfid.RFIDCollectService"
             android:enabled="true"
             android:exported="false"/>
-        <service android:name=".versionConTrol.SoftWareUpgradeService"
+        <service android:name=".versioncontrol.SoftWareUpgradeService"
+            android:enabled="true"
+            android:exported="false"/>
+        <service android:name=".service.UpdateSchoolInfoService"
             android:enabled="true"
             android:exported="false"/>
         <receiver
-            android:name=".broadCastReceiver.AppRebootBroadCastReceiver"
+            android:name=".broadcastreceiver.AppRebootBroadCastReceiver"
             android:enabled="true">
             <intent-filter> <!--开机自启广播-->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

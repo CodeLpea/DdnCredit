@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.example.lp.ddncredit.rfid.RFIDCollectService;
-import com.example.lp.ddncredit.versionConTrol.SoftWareUpgradeService;
+import com.example.lp.ddncredit.service.UpdateSchoolInfoService;
+import com.example.lp.ddncredit.versioncontrol.SoftWareUpgradeService;
 
 /**
  * 服务管理
@@ -43,8 +44,13 @@ public class ServiceManager {
         if(!SoftWareUpgradeService.isServiceRunning()) {
             Intent SoftWareIntent = new Intent(mContext, SoftWareUpgradeService.class);
             mContext.startService(SoftWareIntent);
-        }  
-        
+        }
+        //下载信息服务
+        if(!UpdateSchoolInfoService.isServiceRunning()) {
+            Intent UpdateInfoIntent = new Intent(mContext, UpdateSchoolInfoService.class);
+            mContext.startService(UpdateInfoIntent);
+        }
+
 
     }
 
@@ -64,7 +70,11 @@ public class ServiceManager {
             Intent SoftWareIntent = new Intent(mContext, SoftWareUpgradeService.class);
             mContext.stopService(SoftWareIntent);
         }
-
+        //停止下载信息服务
+        if(!UpdateSchoolInfoService.isServiceRunning()) {
+            Intent UpdateInfoIntent = new Intent(mContext, UpdateSchoolInfoService.class);
+            mContext.stopService(UpdateInfoIntent);
+        }
       
     }
 }

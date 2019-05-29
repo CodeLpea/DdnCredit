@@ -1,4 +1,4 @@
-package com.example.lp.ddncredit.versionConTrol;
+package com.example.lp.ddncredit.versioncontrol;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;

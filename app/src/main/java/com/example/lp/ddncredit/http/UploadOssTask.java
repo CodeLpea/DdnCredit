@@ -14,6 +14,7 @@ import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.didanuo.robot.libconfig.InvisibleConfig;
 import com.didanuo.robot.libconfig.InvisibleConfigKey;
+import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.utils.AppUtils;
 import com.example.lp.ddncredit.utils.FileUtil;
 import com.example.lp.ddncredit.utils.TimeUtil;
@@ -132,7 +133,7 @@ public class UploadOssTask extends Thread {
      * @return
      */
     public static String getObjectKey(String filePath, long stuID){
-        String objectKey  = "detection/"+ TimeUtil.getYMDDate() + "/" + AppUtils.getLocalMacAddressFromWifiInfo() + "_" + stuID + "_" + filePath.substring(filePath.lastIndexOf("/") + 1);
+        String objectKey  = "detection/"+ TimeUtil.getYMDDate() + "/" + AppUtils.getLocalMacAddressFromWifiInfo(Myapplication.getInstance()) + "_" + stuID + "_" + filePath.substring(filePath.lastIndexOf("/") + 1);
 
         return objectKey;
     }

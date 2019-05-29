@@ -1,6 +1,7 @@
 package com.example.lp.ddncredit;
 
 import android.app.Application;
+
 import com.example.lp.ddncredit.utils.SPUtil;
 import com.example.lp.ddncredit.voice.TtsSpeek;
 import com.example.lp.ddncredit.attendance.FfidResultEventBusReceiver;
@@ -26,12 +27,13 @@ public class Myapplication  extends Application{
     public void onCreate() {
         super.onCreate();
         instance=this;
-        LitePal.initialize(this);
+        LitePal.initialize(this);//初始化LitePal数据库
         initSP();
-
         initEventBus();
         initVoice();
     }
+
+
     private void initSP() {
         /**
          * 指定app.xml存储位置
