@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by Long on 2018/7/25.
  */
 
-public class StuAttendancedStatusResponse {
+public class ParentAttendancedStatusResponse {
     public transient static final int ONLY_BRUSH_ONCE_OCCASION_UPLOAD = 81;     //刷一次场景，可以上传
     public transient static final int ONLY_BRUSH_ONCE_OCCASION_NOT_UPLOAD = 88; //刷一次场景，不用上传
     public transient static final int MULTI_BRUSH_OCCASION_UPLOAD = 401;  //多次刷场景，可以上传(服务器无记录直接上传，服务器有记录提示被谁接走再上传)
@@ -45,7 +45,7 @@ public class StuAttendancedStatusResponse {
 
     @Override
     public String toString() {
-        return "StuAttendancedStatusResponse{" +
+        return "ParentAttendancedStatusResponse{" +
                 "mStatus='" + mStatus + '\'' +
                 ", mRelationShip='" + mRelationShip + '\'' +
                 ", mCreateTime='" + mCreateTime + '\'' +

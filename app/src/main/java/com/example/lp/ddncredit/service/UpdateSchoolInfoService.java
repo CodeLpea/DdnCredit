@@ -43,9 +43,16 @@ public class UpdateSchoolInfoService extends IntentService {
         while(!NetUtil.isNetworkConnected(getApplicationContext()) && isRunning){
             TimeUtil.delayMs(100);
         }
-        //网络连通，获取学校信息
-        while(!getSchoolInfoList() && isRunning){
-            TimeUtil.delayMs(10 * 1000);
+        //网络连通，获取学校信息，耗时操作，可以在
+        while(true){
+            if(getSchoolInfoList()&&isRunning){
+                Log.i(TAG, "获取信息成功，间隔二十分钟更新: ");
+                TimeUtil.delayMs(20 * 60000);//获取成功就二十分钟更新一次
+            }else {
+                Log.i(TAG, "获取信息不成功，每间隔十秒重新尝试: ");
+                TimeUtil.delayMs(10 * 1000);//不成功，每间隔十秒重新尝试
+            }
+
         }
 
     }
@@ -76,8 +83,8 @@ public class UpdateSchoolInfoService extends IntentService {
         SchoolStudentsInfoEntry studentsInfoEntry = CloudClient.getInstance().getSchoolStudentList();
         if(studentsInfoEntry != null) {
             studentRet = true;
-            List<StudentInfoDb> studentInfoDbArrayList = new ArrayList<>();
             List<ParentInfoDb> parentInfoDbArrayList = new ArrayList<>();
+            List<StudentInfoDb> studentInfoDbArrayList = new ArrayList<>();
             List<StudentInfoEntry> students = studentsInfoEntry.getStudents();
             if(students != null) {
                 for (int i = 0; i < students.size(); i++) {
@@ -93,24 +100,18 @@ public class UpdateSchoolInfoService extends IntentService {
                             parentInfoDBEntry.setRfid(Long.parseLong(rfid.trim()));
                         }
                         parentInfoDBEntry.setRelationship(students.get(i).getParents().get(j).getRelationship());
-                        parentInfoDBEntry.setStudentInfo(studentInfoDBEntry);
+                        parentInfoDBEntry.setStudentid(students.get(i).getId());
+                        parentInfoDBEntry.setParentID(students.get(i).getParents().get(j).getId());
                         parentInfoDbArrayList.add(parentInfoDBEntry);
                     }
                 }
-                try {
-                    LitePal.deleteAll(StudentInfoDb.class);//先清空表，然后保存
                     LitePal.deleteAll(ParentInfoDb.class);
-                    LitePal.saveAll(studentInfoDbArrayList);
+                    LitePal.deleteAll(StudentInfoDb.class);
                     LitePal.saveAll(parentInfoDbArrayList);
+                    LitePal.saveAll(studentInfoDbArrayList);
                     Log.i(TAG, "有学生数据: "+ LitePal.count(StudentInfoDb.class));
                     Log.i(TAG, "有家长数据: "+ LitePal.count(ParentInfoDb.class));
-                }catch (Exception e){
-                    e.getMessage();
-                    LitePal.saveAll(studentInfoDbArrayList);
-                    LitePal.saveAll(parentInfoDbArrayList);
-                    Log.i(TAG, "有学生数据: "+ LitePal.count(StudentInfoDb.class));
-                    Log.i(TAG, "有家长数据: "+ LitePal.count(ParentInfoDb.class));
-                }
+
 
             }
         }

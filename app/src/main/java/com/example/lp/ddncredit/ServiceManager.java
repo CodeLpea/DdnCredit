@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.example.lp.ddncredit.rfid.RFIDCollectService;
 import com.example.lp.ddncredit.service.UpdateSchoolInfoService;
+import com.example.lp.ddncredit.service.UploadParentAttendService;
+import com.example.lp.ddncredit.service.UploadStaffAttendService;
 import com.example.lp.ddncredit.versioncontrol.SoftWareUpgradeService;
 
 /**
@@ -51,6 +53,17 @@ public class ServiceManager {
             mContext.startService(UpdateInfoIntent);
         }
 
+        //上传家长接送信息服务
+        if(!UploadParentAttendService.isServiceRunning()) {
+            Intent UpdateParentInfoIntent = new Intent(mContext, UploadParentAttendService.class);
+            mContext.startService(UpdateParentInfoIntent);
+        }
+
+        //上传老师考勤信息服务
+        if(!UploadStaffAttendService.isServiceRunning()) {
+            Intent UpdateStaffInfoIntent = new Intent(mContext, UploadStaffAttendService.class);
+            mContext.startService(UpdateStaffInfoIntent);
+        }
 
     }
 
@@ -74,6 +87,17 @@ public class ServiceManager {
         if(!UpdateSchoolInfoService.isServiceRunning()) {
             Intent UpdateInfoIntent = new Intent(mContext, UpdateSchoolInfoService.class);
             mContext.stopService(UpdateInfoIntent);
+        }
+
+        //停止家长接送信息服务
+        if(!UploadParentAttendService.isServiceRunning()) {
+            Intent UpdateParentInfoIntent = new Intent(mContext, UploadParentAttendService.class);
+            mContext.stopService(UpdateParentInfoIntent);
+        }
+        //停止老师考勤信息服务
+        if(!UploadStaffAttendService.isServiceRunning()) {
+            Intent UpdateStaffInfoIntent = new Intent(mContext, UploadStaffAttendService.class);
+            mContext.stopService(UpdateStaffInfoIntent);
         }
       
     }

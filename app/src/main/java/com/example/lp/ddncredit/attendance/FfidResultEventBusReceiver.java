@@ -84,17 +84,19 @@ public class FfidResultEventBusReceiver {
                 }
             }
             if (rfidNumber != 0) {
-                boolean result = false;
-                /*//判断是家长打卡
-                result = new ParentAttendManager(mContext)
-                        .setRFID(rfid)
-                        .execute();
-                if (result == false) {
+                boolean isParentResult = false;
+                boolean isStaffResult = false;
+               //判断是家长打卡
+                isParentResult = new ParentAttendManager().execute(rfid);
+                if(!isParentResult){//如果不是家长，就判断是不是老师
+                    isStaffResult=new StaffAttendManager().execute(rfid);
+                }
+                if (isParentResult == false&&isStaffResult==false) {//既不是家长也不是老师，就播报此卡未绑定
                     TtsSpeek.getInstance().SpeechAdd("此卡未绑定", SPUtil.readInt(SP_NAME,VOICE_LEVEL));
-                }*/
+                    TtsSpeek.getInstance().SpeechAdd(String.valueOf(rfidNumber),SPUtil.readInt(SP_NAME,VOICE_LEVEL));
+                }
                 mLastRfid = rfidNumber;
                 mLastRfidTime = System.currentTimeMillis();
-                TtsSpeek.getInstance().SpeechAdd(String.valueOf(rfidNumber),SPUtil.readInt(SP_NAME,VOICE_LEVEL));
             } else {
                 TtsSpeek.getInstance().SpeechAdd("读卡异常", SPUtil.readInt(SP_NAME,VOICE_LEVEL));
             }

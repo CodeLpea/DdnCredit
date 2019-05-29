@@ -61,4 +61,16 @@ public class StaffInfoDb extends LitePalSupport {
     public void setType(int type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "StaffInfoDb{" +
+                "id=" + id +
+                ", staffID=" + staffID +
+                ", rfid=" + rfid +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }

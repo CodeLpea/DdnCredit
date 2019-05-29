@@ -10,7 +10,8 @@ public class ParentInfoDb extends LitePalSupport {
     private int id;//id
     private long rfid;//卡号
     private String relationship;//与学生的关系
-    private StudentInfoDb studentInfo;//一对一学生
+    private long studentid;//一对多学生
+    private long  parentID;
 
     public int getId() {
         return id;
@@ -36,11 +37,30 @@ public class ParentInfoDb extends LitePalSupport {
         this.relationship = relationship;
     }
 
-    public StudentInfoDb getStudentInfo() {
-        return studentInfo;
+    public long getStudentid() {
+        return studentid;
     }
 
-    public void setStudentInfo(StudentInfoDb studentInfo) {
-        this.studentInfo = studentInfo;
+    public void setStudentid(long studentid) {
+        this.studentid = studentid;
+    }
+
+    public long getParentID() {
+        return parentID;
+    }
+
+    public void setParentID(long parentID) {
+        this.parentID = parentID;
+    }
+
+    @Override
+    public String toString() {
+        return "ParentInfoDb{" +
+                "id=" + id +
+                ", rfid=" + rfid +
+                ", relationship='" + relationship + '\'' +
+                ", studentid=" + studentid +
+                ", parentID=" + parentID +
+                '}';
     }
 }

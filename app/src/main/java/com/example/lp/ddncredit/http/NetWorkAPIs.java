@@ -5,7 +5,7 @@ import com.example.lp.ddncredit.http.model.SchoolKeyEntry;
 import com.example.lp.ddncredit.http.model.SchoolStaffsInfoEntry;
 import com.example.lp.ddncredit.http.model.SchoolStudentsInfoEntry;
 import com.example.lp.ddncredit.http.model.ServerTimeEntry;
-import com.example.lp.ddncredit.http.model.StuAttendancedStatusResponse;
+import com.example.lp.ddncredit.http.model.ParentAttendancedStatusResponse;
 import com.example.lp.ddncredit.http.model.UpgradePackageVersionInfoEntry;
 
 import okhttp3.RequestBody;
@@ -59,7 +59,7 @@ public interface NetWorkAPIs {
      * 接送状态查询
      */
     @POST
-    Call<ResponseEntry<StuAttendancedStatusResponse>> queryStudentAttendancedStatus(@Url String url, @Body RequestBody body);
+    Call<ResponseEntry<ParentAttendancedStatusResponse>> queryStudentAttendancedStatus(@Url String url, @Body RequestBody body);
 
     /**
      * 获取服务器最新升级包版本信息

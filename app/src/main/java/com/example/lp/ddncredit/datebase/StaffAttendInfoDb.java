@@ -43,4 +43,14 @@ public class StaffAttendInfoDb extends LitePalSupport {
     public void setPicPath(String picPath) {
         this.picPath = picPath;
     }
+
+    @Override
+    public String toString() {
+        return "StaffAttendInfoDb{" +
+                "id=" + id +
+                ", staffID=" + staffID +
+                ", createTime='" + createTime + '\'' +
+                ", picPath='" + picPath + '\'' +
+                '}';
+    }
 }

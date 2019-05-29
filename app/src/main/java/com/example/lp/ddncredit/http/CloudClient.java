@@ -6,6 +6,7 @@ import android.util.Log;
 import com.didanuo.robot.libconfig.InvisibleConfig;
 import com.didanuo.robot.libconfig.InvisibleConfigKey;
 import com.example.lp.ddncredit.Myapplication;
+import com.example.lp.ddncredit.http.model.ParentAttendancedStatusResponse;
 import com.example.lp.ddncredit.utils.AppUtils;
 import com.example.lp.ddncredit.http.model.ResponseEntry;
 import com.example.lp.ddncredit.http.model.SchoolKeyEntry;
@@ -13,9 +14,8 @@ import com.example.lp.ddncredit.http.model.SchoolStaffsInfoEntry;
 import com.example.lp.ddncredit.http.model.SchoolStudentsInfoEntry;
 import com.example.lp.ddncredit.http.model.ServerTimeEntry;
 import com.example.lp.ddncredit.http.model.StaffAttendancedInfoEntry;
-import com.example.lp.ddncredit.http.model.StuAttendancedInfoEntry;
-import com.example.lp.ddncredit.http.model.StuAttendancedStatusRequest;
-import com.example.lp.ddncredit.http.model.StuAttendancedStatusResponse;
+import com.example.lp.ddncredit.http.model.ParentAttendancedInfoEntry;
+import com.example.lp.ddncredit.http.model.ParentAttendancedStatusRequest;
 import com.example.lp.ddncredit.http.model.UpgradePackageVersionInfoEntry;
 import com.example.lp.ddncredit.http.model.UpgradePackageVersionInfoRequest;
 import com.google.gson.Gson;
@@ -187,12 +187,12 @@ public class CloudClient {
      * @param request 查询请求
      * @return 成功返回StuAttendancedStatusResponse对象，失败返回null
      */
-    public StuAttendancedStatusResponse queryStudentAttendancedStatus(StuAttendancedStatusRequest request){
-        StuAttendancedStatusResponse stuAttendancedStatusResponse = null;
+    public ParentAttendancedStatusResponse queryStudentAttendancedStatus(ParentAttendancedStatusRequest request){
+        ParentAttendancedStatusResponse stuAttendancedStatusResponse = null;
         String requestStr = mGson.toJson(request);
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestStr);
-        Call<ResponseEntry<StuAttendancedStatusResponse>> call = mAPIs.queryStudentAttendancedStatus(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_VALID_BRUSH_URL), body);
-        ResponseEntry<StuAttendancedStatusResponse> response;
+        Call<ResponseEntry<ParentAttendancedStatusResponse>> call = mAPIs.queryStudentAttendancedStatus(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_VALID_BRUSH_URL), body);
+        ResponseEntry<ParentAttendancedStatusResponse> response;
         long start = System.currentTimeMillis();
         try{
             response = call.execute().body();
@@ -217,10 +217,10 @@ public class CloudClient {
     }
 
     /**
-     * 上传学生考勤信息
+     * 上传家长接送信息
      * @param attendancedInfoEntry
      */
-    public boolean uploadStudentAttendancedInfo(StuAttendancedInfoEntry attendancedInfoEntry){
+    public boolean uploadParentAttendancedInfo(ParentAttendancedInfoEntry attendancedInfoEntry){
         boolean result = false;
         String requestStr = mGson.toJson(attendancedInfoEntry);
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestStr);
