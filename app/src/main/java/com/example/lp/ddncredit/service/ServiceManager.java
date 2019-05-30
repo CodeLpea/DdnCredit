@@ -1,13 +1,11 @@
-package com.example.lp.ddncredit;
+package com.example.lp.ddncredit.service;
 
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.rfid.RFIDCollectService;
-import com.example.lp.ddncredit.service.UpdateSchoolInfoService;
-import com.example.lp.ddncredit.service.UploadParentAttendService;
-import com.example.lp.ddncredit.service.UploadStaffAttendService;
 import com.example.lp.ddncredit.versioncontrol.SoftWareUpgradeService;
 
 /**
@@ -64,6 +62,11 @@ public class ServiceManager {
             Intent UpdateStaffInfoIntent = new Intent(mContext, UploadStaffAttendService.class);
             mContext.startService(UpdateStaffInfoIntent);
         }
+        //开启网络探测，未上传信息数量报告服务
+        if(!NetWorkService.isServiceRunning()) {
+            Intent netWorkIntent = new Intent(mContext, NetWorkService.class);
+            mContext.startService(netWorkIntent);
+        }
 
     }
 
@@ -98,6 +101,11 @@ public class ServiceManager {
         if(!UploadStaffAttendService.isServiceRunning()) {
             Intent UpdateStaffInfoIntent = new Intent(mContext, UploadStaffAttendService.class);
             mContext.stopService(UpdateStaffInfoIntent);
+        }
+        //关闭网络探测，未上传信息数量报告服务
+        if(!NetWorkService.isServiceRunning()) {
+            Intent netWorkIntent = new Intent(mContext, NetWorkService.class);
+            mContext.stopService(netWorkIntent);
         }
       
     }

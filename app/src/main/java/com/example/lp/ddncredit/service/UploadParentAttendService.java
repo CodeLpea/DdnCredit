@@ -80,10 +80,10 @@ public class UploadParentAttendService extends Service {
     private Runnable mUploadRunnable =  new Runnable() {
         @Override
         public void run() {
-
             while(isRunning){
                 //先检查网络是否连通
-                if(!NetUtil.isNetworkConnected(getApplicationContext())){
+                boolean result=checkNetWork();
+                if(!result){
                     TimeUtil.delayMs(500);
                     continue;
                 }
@@ -132,4 +132,12 @@ public class UploadParentAttendService extends Service {
             }
         }
     };
+
+
+    private boolean checkNetWork() {
+        boolean result=false;
+        result=NetUtil.isNetworkConnected(getApplicationContext());
+        return result;
+    }
+
 }

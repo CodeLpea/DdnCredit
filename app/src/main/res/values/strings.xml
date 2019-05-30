@@ -108,4 +108,7 @@
     <string name="arcsoft_fr_key">Ejxuw1H8M8rbu599xgCVPeYctG6jRzHQtiTeFGadN1Ys</string>
     <string name="arcsoft_age_key">Ejxuw1H8M8rbu599xgCVPeYsD4d4AapsTaGfSipwqMVt</string>
     <string name="arcsoft_gender_key">Ejxuw1H8M8rbu599xgCVPeYzNTtDKZsMZ6J9Zjb5owVs</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

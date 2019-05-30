@@ -47,8 +47,11 @@
         <service android:name=".service.UploadStaffAttendService"
             android:enabled="true"
             android:exported="false"/>
+        <service android:name=".service.NetWorkService"
+            android:enabled="true"
+            android:exported="false"/>
         <receiver
-            android:name=".broadcastreceiver.AppRebootBroadCastReceiver"
+            android:name=".utils.appstart.AppRebootBroadCastReceiver"
             android:enabled="true">
             <intent-filter> <!--开机自启广播-->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

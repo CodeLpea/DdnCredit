@@ -26,7 +26,7 @@ public class RFIDOnDataReceiveListener implements RFIDCollector.OnDataReceiveLis
             System.out.println("UID->" + byteHexToSting(data) );
             rfid=getRfid(byteHexToSting(data)).longValue();
             System.out.println("==============1============rfid=" +rfid);//得到id卡号
-            FfidResultEventBusReceiver.getInstance().post(Long.valueOf(rfid));
+            FfidResultEventBusReceiver.getInstance().post(new RfidBean(Long.valueOf(rfid)));
 
 
     }

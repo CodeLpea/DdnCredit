@@ -1,6 +1,5 @@
 package com.example.lp.ddncredit.attendance;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -18,7 +17,7 @@ import com.example.lp.ddncredit.utils.BitmapUtil;
 import com.example.lp.ddncredit.utils.PicturesManager;
 import com.example.lp.ddncredit.utils.SPUtil;
 import com.example.lp.ddncredit.utils.TimeUtil;
-import com.example.lp.ddncredit.voice.TtsSpeek;
+import com.example.lp.ddncredit.utils.voice.TtsSpeek;
 
 import org.litepal.LitePal;
 

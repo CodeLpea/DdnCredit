@@ -3,7 +3,7 @@ package com.example.lp.ddncredit;
 import android.app.Application;
 
 import com.example.lp.ddncredit.utils.SPUtil;
-import com.example.lp.ddncredit.voice.TtsSpeek;
+import com.example.lp.ddncredit.utils.voice.TtsSpeek;
 import com.example.lp.ddncredit.attendance.FfidResultEventBusReceiver;
 
 import org.litepal.LitePal;
@@ -46,8 +46,7 @@ public class Myapplication  extends Application{
     }
 
     private void initEventBus() {
-        FfidResultEventBusReceiver.getInstance().inject(this);
-        FfidResultEventBusReceiver.getInstance().register();
+        FfidResultEventBusReceiver.getInstance().inject(this).register();
     }
 
     private void initVoice() {

@@ -12,7 +12,7 @@ import com.example.lp.ddncredit.utils.BitmapUtil;
 import com.example.lp.ddncredit.utils.PicturesManager;
 import com.example.lp.ddncredit.utils.SPUtil;
 import com.example.lp.ddncredit.utils.TimeUtil;
-import com.example.lp.ddncredit.voice.TtsSpeek;
+import com.example.lp.ddncredit.utils.voice.TtsSpeek;
 
 import org.litepal.LitePal;
 

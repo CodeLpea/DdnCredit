@@ -13,6 +13,7 @@ public interface Constants {
     String ROOT_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "didanuo";
     //照片保存路径
     String PIC_DIR = ROOT_DIR + File.separator + "pictures";
+    String EXPRESSION_DIR = ROOT_DIR + File.separator + "expression";
     //存放正式特征值对应的照片
     String PERSONAL_PIC_DIR = PIC_DIR + File.separator + "personal";
     //存放后备特征值对应的照片

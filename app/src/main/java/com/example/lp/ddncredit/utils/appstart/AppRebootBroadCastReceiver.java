@@ -1,4 +1,4 @@
-package com.example.lp.ddncredit.broadcastreceiver;
+package com.example.lp.ddncredit.utils.appstart;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
