@@ -67,9 +67,9 @@ public class NumImageView extends android.support.v7.widget.AppCompatImageView {
             paint.setTextSize(textSize);
             //画数字
             canvas.drawText("" + (num < 99 ? num : 99),
-                    num < 10 ? getWidth() - radius - textSize / 4 - paddingRight/2
-                            : getWidth() - radius - textSize / 2 - paddingRight/2,
-                    radius + textSize / 3 + paddingTop/2, paint);
+                    num < 10 ? getWidth() - radius - textSize / 4 - paddingRight/2 : (float) (getWidth() - 1.6 - radius - textSize / 2 - paddingRight / 2),
+                    radius + textSize / 3 + paddingTop/2,
+                    paint);
         }
     }
 }

@@ -19,6 +19,7 @@ import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAM
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_LEVEL;
 import static com.example.lp.ddncredit.mainview.expression.ExpressionInterface.CreditExpressioneyeLeft;
 import static com.example.lp.ddncredit.mainview.expression.ExpressionInterface.CreditExpressioneyeRght;
+import static com.example.lp.ddncredit.mainview.expression.ExpressionInterface.ExpressionList;
 import static com.example.lp.ddncredit.mainview.expression.ExpressionInterface.SmiletExpression;
 
 
@@ -126,27 +127,10 @@ public class FfidResultEventBusReceiver {
 
     private void setExpression() {
         Random random = new Random();
-        int randomExpression = random.nextInt(3);//生成一个0到2之间的随机数用来，随机生成表情
+        int randomExpression = random.nextInt(ExpressionList.length-1);//生成一个0到ExpressionList.length - 1之间的随机数用来，随机生成表情
         Log.i(TAG, "randomExpression: " + randomExpression);
         ExpressionMessage expressionMessage = new ExpressionMessage();//新建表情信息，以便Eventbus传递
-        switch (randomExpression) {
-            case 0:
-                expressionMessage.setExpression(CreditExpressioneyeRght);
-                Log.i(TAG, "随机表情眨右眼睛: ");
-                break;
-            case 1:
-                expressionMessage.setExpression(CreditExpressioneyeLeft);
-                Log.i(TAG, "随机表情眨左眼睛: ");
-                break;
-            case 2:
-                expressionMessage.setExpression(SmiletExpression);
-                Log.i(TAG, "随机表情微笑: ");
-                break;
-            default:
-                expressionMessage.setExpression(SmiletExpression);
-                Log.i(TAG, "随机表情微笑: ");
-                break;
-        }
+        expressionMessage.setExpression(ExpressionList[randomExpression]);
         if (expressionMessage.getExpression() != null) {
             EventBus.getDefault().post(expressionMessage);
         } else {
