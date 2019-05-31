@@ -10,7 +10,7 @@ import android.util.Log;
 import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.datebase.ParentAttendInfoDb;
 import com.example.lp.ddncredit.datebase.StaffAttendInfoDb;
-import com.example.lp.ddncredit.mainview.networkdetail.NetworkdetailReceiver;
+import com.example.lp.ddncredit.mainview.networkdetail.NetworkListener;
 import com.example.lp.ddncredit.utils.NetUtil;
 import com.example.lp.ddncredit.utils.TimeUtil;
 
@@ -85,8 +85,8 @@ public class NetWorkService extends Service {
     private boolean checkNetWork() {
         boolean result=false;
         result= NetUtil.isNetworkConnected(getApplicationContext());
-        Intent intent = new Intent(NetworkdetailReceiver.NETWORK_ACTION);
-        intent.putExtra(NetworkdetailReceiver.NETSTATUS, result);
+        Intent intent = new Intent(NetworkListener.NETWORK_ACTION);
+        intent.putExtra(NetworkListener.NETSTATUS, result);
         LocalBroadcastManager.getInstance(Myapplication.getInstance()).sendBroadcast(intent);//发送网络状态
 
 
@@ -97,8 +97,8 @@ public class NetWorkService extends Service {
         int countsParentAttendInfoDb= LitePal.count(ParentAttendInfoDb.class);
         int countsStaffAttendInfoDb=LitePal.count(StaffAttendInfoDb.class);
         int countsTotal=countsParentAttendInfoDb+countsStaffAttendInfoDb;
-        Intent intent = new Intent(NetworkdetailReceiver.NUMBER_ACTION);
-        intent.putExtra(NetworkdetailReceiver.NUMBER_NAME, countsTotal);
+        Intent intent = new Intent(NetworkListener.NUMBER_ACTION);
+        intent.putExtra(NetworkListener.NUMBER_NAME, countsTotal);
         LocalBroadcastManager.getInstance(Myapplication.getInstance()).sendBroadcast(intent);//发送未上传个数
     }
 }

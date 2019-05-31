@@ -1,8 +1,6 @@
 package com.example.lp.ddncredit;
 
 import android.app.FragmentTransaction;
-import android.content.IntentFilter;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,26 +8,23 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.example.lp.ddncredit.mainview.networkdetail.NetWorkDetailManager;
+import com.example.lp.ddncredit.mainview.networkdetail.NetworkListener;
 import com.example.lp.ddncredit.mainview.view.NumImageView;
-import com.example.lp.ddncredit.mainview.networkdetail.NetworkdetailReceiver;
 import com.example.lp.ddncredit.mainview.fragment.CameraFragment;
 import com.example.lp.ddncredit.mainview.fragment.ExpressionFragment;
 import com.example.lp.ddncredit.mainview.fragment.SetFragment;
 import com.example.lp.ddncredit.service.ServiceManager;
-import com.example.lp.ddncredit.mainview.networkdetail.NetworkdetailReceiver.networkLister;
 
-import static com.example.lp.ddncredit.mainview.networkdetail.NetworkdetailReceiver.NETWORK_ACTION;
-import static com.example.lp.ddncredit.mainview.networkdetail.NetworkdetailReceiver.NUMBER_ACTION;
-
-public class MainActivity extends AppCompatActivity implements networkLister {
+public class MainActivity extends AppCompatActivity implements NetworkListener {
     private static final String TAG = "MainActivity";
 
     private FragmentTransaction fragmentTransaction;
     private CameraFragment cameraFragment;
     private ExpressionFragment expressionFragment;
     private SetFragment setFragment;
-    private NetworkdetailReceiver unUploadNumberReceiver;
-    private  IntentFilter filter;
+    private NetWorkDetailManager netWorkDetailManager;//全局网络状态管理类，需要实现networkLister配合使用
+
 
     private ImageView netWorkImageView;
     private NumImageView unUploadNumImageView;
@@ -40,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements networkLister {
         setContentView(R.layout.activity_main);
         ServiceManager.getInstance().startServices();//开启所有服务
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
+        netWorkDetailManager=NetWorkDetailManager.getInstance();//获取到NetWorkDetailManager实例，用于监听
+
         initView();
         initFragement();
 
@@ -48,44 +45,25 @@ public class MainActivity extends AppCompatActivity implements networkLister {
     private void initView() {
         netWorkImageView=findViewById(R.id.iv_netStaus);
         unUploadNumImageView=findViewById(R.id.nv_unUpadateNum);
-
         netWorkImageView.setVisibility(View.INVISIBLE);//默认是看不见的
         unUploadNumImageView.setVisibility(View.INVISIBLE);//默认是看不见的
 
-
-        unUploadNumberReceiver = new NetworkdetailReceiver();//实例化
-        unUploadNumberReceiver.setnNtworkLister(this);//设置监听
-        //创建IntentFilter
-        filter = new IntentFilter();
-        filter.addAction(NUMBER_ACTION);
-        filter.addAction(NETWORK_ACTION);
 
     }
 
     @Override
     protected void onResume() {
-        Log.i(TAG, "onResume: ");
-        registerBroadcastReceiver();//注册广播
         super.onResume();
+        Log.i(TAG, "onResume: ");
+        netWorkDetailManager.addListenr(this);//监听网络变化已经未上传数量
     }
 
     @Override
     protected void onPause() {
+        Log.i(TAG, "onPause: ");
         super.onPause();
-        UnregisterBroadcastReceiver();//注销广播
-    }
+        netWorkDetailManager.removeListenr(this);//移除监听
 
-    /**
-     * 注册网络状态广播
-     */
-    private void registerBroadcastReceiver() {
-        LocalBroadcastManager.getInstance(Myapplication.getInstance()).registerReceiver(unUploadNumberReceiver, filter);
-    }
-    /**
-     * 注销网络状态广播
-     */
-    private void UnregisterBroadcastReceiver() {
-        LocalBroadcastManager.getInstance(Myapplication.getInstance()).unregisterReceiver(unUploadNumberReceiver);
     }
 
     private void initFragement() {

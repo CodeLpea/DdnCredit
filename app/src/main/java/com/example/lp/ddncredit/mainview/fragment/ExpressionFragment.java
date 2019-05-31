@@ -93,6 +93,22 @@ public class ExpressionFragment extends Fragment {
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        super.onHiddenChanged(hidden);
+        if(hidden){//不在最前端界面显示，相当于调用了onPause(),但是不可提到onPause，因为回到系统主页面时，还是会掉onPause而不是onHiddenChanged
+            Log.i(TAG, "不在最前端界面显示");
+
+        }else{//重新显示到最前端 ,相当于调用了onResume()
+            //进行网络数据刷新  此处执行必须要在 Fragment与Activity绑定了 即需要添加判断是否完成绑定，否则将会报空（即非第一个显示出来的fragment，虽然onCreateView没有被调用,
+            //但是onHiddenChanged也会被调用，所以如果你尝试去获取活动的话，注意防止出现空指针）
+            Log.i(TAG, "重新显示到最前端 ");
+
+        }
+
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         Log.i(TAG, "ExpressionFragment onAttach: ");
         super.onAttach(activity);
