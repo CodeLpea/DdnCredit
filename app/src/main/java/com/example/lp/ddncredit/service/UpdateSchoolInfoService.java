@@ -41,7 +41,7 @@ public class UpdateSchoolInfoService extends IntentService {
         isRunning = true;
         //检查网络
         while(!NetUtil.isNetworkConnected(getApplicationContext()) && isRunning){
-            TimeUtil.delayMs(100);
+            TimeUtil.delayMs(2000);
         }
         //网络连通，获取学校信息，耗时操作，可以在
         while(true){

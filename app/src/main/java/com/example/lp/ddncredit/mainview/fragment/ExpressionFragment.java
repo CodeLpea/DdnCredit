@@ -1,37 +1,24 @@
 package com.example.lp.ddncredit.mainview.fragment;
 
-
 import android.app.Activity;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-
-import com.example.lp.ddncredit.MainActivity;
 import com.example.lp.ddncredit.R;
 import com.example.lp.ddncredit.mainview.expression.ExpressionManager;
 import com.example.lp.ddncredit.mainview.expression.ExpressionMessage;
 import com.example.lp.ddncredit.mainview.expression.ExpressionTimer;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.IOException;
-
-import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
-
-import static com.example.lp.ddncredit.mainview.expression.ExpressionInterface.ExpressionList;
-
 /**
- * A simple {@link Fragment} subclass.
+ * 表情碎片
+ * lp
+ * 2019/5/30
  */
 public class ExpressionFragment extends BaseFragment {
     private static final String TAG = "ExpressionFragment";
@@ -101,19 +88,4 @@ public class ExpressionFragment extends BaseFragment {
 
     }
 
-
-
-    @Override
-    public void onAttach(Activity activity) {
-        Log.i(TAG, "ExpressionFragment onAttach: ");
-        super.onAttach(activity);
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.i(TAG, "ExpressionFragment onDetach: ");
-
-    }
 }

@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import com.example.lp.ddncredit.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * 设置界面碎片
+ * lp
+ * 2019/5/30
  */
 public class SetFragment extends Fragment {
     private static final String TAG="SetFragment";

@@ -84,7 +84,7 @@ public class UploadParentAttendService extends Service {
                 //先检查网络是否连通
                 boolean result=checkNetWork();
                 if(!result){
-                    TimeUtil.delayMs(500);
+                    TimeUtil.delayMs(2000);
                     continue;
                 }
                 //从缓存数据库中读取数据
@@ -128,6 +128,8 @@ public class UploadParentAttendService extends Service {
                         Log.i(TAG, "上传成功,删除记录");
                         parentAttendInfoDb.delete();
                     }
+                }else {
+                    TimeUtil.delayMs(2000);
                 }
             }
         }

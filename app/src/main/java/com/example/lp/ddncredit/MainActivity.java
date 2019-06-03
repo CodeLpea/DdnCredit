@@ -1,6 +1,8 @@
 package com.example.lp.ddncredit;
 
 import android.app.FragmentTransaction;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,7 +18,7 @@ import com.example.lp.ddncredit.mainview.fragment.ExpressionFragment;
 import com.example.lp.ddncredit.mainview.fragment.SetFragment;
 import com.example.lp.ddncredit.service.ServiceManager;
 
-public class MainActivity extends AppCompatActivity implements NetworkListener {
+public class MainActivity extends BaseActivity implements NetworkListener {
     private static final String TAG = "MainActivity";
 
     private FragmentTransaction fragmentTransaction;
@@ -35,8 +37,10 @@ public class MainActivity extends AppCompatActivity implements NetworkListener {
         setContentView(R.layout.activity_main);
         ServiceManager.getInstance().startServices();//开启所有服务
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
-        netWorkDetailManager=NetWorkDetailManager.getInstance();//获取到NetWorkDetailManager实例，用于监听
+        //不管是否使用actionbar主题,下面这句代码都有效(api21及以上)
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//设置透明导航栏
 
+        netWorkDetailManager=NetWorkDetailManager.getInstance();//获取到NetWorkDetailManager实例，用于监听
         initView();
         initFragement();
 
@@ -87,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements NetworkListener {
     protected void onDestroy() {
         super.onDestroy();
         ServiceManager.getInstance().stopServices();//关闭所有服务
+        netWorkDetailManager.unRegisterReceiver();
     }
 
     /**
@@ -116,4 +121,6 @@ public class MainActivity extends AppCompatActivity implements NetworkListener {
         }
 
     }
+
+
 }

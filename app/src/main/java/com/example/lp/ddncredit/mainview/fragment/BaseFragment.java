@@ -30,7 +30,7 @@ public class BaseFragment extends Fragment {
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(margin);
         layoutParams.width = 1280;
-        layoutParams.height = 800 - NavigationBarHeight;
+        layoutParams.height = 800;
         view.setLayoutParams(layoutParams);
     }
 

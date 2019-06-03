@@ -83,7 +83,7 @@ public class UploadStaffAttendService extends Service {
             while(isRunning){
                 //先检查网络是否连通
                 if(!NetUtil.isNetworkConnected(getApplicationContext())){
-                    TimeUtil.delayMs(500);
+                    TimeUtil.delayMs(2000);
                     continue;
                 }
                 //从缓存数据库中读取数据
@@ -126,6 +126,8 @@ public class UploadStaffAttendService extends Service {
                         Log.i(TAG, "上传成功,删除记录");
                         staffAttendInfoDb.delete();
                     }
+                }else {
+                    TimeUtil.delayMs(2000);
                 }
             }
         }
