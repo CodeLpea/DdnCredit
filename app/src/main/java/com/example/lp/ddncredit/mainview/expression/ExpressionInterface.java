@@ -34,7 +34,7 @@ public interface ExpressionInterface {
             , Tongue
             , Wave
             , WearingAmask
-            , WearingAmask
+            , NoPersionExpression
             , NoPersionExpression
     };
 }

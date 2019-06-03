@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
 
+import com.example.lp.ddncredit.mainview.expression.ExpressionManager;
 import com.example.lp.ddncredit.mainview.expression.ExpressionMessage;
 import com.example.lp.ddncredit.rfid.RfidBean;
 import com.example.lp.ddncredit.utils.SPUtil;
@@ -127,18 +128,16 @@ public class FfidResultEventBusReceiver {
 
     private void setExpression() {
         Random random = new Random();
-        int randomExpression = random.nextInt(ExpressionList.length-1);//生成一个0到ExpressionList.length - 1之间的随机数用来，随机生成表情
-        Log.i(TAG, "randomExpression: " + randomExpression);
+        int randomExpression = random.nextInt(ExpressionList.length - 1);//生成一个0到ExpressionList.length - 1之间的随机数用来，随机生成表情
+        Log.i(TAG, "闲时随机表情: " + randomExpression);
         ExpressionMessage expressionMessage = new ExpressionMessage();//新建表情信息，以便Eventbus传递
-        expressionMessage.setExpression(ExpressionList[randomExpression]);
-        if (expressionMessage.getExpression() != null) {
+
+        expressionMessage.setGifDrawable( ExpressionManager.getInstance().getGifDrawable(randomExpression));
+        if (expressionMessage.getGifDrawable() != null) {
             EventBus.getDefault().post(expressionMessage);
         } else {
             Log.i(TAG, "随机表情为空，默认眨右眼睛: ");
-            expressionMessage.setExpression(CreditExpressioneyeRght);
-            EventBus.getDefault().post(expressionMessage);
         }
-
 
     }
 

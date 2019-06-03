@@ -1,17 +1,20 @@
 package com.example.lp.ddncredit.mainview.expression;
+
+import java.util.List;
+
+import pl.droidsonroids.gif.GifDrawable;
+
 /**
- * 表情信息类
+ * 表情的EventBus信息类
  * lp
  * 2019/05/30
  * */
 public class ExpressionMessage {
-    private String expression;//表情
-
-    public String getExpression() {
-        return expression;
+    private GifDrawable gifDrawable;
+    public GifDrawable getGifDrawable() {
+        return gifDrawable;
     }
-
-    public void setExpression(String expression) {
-        this.expression = expression;
+    public void setGifDrawable(GifDrawable gifDrawable) {
+        this.gifDrawable = gifDrawable;
     }
 }
