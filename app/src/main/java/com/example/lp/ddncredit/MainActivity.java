@@ -2,7 +2,7 @@ package com.example.lp.ddncredit;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.app.FragmentTransaction;
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -18,18 +18,17 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.ImageReader;
 import android.os.Build;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.util.Range;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -41,21 +40,24 @@ import com.example.lp.ddncredit.mainview.networkdetail.NetworkListener;
 import com.example.lp.ddncredit.mainview.view.NumImageView;
 import com.example.lp.ddncredit.mainview.fragment.ExpressionFragment;
 import com.example.lp.ddncredit.mainview.fragment.SetFragment;
+import com.example.lp.ddncredit.mainview.view.dialog.LoginClickDialogListenr;
 import com.example.lp.ddncredit.service.ServiceManager;
 import com.example.lp.ddncredit.utils.BitmapUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 
-public class MainActivity extends BaseActivity implements NetworkListener {
+public class MainActivity extends BaseActivity implements NetworkListener, LoginClickDialogListenr.LoginResultListenr {
     private static final String TAG = "MainActivity";
 
-    private FragmentTransaction fragmentTransaction;
+    private Button btn_set;
+    private LoginClickDialogListenr mLoginClickDialogListenr;
+
     private ExpressionFragment expressionFragment;
     private SetFragment setFragment;
     private NetWorkDetailManager netWorkDetailManager;//全局网络状态管理类，需要实现networkLister配合使用
 
-
+    private FragmentTransaction  fragmentTransaction;
     private ImageView netWorkImageView;
     private NumImageView unUploadNumImageView;
 
@@ -64,8 +66,8 @@ public class MainActivity extends BaseActivity implements NetworkListener {
     private Size previewSize;//图像尺寸
     private CameraDevice cameraDevice;//相机设备
     private ImageReader imageReader;//用于读取图像数据
-    private int CameraPreWith=480;
-    private int CameraPreHight=640;
+    private int CameraPreWith = 480;
+    private int CameraPreHight = 640;
 
     //捕获请求
     private CaptureRequest.Builder requestBuilder;
@@ -83,8 +85,10 @@ public class MainActivity extends BaseActivity implements NetworkListener {
         ORIENTATIONS.append(Surface.ROTATION_180, 270);
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
+
     private static MainObject MainObjectInstance = null;
-    public static MainObject getInstance(){
+
+    public static MainObject getInstance() {
         return MainObjectInstance;
     }
 
@@ -92,12 +96,12 @@ public class MainActivity extends BaseActivity implements NetworkListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MainObjectInstance=new MainObject(this);//弱引用初始化
+        MainObjectInstance = new MainObject(this);//弱引用初始化
         ServiceManager.getInstance().startServices();//开启所有服务
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
+      /*  getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
         //不管是否使用actionbar主题,下面这句代码都有效(api21及以上)
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//设置透明导航栏
-        netWorkDetailManager=NetWorkDetailManager.getInstance();//获取到NetWorkDetailManager实例，用于监听
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//设置透明导航栏*/
+        netWorkDetailManager = NetWorkDetailManager.getInstance();//获取到NetWorkDetailManager实例，用于监听
         initView();
         initFragement();
         preview.setSurfaceTextureListener(textureListener);
@@ -105,13 +109,49 @@ public class MainActivity extends BaseActivity implements NetworkListener {
     }
 
     private void initView() {
-        preview = (TextureView)findViewById(R.id.surface);
+        preview = (TextureView) findViewById(R.id.surface);
 
-        netWorkImageView=findViewById(R.id.iv_netStaus);
-        unUploadNumImageView=findViewById(R.id.nv_unUpadateNum);
+        netWorkImageView = findViewById(R.id.iv_netStaus);
+        unUploadNumImageView = findViewById(R.id.nv_unUpadateNum);
         netWorkImageView.setVisibility(View.INVISIBLE);//默认是看不见的
         unUploadNumImageView.setVisibility(View.INVISIBLE);//默认是看不见的
+        mLoginClickDialogListenr = new LoginClickDialogListenr(MainActivity.this, this);//监听设置点击事件,并初始化弹窗
+        btn_set = findViewById(R.id.btn_set);//设置按钮
+        btn_set.setOnClickListener(mLoginClickDialogListenr);//设置按钮点击事件监听，自带登录框显示，Timer及时退出。
 
+
+    }
+
+    /**
+     * 密码框状态回调
+     * 0错误
+     * 1正确
+     * 2退出，隐藏导航栏
+     * 3点击设置事件
+     */
+    @Override
+    public boolean loginResult(int i) {
+        boolean result=false;
+        Fragment fragment=getVisibleFragment();
+        switch (i) {
+            case 0:
+                break;
+            case 1:
+                switchFragment(fragment);
+                hideBottomUIMenu();
+                break;
+            case 2:
+                hideBottomUIMenu();
+                break;
+            case 3:
+                if(fragment.equals(expressionFragment)){
+                    result=true;
+                }else {
+                    switchFragment(fragment);
+                }
+                break;
+        }
+        return result;
 
     }
 
@@ -134,18 +174,31 @@ public class MainActivity extends BaseActivity implements NetworkListener {
 
     private void initFragement() {
         Log.i(TAG, "initFragment: ");
-        fragmentTransaction = getFragmentManager().beginTransaction();
-        //fragmentTransaction=getSupportFragmentManager().beginTransaction();
-
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
         expressionFragment = new ExpressionFragment();
         setFragment = new SetFragment();
 
         fragmentTransaction.add(R.id.framelayout, expressionFragment);
         fragmentTransaction.add(R.id.framelayout, setFragment);//replace的形式是每次都刷新，add show不会刷新，只是hide隐藏起来
-
         fragmentTransaction.hide(setFragment);
         fragmentTransaction.show(expressionFragment);//只显示表情界面
         fragmentTransaction.commit();
+    }
+
+    private void switchFragment(Fragment checkfragment) {
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();//必须重新获取
+        if (checkfragment.equals(setFragment)) {
+                    Log.i(TAG, "反转显示expressionFragment: ");
+                    fragmentTransaction.hide(setFragment);
+                    fragmentTransaction.show(expressionFragment);//只显示表情界面
+                    fragmentTransaction.commit();
+            }
+         else if(checkfragment.equals(expressionFragment)){
+                    Log.i(TAG, "反转显示setFragment: ");
+                    fragmentTransaction.hide(expressionFragment);
+                    fragmentTransaction.show(setFragment);//只显示表情界面
+                    fragmentTransaction.commit();
+            }
     }
 
 
@@ -155,9 +208,10 @@ public class MainActivity extends BaseActivity implements NetworkListener {
         ServiceManager.getInstance().stopServices();//关闭所有服务
         netWorkDetailManager.unRegisterReceiver();
 
-        if(MainObjectInstance != null){
+        if (MainObjectInstance != null) {
             MainObjectInstance = null;
         }
+        mLoginClickDialogListenr=null;
     }
 
     /**
@@ -165,12 +219,12 @@ public class MainActivity extends BaseActivity implements NetworkListener {
      */
     @Override
     public void onNetChange(boolean netStatus) {
-       if(netStatus){//如果有网络
-           netWorkImageView.setVisibility(View.INVISIBLE);//隐藏无网络提示框
-       }else {
-           //无网络
-           netWorkImageView.setVisibility(View.VISIBLE);//可见
-       }
+        if (netStatus) {//如果有网络
+            netWorkImageView.setVisibility(View.INVISIBLE);//隐藏无网络提示框
+        } else {
+            //无网络
+            netWorkImageView.setVisibility(View.VISIBLE);//可见
+        }
 
     }
 
@@ -179,10 +233,10 @@ public class MainActivity extends BaseActivity implements NetworkListener {
      */
     @Override
     public void onUnloadNumChange(int unloadNum) {
-        if(unloadNum>2){
+        if (unloadNum > 2) {
             unUploadNumImageView.setVisibility(View.VISIBLE);//可以看见
             unUploadNumImageView.setNum(unloadNum);
-        }else {
+        } else {
             unUploadNumImageView.setVisibility(View.INVISIBLE);//隐藏
         }
 
@@ -198,6 +252,7 @@ public class MainActivity extends BaseActivity implements NetworkListener {
             openCamera();
 
         }
+
         @Override
         public boolean onSurfaceDestroyed(SurfaceTexture surface) {
             Log.i(TAG, "onSurfaceDestroyed: ");
@@ -213,7 +268,7 @@ public class MainActivity extends BaseActivity implements NetworkListener {
     private void openCamera() {
         Log.i(TAG, "openCamera: ");
         //通过CameraManager获取相机服务
-        CameraManager manager = (CameraManager)getSystemService(Context.CAMERA_SERVICE);
+        CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         try {
             String cameraId = manager.getCameraIdList()[0];//返回摄像机列表
             //获取指定相机的特性
@@ -230,7 +285,7 @@ public class MainActivity extends BaseActivity implements NetworkListener {
             //打开指定的相机
             manager.openCamera(cameraId, stateCallback, null);
             //创建ImageReader对象
-            imageReader = ImageReader.newInstance(CameraPreWith,CameraPreHight, ImageFormat.YUV_420_888,2);
+            imageReader = ImageReader.newInstance(CameraPreWith, CameraPreHight, ImageFormat.YUV_420_888, 2);
 
         } catch (CameraAccessException e) {
             e.printStackTrace();
@@ -240,7 +295,7 @@ public class MainActivity extends BaseActivity implements NetworkListener {
     /**
      * 获取相机的状态
      */
-    private MineStateCallback stateCallback = new MineStateCallback(){
+    private MineStateCallback stateCallback = new MineStateCallback() {
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onOpened(CameraDevice camera) {
@@ -255,14 +310,14 @@ public class MainActivity extends BaseActivity implements NetworkListener {
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startPreview() {
-        if (cameraDevice == null){
+        if (cameraDevice == null) {
             Log.e(TAG, "cameraDevice is null");
             return;
         }
         //使用TextureView预览相机就是通过使用SurfaceTexture去实现的
         //与SurfaceView使用SurfaceHolder基本使差不多的
         SurfaceTexture texture = preview.getSurfaceTexture();
-        if (texture == null){
+        if (texture == null) {
             Log.e(TAG, "surface is null");
             return;
         }
@@ -292,16 +347,17 @@ public class MainActivity extends BaseActivity implements NetworkListener {
                         e.printStackTrace();
                     }
                 }
-            },null);
+            }, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
     }
+
     /**
      * 释放资源
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void toRelease(){
+    private void toRelease() {
         try {
             //关闭会话
             if (null != captureSession) {
@@ -333,16 +389,18 @@ public class MainActivity extends BaseActivity implements NetworkListener {
         public MainObject(MainActivity activity) {
             reference = new WeakReference<MainActivity>(activity);
         }
+
         /**
          * 拍照，并保存到指定的位置
+         *
          * @return
          */
-        public Bitmap takePicture(){
+        public Bitmap takePicture() {
             return reference.get().getBitmap();
         }
     }
 
-    private Bitmap getBitmap(){
+    private Bitmap getBitmap() {
         Bitmap bitmap = null;
         bitmap = BitmapUtil.scaleBitmap(preview.getBitmap(), CameraPreWith, CameraPreHight);
         return bitmap;

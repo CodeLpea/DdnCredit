@@ -1,8 +1,7 @@
 package com.example.lp.ddncredit.mainview.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.app.Fragment;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
