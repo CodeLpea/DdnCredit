@@ -41,10 +41,7 @@
         <service android:name=".service.UpdateSchoolInfoService"
             android:enabled="true"
             android:exported="false"/>
-        <service android:name=".service.UploadParentAttendService"
-            android:enabled="true"
-            android:exported="false"/>
-        <service android:name=".service.UploadStaffAttendService"
+        <service android:name=".service.UploadAttendService"
             android:enabled="true"
             android:exported="false"/>
         <service android:name=".service.NetWorkService"

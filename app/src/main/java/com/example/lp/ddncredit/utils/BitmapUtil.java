@@ -49,6 +49,7 @@ public class BitmapUtil {
         try {
             FileOutputStream fs = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fs);
+            bitmap.recycle();
             fs.flush();
             fs.close();
         } catch (Exception e) {

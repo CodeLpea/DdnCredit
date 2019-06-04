@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     android:background="@mipmap/background"
     tools:context=".MainActivity">
+    <TextureView
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/surface"
+        android:layout_width="480px"
+        android:layout_height="640px" />
 
     <FrameLayout
         android:id="@+id/framelayout"

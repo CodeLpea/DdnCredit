@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 
+import com.example.lp.ddncredit.MainActivity;
 import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.R;
 import com.example.lp.ddncredit.datebase.ParentAttendInfoDb;
@@ -66,12 +67,13 @@ public class ParentAttendManager {
             ret = true;
 
             Bitmap currentBitmap = BitmapFactory.decodeResource(Myapplication.getInstance().getResources(), R.drawable.notify_app_logo);;
-            /*//有考勤者的信息，先拍照
-            CameraPreviewFragment.CameraObject cameraObject = CameraPreviewFragment.newCameraObject();
+            //先拍照
+            MainActivity.MainObject cameraObject = MainActivity.getInstance();
             if(cameraObject != null) {
                 currentBitmap = cameraObject.takePicture();
             }
-            Log.i(TAG, "currentBitmap " + currentBitmap);*/
+            Log.i(TAG, "currentBitmap " + currentBitmap);
+
             //查询家长的打卡记录，并根据服务器返回做出对应的处理
             ProcessQueryResult queryResult = queryRecord(parentInfoDb,studentInfoDb,false);
             //查询结果来决定是否上传结果到服务器
@@ -87,6 +89,9 @@ public class ParentAttendManager {
                 //再次保存一张临时照片，用于结果上传
                 String path = PicturesManager.getInstance().getTmpCachePicDir() + File.separator + parentInfoDb.getParentID() + "_" + createTime + ".jpg";
                 BitmapUtil.save2jpg(currentBitmap, path);
+                currentBitmap.recycle();
+                currentBitmap=null;
+
                 parentAttendInfoDb.setPicPath(path);
                 //结果保存
                 parentAttendInfoDb.save();

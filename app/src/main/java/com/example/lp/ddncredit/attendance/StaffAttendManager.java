@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.example.lp.ddncredit.MainActivity;
 import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.R;
 import com.example.lp.ddncredit.datebase.StaffAttendInfoDb;
@@ -47,14 +48,13 @@ public class StaffAttendManager {
             if(staffInfoDb!=null) {
                 Log.i(TAG, staffInfoDb.toString());
                 ret = true;
-
-                Bitmap currentBitmap = BitmapFactory.decodeResource(Myapplication.getInstance().getResources(), R.drawable.notify_app_logo);;
-            /*//有考勤者的信息，先拍照
-            CameraPreviewFragment.CameraObject cameraObject = CameraPreviewFragment.newCameraObject();
+            Bitmap currentBitmap = BitmapFactory.decodeResource(Myapplication.getInstance().getResources(), R.drawable.notify_app_logo);;
+          //有考勤者的信息，先拍照
+            MainActivity.MainObject cameraObject = MainActivity.getInstance();
             if(cameraObject != null) {
                 currentBitmap = cameraObject.takePicture();
             }
-            Log.i(TAG, "currentBitmap " + currentBitmap);*/
+            Log.i(TAG, "currentBitmap " + currentBitmap);
 
 
                     //记录上传结果
@@ -63,10 +63,12 @@ public class StaffAttendManager {
                     StaffAttendInfoDb staffAttendInfoDb = new StaffAttendInfoDb();
                     staffAttendInfoDb.setStaffID(staffInfoDb.getStaffID());
                     staffAttendInfoDb.setCreateTime(createTime);
-
                     //再次保存一张临时照片，用于结果上传
                     String path = PicturesManager.getInstance().getTmpCachePicDir() + File.separator + staffInfoDb.getStaffID() + "_" + createTime + ".jpg";
                     BitmapUtil.save2jpg(currentBitmap, path);
+                    currentBitmap.recycle();
+                    currentBitmap=null;
+
                     staffAttendInfoDb.setPicPath(path);
                     //结果保存，用于上传服务读取记录
                     staffAttendInfoDb.save();

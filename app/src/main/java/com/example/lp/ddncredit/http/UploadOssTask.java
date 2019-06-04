@@ -54,6 +54,7 @@ public class UploadOssTask extends Thread {
                 break;
             }else if(ret == -2){
                 serverErrors++;
+                Log.i(TAG, "serverErrors++: ");
                 if(serverErrors > 3){
                     FileUtil.deleteFile(filePath);
                     Log.i(TAG, "delete pic : " + filePath + " serverErrors = " + serverErrors);

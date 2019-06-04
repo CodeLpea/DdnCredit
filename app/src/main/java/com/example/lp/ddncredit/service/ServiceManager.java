@@ -51,17 +51,12 @@ public class ServiceManager {
             mContext.startService(UpdateInfoIntent);
         }
 
-        //上传家长接送信息服务
-        if(!UploadParentAttendService.isServiceRunning()) {
-            Intent UpdateParentInfoIntent = new Intent(mContext, UploadParentAttendService.class);
+        //上传考勤服务
+        if(!UploadAttendService.isServiceRunning()) {
+            Intent UpdateParentInfoIntent = new Intent(mContext, UploadAttendService.class);
             mContext.startService(UpdateParentInfoIntent);
         }
 
-        //上传老师考勤信息服务
-        if(!UploadStaffAttendService.isServiceRunning()) {
-            Intent UpdateStaffInfoIntent = new Intent(mContext, UploadStaffAttendService.class);
-            mContext.startService(UpdateStaffInfoIntent);
-        }
         //开启网络探测，未上传信息数量报告服务
         if(!NetWorkService.isServiceRunning()) {
             Intent netWorkIntent = new Intent(mContext, NetWorkService.class);
@@ -92,16 +87,12 @@ public class ServiceManager {
             mContext.stopService(UpdateInfoIntent);
         }
 
-        //停止家长接送信息服务
-        if(!UploadParentAttendService.isServiceRunning()) {
-            Intent UpdateParentInfoIntent = new Intent(mContext, UploadParentAttendService.class);
+        //停止考勤信息服务
+        if(!UploadAttendService.isServiceRunning()) {
+            Intent UpdateParentInfoIntent = new Intent(mContext, UploadAttendService.class);
             mContext.stopService(UpdateParentInfoIntent);
         }
-        //停止老师考勤信息服务
-        if(!UploadStaffAttendService.isServiceRunning()) {
-            Intent UpdateStaffInfoIntent = new Intent(mContext, UploadStaffAttendService.class);
-            mContext.stopService(UpdateStaffInfoIntent);
-        }
+
         //关闭网络探测，未上传信息数量报告服务
         if(!NetWorkService.isServiceRunning()) {
             Intent netWorkIntent = new Intent(mContext, NetWorkService.class);
