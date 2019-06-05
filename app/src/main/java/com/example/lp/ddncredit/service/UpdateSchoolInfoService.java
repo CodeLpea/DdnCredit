@@ -14,12 +14,17 @@ import com.example.lp.ddncredit.http.model.SchoolStudentsInfoEntry;
 import com.example.lp.ddncredit.http.model.StaffInfoEntry;
 import com.example.lp.ddncredit.http.model.StudentInfoEntry;
 import com.example.lp.ddncredit.utils.NetUtil;
+import com.example.lp.ddncredit.utils.SPUtil;
 import com.example.lp.ddncredit.utils.TimeUtil;
 
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolID;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolName;
 
 /**
  * 获取学校所有学生、家长和员工的信息
@@ -111,8 +116,8 @@ public class UpdateSchoolInfoService extends IntentService {
                     LitePal.saveAll(studentInfoDbArrayList);
                     Log.i(TAG, "有学生数据: "+ LitePal.count(StudentInfoDb.class));
                     Log.i(TAG, "有家长数据: "+ LitePal.count(ParentInfoDb.class));
-
-
+                SPUtil.writeString(SP_NAME,SchoolName,studentsInfoEntry.getSchoolName());
+                SPUtil.writeString(SP_NAME,SchoolID,String.valueOf(studentsInfoEntry.getSchoolId()));
             }
         }
         //获取员工信息
@@ -136,15 +141,11 @@ public class UpdateSchoolInfoService extends IntentService {
                     staffInfoDBEntries.add(staffInfoDBEntry);
 
                 }
-                try {
                     LitePal.deleteAll(StaffInfoDb.class);//先清空表，然后保存
                     LitePal.saveAll(staffInfoDBEntries);//保存
                     Log.i(TAG, "有教师数据: "+ LitePal.count(StaffInfoDb.class));
-                }catch (Exception e){
-                    e.getMessage();
-                    LitePal.saveAll(staffInfoDBEntries);//保存
-                    Log.i(TAG, "有教师数据: "+ LitePal.count(StaffInfoDb.class));
-                }
+
+
 
             }
         }

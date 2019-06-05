@@ -18,6 +18,7 @@ import static com.example.lp.ddncredit.constant.Constants.SERIAL1_FLOW_CONTROL;
 import static com.example.lp.ddncredit.constant.Constants.SERIAL1_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SERIAL1_PARITY_BIT;
 import static com.example.lp.ddncredit.constant.Constants.SERIAL1_STOP_BIT;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.APPVERSION;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.AUTHORIZATION_INFO;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.BLUETOOTH_ADDRESS;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.BcdDevice;
@@ -30,7 +31,6 @@ import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NET_OP
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NET_PORT;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NET_USER;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.ProductId;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.RFSWITCH;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolID;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolName;
@@ -218,7 +218,7 @@ public class SPUtil {
                 defaulConfig.edit().putInt(ProductId,10011).apply();
                 defaulConfig.edit().putInt(VendorId,10086).apply();
                 defaulConfig.edit().putString(BcdDevice, "007").apply();
-                defaulConfig.edit().putBoolean(RFSWITCH, false).apply();
+                defaulConfig.edit().putString(APPVERSION, "1.0").apply();
                 defaulConfig.edit().putString(NET_IP, "192.168.8.24").apply();
                 defaulConfig.edit().putString(NET_PORT, "8000").apply();
                 defaulConfig.edit().putString(NET_USER, "admin").apply();

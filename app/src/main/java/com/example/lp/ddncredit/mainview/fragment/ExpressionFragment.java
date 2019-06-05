@@ -10,6 +10,8 @@ import com.example.lp.ddncredit.R;
 import com.example.lp.ddncredit.mainview.expression.ExpressionManager;
 import com.example.lp.ddncredit.mainview.expression.ExpressionMessage;
 import com.example.lp.ddncredit.mainview.expression.ExpressionTimer;
+import com.example.lp.ddncredit.mainview.view.bgToast;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -23,6 +25,7 @@ public class ExpressionFragment extends BaseFragment {
     private static final String TAG = "ExpressionFragment";
     private GifImageView gifImageView;
     private ExpressionTimer mExpressionTimer;
+    private static long mLastRfidTime = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,8 +54,13 @@ public class ExpressionFragment extends BaseFragment {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void ExpressionEvent(ExpressionMessage expressionMessage) {
         Log.i(TAG, "表情界面得到表情变化:");
+        if (Math.abs(System.currentTimeMillis() - mLastRfidTime) < 5 * 1000) {
+          //防止刷卡过快，频繁变化表情
+            return;
+        }
         if (expressionMessage.getGifDrawable() != null) {
             gifImageView.setImageDrawable(expressionMessage.getGifDrawable());
+            mLastRfidTime=System.currentTimeMillis();
         }
     }
 

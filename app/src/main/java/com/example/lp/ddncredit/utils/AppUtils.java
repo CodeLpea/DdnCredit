@@ -54,11 +54,11 @@ public class AppUtils {
         return packageInfo.versionName;
     }
 
-    /**
+  /*  *//**
      * 根据wifi信息获取本地mac
 
      * @return
-     */
+     *//*
     public static String getLocalMacAddressFromWifiInfo() {
           String mac=null;
             String macAddress = NetUtil.getEthMacAddress();
@@ -67,7 +67,7 @@ public class AppUtils {
             }
         Log.i("mac", mac);
         return mac;
-    }
+    }*/
     /**
      * 根据wifi信息获取本地mac
      *

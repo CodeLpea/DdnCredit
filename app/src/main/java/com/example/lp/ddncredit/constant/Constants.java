@@ -103,8 +103,8 @@ public interface Constants {
         String ProductId="ProductId";//产品ID
         String VendorId="VendorId";//供应商ID
         String BcdDevice="BcdDevice";//FW版本
-        /** 蓝牙刷卡器的开关*/
-        String RFSWITCH="RFSWITCH";//FW版本
+        /** app版本号*/
+        String APPVERSION="APPVERSION";//FW版本
         /**
          * 网络摄像头登录信息
          *

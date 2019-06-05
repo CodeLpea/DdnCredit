@@ -39,12 +39,18 @@ import com.example.lp.ddncredit.mainview.networkdetail.NetworkListener;
 import com.example.lp.ddncredit.mainview.view.NumImageView;
 import com.example.lp.ddncredit.mainview.fragment.ExpressionFragment;
 import com.example.lp.ddncredit.mainview.fragment.SetFragment;
+import com.example.lp.ddncredit.mainview.view.bgToast;
 import com.example.lp.ddncredit.mainview.view.dialog.LoginClickDialogListenr;
 import com.example.lp.ddncredit.service.ServiceManager;
 import com.example.lp.ddncredit.utils.BitmapUtil;
+import com.example.lp.ddncredit.utils.SPUtil;
+import com.example.lp.ddncredit.utils.voice.TtsSpeek;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
+
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_LEVEL;
 
 public class MainActivity extends BaseActivity implements NetworkListener, LoginClickDialogListenr.LoginResultListenr {
     private static final String TAG = "MainActivity";
@@ -197,12 +203,16 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
             fragmentTransaction.show(expressionFragment);//只显示表情界面
             fragmentTransaction.commit();
             imageButton.setBackground(getResources().getDrawable(R.drawable.set));
+            bgToast.myToast(this,"考勤模式",0,200);
+            TtsSpeek.getInstance().SpeechFlush("考勤模式", SPUtil.readInt(SP_NAME, VOICE_LEVEL));
         } else if (checkfragment.equals(expressionFragment)) {
             Log.i(TAG, "反转显示setFragment: ");
             fragmentTransaction.hide(expressionFragment);
             fragmentTransaction.show(setFragment);//只显示设置
             fragmentTransaction.commit();
             imageButton.setBackground(getResources().getDrawable(R.drawable.mian));
+            bgToast.myToast(this,"设置模式",0,200);
+            TtsSpeek.getInstance().SpeechFlush("设置模式", SPUtil.readInt(SP_NAME, VOICE_LEVEL));
         }
     }
 

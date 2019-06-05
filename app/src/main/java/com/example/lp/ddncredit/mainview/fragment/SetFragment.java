@@ -2,6 +2,7 @@ package com.example.lp.ddncredit.mainview.fragment;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -9,57 +10,94 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.R;
+import com.example.lp.ddncredit.mainview.view.bgToast;
+import com.example.lp.ddncredit.utils.AppUtils;
+import com.example.lp.ddncredit.utils.SPUtil;
+import com.xw.repo.BubbleSeekBar;
+
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolName;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_LEVEL;
 
 /**
  * 设置界面碎片
  * lp
  * 2019/5/30
  */
-public class SetFragment extends Fragment {
+public class SetFragment extends BaseFragment {
     private static final String TAG="SetFragment";
-
-
-    public SetFragment() {
-        // Required empty public constructor
-    }
-
+    private LinearLayout linearLayout;
+    private TextView tv_id,tv_schoolname,tv_appversion,tv_voice;
+    private BubbleSeekBar bubbleSeekBar;
+    private Activity activity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        activity=this.getActivity();
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_set, container, false);
+        View view= inflater.inflate(R.layout.fragment_set, container, false);
+
+        initView(view);
+        return view;
     }
 
+
+
+    private void initView(View view) {
+        linearLayout=view.findViewById(R.id.ll_set);
+        setLinerLayoutViewSize(linearLayout);
+
+        tv_id=view.findViewById(R.id.text_dev_id);
+        tv_schoolname=view.findViewById(R.id.text_schoolName);
+        tv_appversion=view.findViewById(R.id.text_app_ver);
+        tv_voice=view.findViewById(R.id.tv_voice);
+
+        bubbleSeekBar=view.findViewById(R.id.BubbleSeekBar_voice);
+        bubbleSeekBar.setOnProgressChangedListener(new ProgressChangedListener());
+
+
+
+    }
+    private void initData() {
+        tv_voice.setText(String.valueOf(SPUtil.readInt(SP_NAME,VOICE_LEVEL)));
+        bubbleSeekBar.setProgress(SPUtil.readInt(SP_NAME,VOICE_LEVEL));
+        tv_schoolname.setText(SPUtil.readString(SP_NAME,SchoolName));
+        tv_appversion.setText(AppUtils.getAppVersionName(Myapplication.getInstance().getApplicationContext()));
+        tv_id.setText(AppUtils.getLocalMacAddressFromWifiInfo(Myapplication.getInstance().getApplicationContext()));
+
+    }
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        super.onHiddenChanged(hidden);
-        if(hidden){
-            Log.i(TAG, "不在最前端界面显示 ");
-        }else{//重新显示到最前端 ,相当于调用了onResume()
-            //进行网络数据刷新  此处执行必须要在 Fragment与Activity绑定了 即需要添加判断是否完成绑定，否则将会报空（即非第一个显示出来的fragment，虽然onCreateView没有被调用,
-            //但是onHiddenChanged也会被调用，所以如果你尝试去获取活动的话，注意防止出现空指针）
-            Log.i(TAG, "重新显示到最前端");
-
+        if (!hidden) {
+            initData();
         }
 
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        Log.i(TAG, "SetFragment onAttach: ");
+    private class ProgressChangedListener implements BubbleSeekBar.OnProgressChangedListener {
+        @Override
+        public void onProgressChanged(int progress, float progressFloat) {
+            tv_voice.setText(""+progress);
+        }
 
+        @Override
+        public void getProgressOnActionUp(int progress, float progressFloat) {
+            Log.i(TAG, "getProgressOnActionUp: "+progress);
+            SPUtil.writeInt(SP_NAME,VOICE_LEVEL,progress);
+            bgToast.myToast(activity,"设置成功",0,200);
+        }
+
+        @Override
+        public void getProgressOnFinally(int progress, float progressFloat) {
+            Log.i(TAG, "getProgressOnFinally: "+progress);
+
+        }
     }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.i(TAG, "SetFragment onDetach: ");
-
-    }
-
 }
