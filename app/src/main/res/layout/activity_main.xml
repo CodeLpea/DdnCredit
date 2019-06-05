@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/background"
+    android:background="@mipmap/backgrund"
     tools:context=".MainActivity">
     <TextureView
         android:layout_centerHorizontal="true"
@@ -21,33 +21,33 @@
 
     </FrameLayout>
     <!--进入设置界面的按钮-->
-    <Button
-        android:id="@+id/btn_set"
-        android:layout_width="122px"
-        android:layout_height="122px"
-        android:layout_alignParentBottom="true"
+    <ImageButton
+        android:id="@+id/ib_set"
+        android:layout_width="116px"
+        android:layout_height="184px"
         android:layout_alignParentRight="true"
-        android:layout_marginBottom="60dp"
-        android:background="@mipmap/set"/>
+        android:layout_marginRight="144px"
+        android:background="@drawable/set_imagebutton_selector"/>
 
     <!--网络状态栏按钮-->
     <ImageView
         android:id="@+id/iv_netStaus"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_marginTop="23px"
+        android:layout_marginLeft="20px"
+        android:layout_width="120px"
+        android:layout_height="30px"
         android:layout_alignParentLeft="true"
         android:visibility="invisible"
-        android:background="@color/colorPrimary"/>
+        android:background="@mipmap/net_error"/>
     <!--未上传数据个数（教师和家长总和）-->
     <com.example.lp.ddncredit.mainview.view.NumImageView
         android:id="@+id/nv_unUpadateNum"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="70px"
+        android:layout_marginTop="20px"
         android:layout_alignParentLeft="true"
         android:visibility="invisible"
         />
-
-
 
 </RelativeLayout>

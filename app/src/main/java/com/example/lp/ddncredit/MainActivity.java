@@ -28,7 +28,6 @@ import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -50,14 +49,14 @@ import java.util.Arrays;
 public class MainActivity extends BaseActivity implements NetworkListener, LoginClickDialogListenr.LoginResultListenr {
     private static final String TAG = "MainActivity";
 
-    private Button btn_set;
+    private ImageButton imageButton;
     private LoginClickDialogListenr mLoginClickDialogListenr;
 
     private ExpressionFragment expressionFragment;
     private SetFragment setFragment;
     private NetWorkDetailManager netWorkDetailManager;//全局网络状态管理类，需要实现networkLister配合使用
 
-    private FragmentTransaction  fragmentTransaction;
+    private FragmentTransaction fragmentTransaction;
     private ImageView netWorkImageView;
     private NumImageView unUploadNumImageView;
 
@@ -116,8 +115,8 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
         netWorkImageView.setVisibility(View.INVISIBLE);//默认是看不见的
         unUploadNumImageView.setVisibility(View.INVISIBLE);//默认是看不见的
         mLoginClickDialogListenr = new LoginClickDialogListenr(MainActivity.this, this);//监听设置点击事件,并初始化弹窗
-        btn_set = findViewById(R.id.btn_set);//设置按钮
-        btn_set.setOnClickListener(mLoginClickDialogListenr);//设置按钮点击事件监听，自带登录框显示，Timer及时退出。
+        imageButton = findViewById(R.id.ib_set);//设置按钮
+        imageButton.setOnClickListener(mLoginClickDialogListenr);//设置按钮点击事件监听，自带登录框显示，Timer及时退出。
 
 
     }
@@ -131,8 +130,8 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
      */
     @Override
     public boolean loginResult(int i) {
-        boolean result=false;
-        Fragment fragment=getVisibleFragment();
+        boolean result = false;
+        Fragment fragment = getVisibleFragment();
         switch (i) {
             case 0:
                 break;
@@ -141,12 +140,17 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
                 hideBottomUIMenu();
                 break;
             case 2:
-                hideBottomUIMenu();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideBottomUIMenu();
+                    }
+                });
                 break;
             case 3:
-                if(fragment.equals(expressionFragment)){
-                    result=true;
-                }else {
+                if (fragment.equals(expressionFragment)) {
+                    result = true;
+                } else {
                     switchFragment(fragment);
                 }
                 break;
@@ -188,17 +192,18 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
     private void switchFragment(Fragment checkfragment) {
         fragmentTransaction = getSupportFragmentManager().beginTransaction();//必须重新获取
         if (checkfragment.equals(setFragment)) {
-                    Log.i(TAG, "反转显示expressionFragment: ");
-                    fragmentTransaction.hide(setFragment);
-                    fragmentTransaction.show(expressionFragment);//只显示表情界面
-                    fragmentTransaction.commit();
-            }
-         else if(checkfragment.equals(expressionFragment)){
-                    Log.i(TAG, "反转显示setFragment: ");
-                    fragmentTransaction.hide(expressionFragment);
-                    fragmentTransaction.show(setFragment);//只显示表情界面
-                    fragmentTransaction.commit();
-            }
+            Log.i(TAG, "反转显示expressionFragment: ");
+            fragmentTransaction.hide(setFragment);
+            fragmentTransaction.show(expressionFragment);//只显示表情界面
+            fragmentTransaction.commit();
+            imageButton.setBackground(getResources().getDrawable(R.drawable.set));
+        } else if (checkfragment.equals(expressionFragment)) {
+            Log.i(TAG, "反转显示setFragment: ");
+            fragmentTransaction.hide(expressionFragment);
+            fragmentTransaction.show(setFragment);//只显示设置
+            fragmentTransaction.commit();
+            imageButton.setBackground(getResources().getDrawable(R.drawable.mian));
+        }
     }
 
 
@@ -211,7 +216,7 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
         if (MainObjectInstance != null) {
             MainObjectInstance = null;
         }
-        mLoginClickDialogListenr=null;
+        mLoginClickDialogListenr = null;
     }
 
     /**
@@ -334,12 +339,14 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
             cameraDevice.createCaptureSession(Arrays.asList(surface), new MineSessionListener() {
                 @Override
                 public void onSessionConfigured(CameraCaptureSession session) {
-
                     //获取预览会话
                     captureSession = session;
                     //配置预览时使用3A模式(自动曝光、自动对焦、自动白平衡)
                     requestBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
-                    //创建用于预览界面的线程
+
+                    if (null == cameraDevice) {
+                        return;
+                    }
                     try {
                         //设置重复捕获图像
                         captureSession.setRepeatingRequest(requestBuilder.build(), null, null);

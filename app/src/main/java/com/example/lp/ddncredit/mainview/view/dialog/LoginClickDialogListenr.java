@@ -1,6 +1,5 @@
 package com.example.lp.ddncredit.mainview.view.dialog;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -12,11 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.lp.ddncredit.MainActivity;
-import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.R;
 
 import java.util.Timer;
@@ -57,17 +55,23 @@ public class LoginClickDialogListenr implements View.OnClickListener {
         mAlertDialog.show();//必须在setConentView之前调用
         mAlertDialog.setCanceledOnTouchOutside(false);
         mAlertDialog.setCancelable(false);
+        // 解决EditText无法弹出软键盘
+        mAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+
         //加载布局
         Window window = mAlertDialog.getWindow();
         window.setContentView(R.layout.login_dialog);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        // 解决EditText无法弹出软键盘
-        mAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         mEdtPassWd = (EditText) window.findViewById(R.id.et_passwd_input);
         //隐藏密码
         mEdtPassWd.setTransformationMethod(new PasswordTransformationMethod());
         mEdtPassWd.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        mEdtPassWd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+
+        InputMethodManager inputManager = (InputMethodManager) mEdtPassWd.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(mEdtPassWd, 0);
+
         mSureBtn = (Button) window.findViewById(R.id.btn_sure);
         mCancelBtn = (Button) window.findViewById(R.id.btn_cancel);
         mSureBtn.setOnClickListener(this);
@@ -93,7 +97,7 @@ public class LoginClickDialogListenr implements View.OnClickListener {
                 dissmissDialog();
                 mLoginResultListenr.loginResult(2);//退出，隐藏导航栏
                 break;
-            case R.id.btn_set:
+            case R.id.ib_set:
                if(mLoginResultListenr.loginResult(3)){//判断是否弹出密码框
                    showAlertDialog();
                    StartTimer();
@@ -113,7 +117,7 @@ public class LoginClickDialogListenr implements View.OnClickListener {
             @Override
             public void run() {
                 mAlertDialog.dismiss();
-
+                mLoginResultListenr.loginResult(2);//退出，隐藏导航栏
             }
         };
         loginTimer.schedule(timerTask, 10000);//十秒钟之后执行

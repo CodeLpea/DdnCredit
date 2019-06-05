@@ -10,7 +10,7 @@
         android:id="@+id/tv_dialog_tilte"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text="管理登录"
+        android:text="设置登录"
         android:textColor="@color/white"
         android:textSize="40dp"
         android:gravity="center"
@@ -22,13 +22,17 @@
         android:id="@+id/et_passwd_input"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+
+        android:gravity="center"
         android:hint="请输入密码"
-        android:textColor="@color/white"
+        android:textColorHint="@color/texthit"
+        android:textColor="@color/texthit"
         android:textSize="30dp"
         android:layout_below="@+id/tv_dialog_tilte"
+        android:background="@drawable/edit_textshape"
         android:layout_marginTop="50dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"/>
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"/>
     <!--确定按钮-->
     <Button
         android:id="@+id/btn_sure"
