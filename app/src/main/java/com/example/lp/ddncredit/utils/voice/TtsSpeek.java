@@ -91,6 +91,10 @@ public class TtsSpeek {
         return textToSpeech.isSpeaking();
     }
 
+    public void setSpeed(float rate){
+        textToSpeech.setSpeechRate(rate);
+    }
+
     /**
      * 打断当前语音，直接播放
      * 设置语音大小 0-15

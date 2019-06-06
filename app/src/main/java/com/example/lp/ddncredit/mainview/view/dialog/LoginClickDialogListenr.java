@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -33,6 +34,7 @@ public class LoginClickDialogListenr implements View.OnClickListener {
     private EditText mEdtPassWd;
     private Button mSureBtn;
     private Button mCancelBtn;
+    private Window window;
 
     private LoginResultListenr mLoginResultListenr;
 
@@ -59,7 +61,7 @@ public class LoginClickDialogListenr implements View.OnClickListener {
         mAlertDialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
 
         //加载布局
-        Window window = mAlertDialog.getWindow();
+        window = mAlertDialog.getWindow();
         window.setContentView(R.layout.login_dialog);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -78,7 +80,22 @@ public class LoginClickDialogListenr implements View.OnClickListener {
         mCancelBtn.setOnClickListener(this);
         return mAlertDialog;
     }
-
+    /**
+     * 隐藏虚拟按键，并且全屏
+     */
+    protected void hideBottomUIMenu() {
+        //隐藏虚拟按键，并且全屏
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = window.getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = window.getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+    }
     @Override
     public void onClick(View view) {
         Log.i(TAG, "===onClick==" + view.getId());
@@ -100,6 +117,7 @@ public class LoginClickDialogListenr implements View.OnClickListener {
             case R.id.ib_set:
                if(mLoginResultListenr.loginResult(3)){//判断是否弹出密码框
                    showAlertDialog();
+                   hideBottomUIMenu();
                    StartTimer();
                }
                 break;

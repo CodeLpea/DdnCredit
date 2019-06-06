@@ -11,8 +11,17 @@ import java.util.List;
 public class NetworkdetailReceiver extends BroadcastReceiver {
     private static final String  TAG="NetworkdetailReceiver";
 
+    //单例获取
+    public static NetworkdetailReceiver instance;
 
-    public NetworkdetailReceiver() {
+    public static NetworkdetailReceiver getInstance() {
+        if (instance == null) {
+            instance = new NetworkdetailReceiver();
+        }
+        return instance;
+    }
+
+    private NetworkdetailReceiver() {
     }
 
     private List<NetworkListener> networkListerList=new ArrayList<NetworkListener>();//监听类的集合

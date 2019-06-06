@@ -118,6 +118,7 @@ public interface Constants {
          * 语音音量
          * */
         String VOICE_LEVEL="VOICE_LEVEL";
+        String VOICE_SPEED_LEVEL="VOICE_SPEED_LEVEL";
     }
 
 }

@@ -36,9 +36,9 @@ import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.School
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolName;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.TOKEN;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_LEVEL;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_SPEED_LEVEL;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VendorId;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.isExplore;
-
 
 
 /**
@@ -53,6 +53,7 @@ import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.isExpl
 public class SPUtil {
 
     private static final String TAG = "SPUtil";
+
     /**
      * 获取sp对象
      *
@@ -155,18 +156,19 @@ public class SPUtil {
         getSharedPreferences(SPName).edit().putLong(key, value).apply();
     }
 
-    public static float readFloat(String SPName, String key){
+    public static float readFloat(String SPName, String key) {
         return getSharedPreferences(SPName).getFloat(key, 0.01f);
     }
 
-    public static void writeFloat(String SPName, String key, float value){
+    public static void writeFloat(String SPName, String key, float value) {
         getSharedPreferences(SPName).edit().putFloat(key, value).apply();
     }
 
-    public static void removeKey(String SPName, String key){
+    public static void removeKey(String SPName, String key) {
         getSharedPreferences(SPName).edit().remove(key).apply();
     }
-	/**
+
+    /**
      * sp文件位置默认在/data/data/package/下，软件下载就会删除，因此需要存放在sd卡里
      *
      * @param dir
@@ -199,9 +201,9 @@ public class SPUtil {
     /**
      * 检查指定路径下是否已经存在配置文件了，如果没有则创建一份并写入默认值
      */
-    public static void setDefaultConfig(String dir){
-        try{
-            if(!FileUtil.isFileExist(dir + "/" + SP_NAME + ".xml")) {
+    public static void setDefaultConfig(String dir) {
+        try {
+            if (!FileUtil.isFileExist(dir + "/" + SP_NAME + ".xml")) {
                 SharedPreferences defaulConfig = getSharedPreferences(SP_NAME);
                 Log.i("setdefauletect_NAME", "=========================");
                 //远程故障定位服务器URL
@@ -212,18 +214,16 @@ public class SPUtil {
                 defaulConfig.edit().putInt(COLORSPINEER, 0).apply();
                 defaulConfig.edit().putInt(HoldValuePostion, 0).apply();
                 defaulConfig.edit().putString(HoldValues, "0.1").apply();
-                defaulConfig.edit().putInt(SchoolID, 5).apply();
-                defaulConfig.edit().putString(SchoolName, "didano").apply();
+
                 defaulConfig.edit().putBoolean(isExplore, true).apply();
-                defaulConfig.edit().putInt(ProductId,10011).apply();
-                defaulConfig.edit().putInt(VendorId,10086).apply();
+                defaulConfig.edit().putInt(ProductId, 10011).apply();
+                defaulConfig.edit().putInt(VendorId, 10086).apply();
                 defaulConfig.edit().putString(BcdDevice, "007").apply();
                 defaulConfig.edit().putString(APPVERSION, "1.0").apply();
                 defaulConfig.edit().putString(NET_IP, "192.168.8.24").apply();
                 defaulConfig.edit().putString(NET_PORT, "8000").apply();
                 defaulConfig.edit().putString(NET_USER, "admin").apply();
                 defaulConfig.edit().putString(NET_OPSE, "XiaoNuo2018").apply();
-                defaulConfig.edit().putInt(VOICE_LEVEL, 5).apply();
                 defaulConfig.edit().putString(SERIAL1_NAME, "/dev/ttyS1").apply();
                 defaulConfig.edit().putString(SERIAL1_BAUDRATE, "9600").apply();
                 defaulConfig.edit().putString(SERIAL1_DATA_BIT, Myapplication.getInstance().getString(R.string.data_bit_8)).apply();
@@ -232,9 +232,14 @@ public class SPUtil {
                 defaulConfig.edit().putString(SERIAL1_FLOW_CONTROL, Myapplication.getInstance().getString(R.string.flow_control_None)).apply();
 
 
+                defaulConfig.edit().putInt(VOICE_LEVEL, 5).apply();
+                defaulConfig.edit().putFloat(VOICE_SPEED_LEVEL, 1.0f).apply();
 
+
+                defaulConfig.edit().putInt(SchoolID, 5).apply();
+                defaulConfig.edit().putString(SchoolName, "didano").apply();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

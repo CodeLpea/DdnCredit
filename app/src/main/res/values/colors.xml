@@ -7,5 +7,6 @@
     <color name="black">#151414</color>
     <color name="lightBlue">#626ef1</color>
     <color name="texthit">#2e8744</color>
+    <color name="colorVoiceSpeed">#af7e49</color>
     <color name="col_lightgrap">#999999</color>		<!-- 浅灰色 -->
 </resources>

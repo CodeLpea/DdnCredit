@@ -203,7 +203,7 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
             fragmentTransaction.show(expressionFragment);//只显示表情界面
             fragmentTransaction.commit();
             imageButton.setBackground(getResources().getDrawable(R.drawable.set));
-            bgToast.myToast(this,"考勤模式",0,200);
+            bgToast.myToast(this, "考勤模式", 0, 200);
             TtsSpeek.getInstance().SpeechFlush("考勤模式", SPUtil.readInt(SP_NAME, VOICE_LEVEL));
         } else if (checkfragment.equals(expressionFragment)) {
             Log.i(TAG, "反转显示setFragment: ");
@@ -211,7 +211,7 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
             fragmentTransaction.show(setFragment);//只显示设置
             fragmentTransaction.commit();
             imageButton.setBackground(getResources().getDrawable(R.drawable.mian));
-            bgToast.myToast(this,"设置模式",0,200);
+            bgToast.myToast(this, "设置模式", 0, 200);
             TtsSpeek.getInstance().SpeechFlush("设置模式", SPUtil.readInt(SP_NAME, VOICE_LEVEL));
         }
     }

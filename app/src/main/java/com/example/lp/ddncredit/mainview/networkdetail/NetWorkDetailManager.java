@@ -43,13 +43,13 @@ public class NetWorkDetailManager {
         return instance;
     }
 
-    public NetWorkDetailManager() {
+    private NetWorkDetailManager() {
         /**
          * 初始化监听广播
          */
         if (mNetworkdetailReceiver == null) {
             Log.i(TAG, "NetWorkDetailManager: 实例化");
-            mNetworkdetailReceiver = new NetworkdetailReceiver();//实例化
+            mNetworkdetailReceiver = NetworkdetailReceiver.getInstance();//实例化
         }
         if (mIntentFilter == null) {
             //创建IntentFilter
