@@ -4,9 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#dfd1d6</color>
+    <color name="whiteText">#faf9f9</color>
     <color name="black">#151414</color>
     <color name="lightBlue">#626ef1</color>
     <color name="texthit">#2e8744</color>
     <color name="colorVoiceSpeed">#af7e49</color>
     <color name="col_lightgrap">#999999</color>		<!-- 浅灰色 -->
+    <color name="editTitleColor">#de5632</color>		<!-- 浅灰色 -->
 </resources>

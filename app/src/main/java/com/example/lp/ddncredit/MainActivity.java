@@ -140,6 +140,8 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
         Fragment fragment = getVisibleFragment();
         switch (i) {
             case 0:
+                bgToast.myToast(this, "密码错误", 0, 200);
+                TtsSpeek.getInstance().SpeechFlush("密码错误", SPUtil.readInt(SP_NAME, VOICE_LEVEL));
                 break;
             case 1:
                 switchFragment(fragment);

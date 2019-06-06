@@ -25,8 +25,8 @@
 
         android:gravity="center"
         android:hint="请输入密码"
-        android:textColorHint="@color/texthit"
-        android:textColor="@color/texthit"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:textSize="30dp"
         android:layout_below="@+id/tv_dialog_tilte"
         android:background="@drawable/edit_textshape"
