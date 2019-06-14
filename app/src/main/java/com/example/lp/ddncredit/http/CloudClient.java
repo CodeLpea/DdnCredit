@@ -37,6 +37,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.lp.ddncredit.constant.Constants.SOFTWARE_SYSTEM_TYTE;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.API_BASE;
 
 
 /**
@@ -64,7 +65,8 @@ public class CloudClient {
         //创建retrofit对象
         mRetrofit = new Retrofit.Builder()
                // .baseUrl("http://www.didano.cn")
-                .baseUrl(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SERVER_DOMAIN))
+                //.baseUrl(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SERVER_DOMAIN))
+                .baseUrl(API_BASE)
                 .client(client.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -127,6 +129,8 @@ public class CloudClient {
      * @return 成功返回学生信息，失败返回null
      */
     public SchoolStudentsInfoEntry getSchoolStudentList(){
+
+        Log.e(TAG, "获取学校的学生信息getSchoolStudentList: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STUDENTS_LIST_URL));
         SchoolStudentsInfoEntry studentsInfoEntry = null;
         Call<ResponseEntry<SchoolStudentsInfoEntry>> call = mAPIs.getSchoolStudentList(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STUDENTS_LIST_URL));
         ResponseEntry<SchoolStudentsInfoEntry> response;
@@ -146,6 +150,7 @@ public class CloudClient {
      * @return 成功返回职工信息，失败返回null
      */
     public SchoolStaffsInfoEntry getSchoolStaffList(){
+        Log.e(TAG, "获取学校职工信息getSchoolStaffList: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STAFFS_LIST_URL));
         SchoolStaffsInfoEntry staffsInfoEntry = null;
         Call<ResponseEntry<SchoolStaffsInfoEntry>> call = mAPIs.getSchoolStaffList(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STAFFS_LIST_URL));
         ResponseEntry<SchoolStaffsInfoEntry> response;
@@ -188,6 +193,7 @@ public class CloudClient {
      * @return 成功返回StuAttendancedStatusResponse对象，失败返回null
      */
     public ParentAttendancedStatusResponse queryStudentAttendancedStatus(ParentAttendancedStatusRequest request){
+        Log.e(TAG, "上传接送记录queryStudentAttendancedStatus: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_VALID_BRUSH_URL));
         ParentAttendancedStatusResponse stuAttendancedStatusResponse = null;
         String requestStr = mGson.toJson(request);
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestStr);
@@ -221,6 +227,7 @@ public class CloudClient {
      * @param attendancedInfoEntry
      */
     public boolean uploadParentAttendancedInfo(ParentAttendancedInfoEntry attendancedInfoEntry){
+        Log.e(TAG, "上传家长接送信息uploadParentAttendancedInfo: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SUBMIT_TAKE_AWAY_URL));
         boolean result = false;
         String requestStr = mGson.toJson(attendancedInfoEntry);
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestStr);
@@ -246,6 +253,7 @@ public class CloudClient {
      * @param attendancedInfoEntry
      */
     public boolean uploadStaffAttendancedInfo(StaffAttendancedInfoEntry attendancedInfoEntry){
+        Log.e(TAG, "上传员工考勤信息uploadStaffAttendancedInfo: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SUBMIT_STAFF_SIGN_URL));
         boolean result = false;
         String requestStr = mGson.toJson(attendancedInfoEntry);
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestStr);
@@ -269,6 +277,7 @@ public class CloudClient {
      * @return 成功返回 true, 失败返回false
      */
     public UpgradePackageVersionInfoEntry getUpgradePackageVersionInfo(String appVersion){
+        Log.e(TAG, "获取当前服务器上最新升级包版本信息getUpgradePackageVersionInfo: "+InvisibleConfig.getConfig(InvisibleConfigKey.GET_APP_VERSION_URL));
         UpgradePackageVersionInfoEntry versionInfo = null;
         UpgradePackageVersionInfoRequest upgradePackageVersionInfoRequest = new UpgradePackageVersionInfoRequest();
         upgradePackageVersionInfoRequest.setHardWareDeviceType("NuoShua");

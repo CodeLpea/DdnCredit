@@ -91,7 +91,10 @@ public class FfidResultEventBusReceiver {
         Log.i(TAG, "rfidBean : " + rfidNumber + " mRfid");
         if (rfidNumber == mLastRfid) {
             //5s时间内连续刷同一张卡，不做处理
-            if (Math.abs(System.currentTimeMillis() - mLastRfidTime) < 5 * 1000) {
+            if (Math.abs(System.currentTimeMillis() - mLastRfidTime) < 10 * 1000) {
+                if(TtsSpeek.getInstance().isSpeaking()){//如果正在说话，就不频繁刷卡
+                    return;
+                }
                 TtsSpeek.getInstance().SpeechAdd("请勿频繁刷卡", SPUtil.readInt(SP_NAME, VOICE_LEVEL));
                 return;
             }

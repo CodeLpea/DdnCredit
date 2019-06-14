@@ -119,6 +119,7 @@ public interface Constants {
          * */
         String VOICE_LEVEL="VOICE_LEVEL";
         String VOICE_SPEED_LEVEL="VOICE_SPEED_LEVEL";
+        String API_BASE ="http://api.didano.com/";
     }
 
 }

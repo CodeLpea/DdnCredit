@@ -6,8 +6,13 @@ import android.speech.tts.TextToSpeech;
 import android.util.Log;
 
 import com.example.lp.ddncredit.Myapplication;
+import com.example.lp.ddncredit.utils.SPUtil;
 
 import java.util.Locale;
+
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_SPEED_LEVEL;
+
 /**
  * TTS语音工具
  * lp
@@ -51,6 +56,7 @@ public class TtsSpeek {
                     Log.i(TAG, "TtsSpeek:result "+result);
                     if (result != TextToSpeech.LANG_COUNTRY_AVAILABLE && result != TextToSpeech.LANG_AVAILABLE){
                     }
+                    setSpeed( SPUtil.readFloat(SP_NAME, VOICE_SPEED_LEVEL));
                 }
             }
         });
