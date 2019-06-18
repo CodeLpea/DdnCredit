@@ -111,4 +111,19 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
+
+    <!-- 考勤管理-->
+    <string name="attendheadtext">刷卡信息</string>
+    <string name="attendRole">角色:</string>
+    <string name="child">宝宝:</string>
+    <string name="clazz">班级:</string>
+    <string name="icnumber">ic卡:</string>
+    <string name="attendtime">时间:</string>
+    <string name="attendpointphoto">家庭成员照片：</string>
+
+
+
 </resources>
