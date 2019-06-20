@@ -126,6 +126,17 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
 
     private void initView() {
         attendDialog = AttendDialog.getInstance();
+        attendDialog.setAttendtListenr(new AttendDialog.AttendtListenr() {
+            @Override
+            public void AttendDialogtListenr(boolean b) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        hideBottomUIMenu();
+                    }
+                });
+            }
+        });
         preview = (TextureView) findViewById(R.id.surface);
 
         netWorkImageView = findViewById(R.id.iv_netStaus);
@@ -187,6 +198,7 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
         Log.i(TAG, "表情界面得到表情变化:");
 
         alertDialog = attendDialog.showChoiceDialog(attendShowBean, MainActivity.this);//初始化弹出框
+
         hideBottomUIMenu();
 
 

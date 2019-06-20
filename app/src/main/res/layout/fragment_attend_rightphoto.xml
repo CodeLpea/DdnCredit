@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/Rl_rightphotoshow"
     android:layout_width="1080px"
-    android:background="@color/attendright"
+    android:background="@drawable/attend_right_corners"
     android:layout_height="match_parent">
 
                 <ImageView
@@ -11,7 +11,7 @@
                     android:layout_height="34px"
                     android:src="@drawable/ic_attendpoint"
                     android:rotation="-45"
-                    android:layout_marginTop="384px"
+                    android:layout_marginTop="382px"
                     android:layout_marginLeft="-24px"
                     />
                 <com.example.lp.ddncredit.mainview.view.AttendGridView

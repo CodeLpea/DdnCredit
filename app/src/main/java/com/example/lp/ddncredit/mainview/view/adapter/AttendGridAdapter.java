@@ -46,7 +46,7 @@ public class AttendGridAdapter extends BaseAdapter {
 
         RelativeLayout relativeLayout =  convertView.findViewById(R.id.rel_photo);//获取每个页面内容的包裹布局，用来设置宽度高度
         ViewGroup.LayoutParams params = relativeLayout.getLayoutParams();
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.iv_photo);
+        ImageView imageView =  convertView.findViewById(R.id.iv_photo);
         gv.setHorizontalSpacing(10);
         gv.setVerticalSpacing(10);
         if (attendBean.getReletions().size()>3){
@@ -72,7 +72,7 @@ public class AttendGridAdapter extends BaseAdapter {
                 .override(params.width, params.height)//指定图片大小
                 .into(imageView);
 
-        Button buttonName=(Button)convertView.findViewById(R.id.ib_photoname);
+        Button buttonName=convertView.findViewById(R.id.ib_photoname);
         buttonName.setText(attendBean.getReletions().get(position));
         return convertView;
     }
