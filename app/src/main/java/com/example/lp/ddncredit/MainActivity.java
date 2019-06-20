@@ -26,9 +26,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
+import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
@@ -58,6 +60,7 @@ import java.util.Arrays;
 
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_LEVEL;
+import static com.example.lp.ddncredit.utils.NavigationBarUtil.hideNavigationBar;
 
 public class MainActivity extends BaseActivity implements NetworkListener, LoginClickDialogListenr.LoginResultListenr {
     private static final String TAG = "MainActivity";
@@ -125,18 +128,8 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
     }
 
     private void initView() {
-        attendDialog = AttendDialog.getInstance();
-        attendDialog.setAttendtListenr(new AttendDialog.AttendtListenr() {
-            @Override
-            public void AttendDialogtListenr(boolean b) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideBottomUIMenu();
-                    }
-                });
-            }
-        });
+        attendDialog = AttendDialog.getInstance();//初始化考勤dialog
+        
         preview = (TextureView) findViewById(R.id.surface);
 
         netWorkImageView = findViewById(R.id.iv_netStaus);
@@ -168,15 +161,10 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
                 break;
             case 1:
                 switchFragment(fragment);
-                hideBottomUIMenu();
+
                 break;
             case 2:
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        hideBottomUIMenu();
-                    }
-                });
+                Log.i(TAG, "遗弃回调类型，隐藏底部栏: ");
                 break;
             case 3:
                 if (fragment.equals(expressionFragment)) {
@@ -199,7 +187,6 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
 
         alertDialog = attendDialog.showChoiceDialog(attendShowBean, MainActivity.this);//初始化弹出框
 
-        hideBottomUIMenu();
 
 
     }
@@ -461,5 +448,23 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
         Bitmap bitmap = null;
         bitmap = BitmapUtil.scaleBitmap(preview.getBitmap(), CameraPreWith, CameraPreHight);
         return bitmap;
+    }
+
+    /**
+     * 监听Back键按下事件,方法2:
+     * 注意:
+     * 返回值表示:是否能完全处理该事件
+     * 在此处返回false,所以会继续传播该事件.
+     * 在具体项目中此处的返回值视情况而定.
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            bgToast.myToast(this,"退出请按“HOME键",0,200);
+            return false;//拦截下来
+        }else {
+            return super.onKeyDown(keyCode, event);
+        }
+
     }
 }

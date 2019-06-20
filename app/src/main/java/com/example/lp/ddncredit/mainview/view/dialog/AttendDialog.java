@@ -23,6 +23,8 @@ import com.example.lp.ddncredit.mainview.view.adapter.AttendShowBean;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.lp.ddncredit.utils.NavigationBarUtil.hideNavigationBar;
+
 public class AttendDialog {
     private AlertDialog mAlertDialog;
     private TextView tv_role, tv_babyname, tv_clazzname, tv_icnumber, tv_attendtime;
@@ -34,9 +36,6 @@ public class AttendDialog {
     private Window window;
     private static final int mDialogWith = 1280;
     private static final int mDialogHeight = 800;
-
-    private AttendtListenr attendtListenr;
-
     private static AttendDialog instance;
 
     public static AttendDialog getInstance() {
@@ -45,13 +44,7 @@ public class AttendDialog {
         }
         return instance;
     }
-    public interface AttendtListenr {
-        void AttendDialogtListenr(boolean b);
-    }
 
-    public void  setAttendtListenr(AttendtListenr attendtListenr) {
-        this.attendtListenr = attendtListenr;
-    }
     /**
      * 选择对话框
      */
@@ -98,6 +91,7 @@ public class AttendDialog {
         window.setContentView(R.layout.fragment_attend);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+        hideNavigationBar(window);//隐藏底部状态栏
         return window;
     }
 
@@ -159,7 +153,7 @@ public class AttendDialog {
         if (mAlertDialog != null) {
             mAlertDialog.show();
         }
-        attendtListenr.AttendDialogtListenr(true);
+
         StartTimer();//开始计时自动关闭dilog
     }
 
@@ -167,7 +161,6 @@ public class AttendDialog {
         if (mAlertDialog != null) {
             mAlertDialog.dismiss();
         }
-        attendtListenr.AttendDialogtListenr(false);
         StopTimer();
     }
 
@@ -206,6 +199,7 @@ public class AttendDialog {
         timerTask = null;
         timerCount=5;
     }
+
 
 
 }
