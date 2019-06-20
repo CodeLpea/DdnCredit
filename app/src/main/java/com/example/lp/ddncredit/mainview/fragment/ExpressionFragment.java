@@ -1,7 +1,8 @@
 package com.example.lp.ddncredit.mainview.fragment;
 
-import android.os.Bundle;
 
+import android.os.Bundle;
+import android.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,9 @@ import com.example.lp.ddncredit.R;
 import com.example.lp.ddncredit.mainview.expression.ExpressionManager;
 import com.example.lp.ddncredit.mainview.expression.ExpressionMessage;
 import com.example.lp.ddncredit.mainview.expression.ExpressionTimer;
+import com.example.lp.ddncredit.mainview.view.adapter.AttendShowBean;
 import com.example.lp.ddncredit.mainview.view.bgToast;
+import com.example.lp.ddncredit.mainview.view.dialog.AttendDialog;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -25,6 +28,7 @@ public class ExpressionFragment extends BaseFragment {
     private static final String TAG = "ExpressionFragment";
     private GifImageView gifImageView;
     private ExpressionTimer mExpressionTimer;
+
     private static long mLastRfidTime = 0;
 
     @Override

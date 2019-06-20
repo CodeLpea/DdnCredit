@@ -14,6 +14,7 @@ public class StudentInfoDb extends LitePalSupport {
     private int id;
     private String name;
     private long stuId;
+    private String clazztitle;
     private List<ParentInfoDb> parentInfoDbListList = new ArrayList<ParentInfoDb>();//多对一
 
     public int getId() {
@@ -46,5 +47,24 @@ public class StudentInfoDb extends LitePalSupport {
 
     public void setParentInfoDbListList(List<ParentInfoDb> parentInfoDbListList) {
         this.parentInfoDbListList = parentInfoDbListList;
+    }
+
+    public String getClazztitle() {
+        return clazztitle;
+    }
+
+    public void setClazztitle(String clazztitle) {
+        this.clazztitle = clazztitle;
+    }
+
+    @Override
+    public String toString() {
+        return "StudentInfoDb{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", stuId=" + stuId +
+                ", clazztitle='" + clazztitle + '\'' +
+                ", parentInfoDbListList=" + parentInfoDbListList +
+                '}';
     }
 }

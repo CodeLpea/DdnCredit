@@ -100,7 +100,7 @@ public class FfidResultEventBusReceiver {
             }
         }
         //有刷卡动作，让表情变化
-        setExpression();
+        //setExpression();
 
 
         //拿到卡号，对卡号进行判断，并考勤

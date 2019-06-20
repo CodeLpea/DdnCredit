@@ -48,6 +48,19 @@ public class TimeUtil {
         return dateName;
     }
 
+
+    /**
+     * 获取格式化后的时间
+     *
+     * @return 11:22:33
+     */
+    public static String getYMDHMSDate001() {
+        DateFormat df = new SimpleDateFormat("HH:mm:ss");
+        Calendar calendar = Calendar.getInstance();
+        String dateName = df.format(calendar.getTime());
+        return dateName;
+    }
+
     public static String getYMDDate() {
         DateFormat df = new SimpleDateFormat("yyyyMMdd");
         Calendar calendar = Calendar.getInstance();

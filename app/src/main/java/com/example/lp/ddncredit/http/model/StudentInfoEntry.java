@@ -25,6 +25,7 @@ public class StudentInfoEntry {
      "parent_rfid": "1058372992",
      "parent_title": "爸爸",
      "parent_type": "1"
+     "veri_face":"dsds1d2sd12s1d32.jpg"
      },
      */
     @SerializedName("name")

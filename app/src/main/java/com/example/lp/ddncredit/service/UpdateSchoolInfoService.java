@@ -93,10 +93,11 @@ public class UpdateSchoolInfoService extends IntentService {
             List<StudentInfoEntry> students = studentsInfoEntry.getStudents();
             if(students != null) {
                 for (int i = 0; i < students.size(); i++) {
-                  //  Log.i(TAG, i + "-->" + students.get(i).toString());
+                    Log.i(TAG, i + "-->" + students.get(i).toString());
                     StudentInfoDb studentInfoDBEntry = new StudentInfoDb();
                     studentInfoDBEntry.setStuId(students.get(i).getId());
                     studentInfoDBEntry.setName(students.get(i).getName());
+                    studentInfoDBEntry.setClazztitle(students.get(i).getClassName());
                     studentInfoDbArrayList.add(studentInfoDBEntry);
                     for(int j = 0; j < students.get(i).getParents().size(); j++){
                         ParentInfoDb   parentInfoDBEntry = new ParentInfoDb();
@@ -107,6 +108,7 @@ public class UpdateSchoolInfoService extends IntentService {
                         parentInfoDBEntry.setRelationship(students.get(i).getParents().get(j).getRelationship());
                         parentInfoDBEntry.setStudentid(students.get(i).getId());
                         parentInfoDBEntry.setParentID(students.get(i).getParents().get(j).getId());
+                        parentInfoDBEntry.setFaceurl(students.get(i).getParents().get(j).getFace());
                         parentInfoDbArrayList.add(parentInfoDBEntry);
                     }
                 }

@@ -12,6 +12,7 @@ public class ParentInfoDb extends LitePalSupport {
     private String relationship;//与学生的关系
     private long studentid;//一对多学生
     private long  parentID;
+    private String faceurl;//照片地址
 
     public int getId() {
         return id;
@@ -53,6 +54,14 @@ public class ParentInfoDb extends LitePalSupport {
         this.parentID = parentID;
     }
 
+    public String getFaceurl() {
+        return faceurl;
+    }
+
+    public void setFaceurl(String faceurl) {
+        this.faceurl = faceurl;
+    }
+
     @Override
     public String toString() {
         return "ParentInfoDb{" +
@@ -61,6 +70,7 @@ public class ParentInfoDb extends LitePalSupport {
                 ", relationship='" + relationship + '\'' +
                 ", studentid=" + studentid +
                 ", parentID=" + parentID +
+                ", faceurl='" + faceurl + '\'' +
                 '}';
     }
 }

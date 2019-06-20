@@ -3,6 +3,7 @@ package com.example.lp.ddncredit;
 import android.Manifest;
 import android.annotation.TargetApi;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -39,12 +40,18 @@ import com.example.lp.ddncredit.mainview.networkdetail.NetworkListener;
 import com.example.lp.ddncredit.mainview.view.NumImageView;
 import com.example.lp.ddncredit.mainview.fragment.ExpressionFragment;
 import com.example.lp.ddncredit.mainview.fragment.SetFragment;
+import com.example.lp.ddncredit.mainview.view.adapter.AttendShowBean;
 import com.example.lp.ddncredit.mainview.view.bgToast;
+import com.example.lp.ddncredit.mainview.view.dialog.AttendDialog;
 import com.example.lp.ddncredit.mainview.view.dialog.LoginClickDialogListenr;
 import com.example.lp.ddncredit.service.ServiceManager;
 import com.example.lp.ddncredit.utils.BitmapUtil;
 import com.example.lp.ddncredit.utils.SPUtil;
 import com.example.lp.ddncredit.utils.voice.TtsSpeek;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
@@ -78,6 +85,10 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
     private CaptureRequest.Builder requestBuilder;
     //预览的会话
     private CameraCaptureSession captureSession;
+
+
+    private AttendDialog attendDialog;
+    private AlertDialog alertDialog;
 
     /**
      * 用于显示图像的显示角度
@@ -114,6 +125,7 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
     }
 
     private void initView() {
+        attendDialog = AttendDialog.getInstance();
         preview = (TextureView) findViewById(R.id.surface);
 
         netWorkImageView = findViewById(R.id.iv_netStaus);
@@ -167,11 +179,25 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
 
     }
 
+    /**
+     * 处理考勤模块发来的表情变化信息
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void attendEvent(AttendShowBean attendShowBean) {
+        Log.i(TAG, "表情界面得到表情变化:");
+
+        alertDialog = attendDialog.showChoiceDialog(attendShowBean, MainActivity.this);//初始化弹出框
+        hideBottomUIMenu();
+
+
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
         Log.i(TAG, "onResume: ");
-
+        EventBus.getDefault().register(this);//onResume中注册evnetbus
         netWorkDetailManager.addListenr(this);//监听网络变化已经未上传数量
     }
 
@@ -179,7 +205,7 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
     protected void onPause() {
         Log.i(TAG, "onPause: ");
         super.onPause();
-
+        EventBus.getDefault().unregister(this);//在pause的时候注销eventbus
         netWorkDetailManager.removeListenr(this);//移除监听
 
     }

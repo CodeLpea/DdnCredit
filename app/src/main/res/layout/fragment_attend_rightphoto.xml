@@ -15,10 +15,12 @@
                     android:layout_marginLeft="-24px"
                     />
                 <com.example.lp.ddncredit.mainview.view.AttendGridView
-                    android:layout_marginLeft="100px"
+                    android:layout_marginLeft="40px"
+                    android:layout_marginRight="30px"
                     android:id="@+id/grid_photoview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:numColumns="3"
                     >
 
                 </com.example.lp.ddncredit.mainview.view.AttendGridView>

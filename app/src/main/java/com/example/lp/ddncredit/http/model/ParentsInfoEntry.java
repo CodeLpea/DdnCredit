@@ -14,6 +14,7 @@ public class ParentsInfoEntry {
      "parent_rfid": "1058372992",
      "parent_title": "爸爸",
      "parent_type": "1"
+     "veri_face":"dsds1d2sd12s1d32.jpg"
      },
      */
     @SerializedName("parent_id")
@@ -26,6 +27,8 @@ public class ParentsInfoEntry {
     private String mRelationship;
     @SerializedName("parent_type")
     private int mType;
+    @SerializedName("veri_face")
+    private String face;
 
     public long getId() {
         return mId;
@@ -67,14 +70,23 @@ public class ParentsInfoEntry {
         this.mType = type;
     }
 
+    public String getFace() {
+        return face;
+    }
+
+    public void setFace(String face) {
+        this.face = face;
+    }
+
     @Override
     public String toString() {
         return "ParentsInfoEntry{" +
-                "mId='" + mId + '\'' +
+                "mId=" + mId +
                 ", mPhone='" + mPhone + '\'' +
                 ", mRfid='" + mRfid + '\'' +
                 ", mRelationship='" + mRelationship + '\'' +
-                ", mType='" + mType + '\'' +
+                ", mType=" + mType +
+                ", face='" + face + '\'' +
                 '}';
     }
 }

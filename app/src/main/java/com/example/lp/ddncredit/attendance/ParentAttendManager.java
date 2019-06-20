@@ -14,12 +14,14 @@ import com.example.lp.ddncredit.datebase.StudentInfoDb;
 import com.example.lp.ddncredit.http.CloudClient;
 import com.example.lp.ddncredit.http.model.ParentAttendancedStatusRequest;
 import com.example.lp.ddncredit.http.model.ParentAttendancedStatusResponse;
+import com.example.lp.ddncredit.mainview.view.adapter.AttendShowBean;
 import com.example.lp.ddncredit.utils.BitmapUtil;
 import com.example.lp.ddncredit.utils.PicturesManager;
 import com.example.lp.ddncredit.utils.SPUtil;
 import com.example.lp.ddncredit.utils.TimeUtil;
 import com.example.lp.ddncredit.utils.voice.TtsSpeek;
 
+import org.greenrobot.eventbus.EventBus;
 import org.litepal.LitePal;
 
 import java.io.File;
@@ -59,6 +61,28 @@ public class ParentAttendManager {
                 List<StudentInfoDb> getStudentInfoDbDbList=LitePal.where("stuId= ?", String.valueOf(parentInfoDb.getStudentid())).find(StudentInfoDb.class);
                 if(getStudentInfoDbDbList.size()>0){//如果能找到匹配的学生id
                     studentInfoDb = getStudentInfoDbDbList.get(0);
+                    //如果有学生，就根据学生id查询该学生所有的家长，并获得faceurl，以便展示出来
+                   getParentInfoDbList=LitePal.where("studentid= ?", String.valueOf(studentInfoDb.getStuId())).find(ParentInfoDb.class);
+                    Log.i(TAG, "getParentInfoDbList1: "+getParentInfoDbList.size());
+                    if(getParentInfoDbList.size()>0){
+                        AttendShowBean showBean=new AttendShowBean();
+                        //并将信息装载到显示类中
+                        showBean.setAttendtime(TimeUtil.getYMDHMSDate001());
+                        showBean.setBabyname(studentInfoDb.getName());
+                        showBean.setClazzname(studentInfoDb.getClazztitle());
+                        showBean.setIcnumber(String.valueOf(mRfid));
+                        showBean.setRelation(parentInfoDb.getRelationship());
+                        for(ParentInfoDb parentInfoDb1:getParentInfoDbList){//循环装入不同关系和照片路径
+                            Log.i(TAG, "parentInfoDb1: "+parentInfoDb1.toString());
+                            showBean.getReletions().add(parentInfoDb1.getRelationship());
+                            showBean.getUrls().add(parentInfoDb1.getFaceurl());
+                        }
+                        Log.i(TAG, "AttendShowBean: "+showBean.toString());
+
+                        EventBus.getDefault().post(showBean);//发出event
+                    }
+
+
                 }
             }
 
