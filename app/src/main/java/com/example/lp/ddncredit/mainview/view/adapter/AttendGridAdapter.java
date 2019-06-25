@@ -78,6 +78,7 @@ public class AttendGridAdapter extends BaseAdapter {
     }
 
     public void notifiData(AttendShowBean attendBean){
+        this.attendBean=attendBean;
         this.notifyDataSetChanged();
     }
 }
