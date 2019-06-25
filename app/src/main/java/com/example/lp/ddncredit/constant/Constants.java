@@ -119,7 +119,16 @@ public interface Constants {
          * */
         String VOICE_LEVEL="VOICE_LEVEL";
         String VOICE_SPEED_LEVEL="VOICE_SPEED_LEVEL";
+
+
+
+        /**
+         * 服务器地址
+         * */
+
         String API_BASE ="http://api.didano.com/";
+        String APISP_NAME ="APISP_NAME";
+        String ADRESS_RECODE_NAME ="ADRESS_RECODE_NAME";
     }
 
 }

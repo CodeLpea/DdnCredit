@@ -1,11 +1,9 @@
 package com.example.lp.ddncredit.mainview.view.dialog;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -14,7 +12,6 @@ import android.widget.Button;
 
 import android.widget.TextView;
 
-import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.R;
 import com.example.lp.ddncredit.mainview.view.AttendGridView;
 import com.example.lp.ddncredit.mainview.view.adapter.AttendGridAdapter;
@@ -34,8 +31,8 @@ public class AttendDialog {
     private View dilogview;
     private Context context;
     private Window window;
-    private static final int mDialogWith = 1280;
-    private static final int mDialogHeight = 800;
+    public static final int mDialogWith = 1280;
+    public static final int mDialogHeight = 800;
     private static AttendDialog instance;
 
     public static AttendDialog getInstance() {
@@ -88,7 +85,7 @@ public class AttendDialog {
         params.width = mDialogWith;
         params.height = mDialogHeight;
         window.setAttributes(params);
-        window.setContentView(R.layout.fragment_attend);
+        window.setContentView(R.layout.attend_dialog);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         hideNavigationBar(window);//隐藏底部状态栏
@@ -98,7 +95,7 @@ public class AttendDialog {
 
     private View getDialogView() {
         LayoutInflater factory = LayoutInflater.from(context);
-        View view = factory.inflate(R.layout.fragment_attend, null);
+        View view = factory.inflate(R.layout.attend_dialog, null);
         return view;
     }
 

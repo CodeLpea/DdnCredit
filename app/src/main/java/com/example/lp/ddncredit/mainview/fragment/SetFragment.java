@@ -8,17 +8,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.R;
 import com.example.lp.ddncredit.mainview.view.bgToast;
+import com.example.lp.ddncredit.mainview.view.dialog.AdressDialog;
 import com.example.lp.ddncredit.utils.AppUtils;
 import com.example.lp.ddncredit.utils.SPUtil;
 import com.example.lp.ddncredit.utils.voice.TtsSpeek;
 import com.xw.repo.BubbleSeekBar;
 
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.APISP_NAME;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.API_BASE;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolName;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_LEVEL;
@@ -31,8 +37,9 @@ import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_
  */
 public class SetFragment extends BaseFragment {
     private static final String TAG = "SetFragment";
-    private LinearLayout linearLayout;
-    private TextView tv_id, tv_schoolname, tv_appversion, tv_voice, tv_speed;
+    private FrameLayout frameLayout;
+    private TextView tv_id, tv_schoolname, tv_appversion, tv_voice, tv_speed,tv_curent_adress;
+    private ImageView iv_address_setin;
     private BubbleSeekBar voiceSeekBar, speedSeekBar;
     private Activity activity;
 
@@ -49,14 +56,25 @@ public class SetFragment extends BaseFragment {
 
 
     private void initView(View view) {
-        linearLayout = view.findViewById(R.id.ll_set);
-        setLinerLayoutViewSize(linearLayout);
-
+        frameLayout = view.findViewById(R.id.framelayout_set);
+        setFrameLayout(frameLayout);
         tv_id = view.findViewById(R.id.text_dev_id);
         tv_schoolname = view.findViewById(R.id.text_schoolName);
         tv_appversion = view.findViewById(R.id.text_app_ver);
         tv_voice = view.findViewById(R.id.tv_voice);
         tv_speed = view.findViewById(R.id.tv_voice_speed);
+        tv_curent_adress=view.findViewById(R.id.tv_current_adress);
+        iv_address_setin=view.findViewById(R.id.iv_adress_set);
+        setOnclickLister setOnclickLister=new setOnclickLister();
+
+        iv_address_setin.setOnClickListener(new AdressDialog(this.getContext(), new AdressDialog.AdressResultListenr() {
+            @Override
+            public void AdressResult(int i) {//接收返回
+                Log.i(TAG, "AdressResult: ");
+                tv_curent_adress.setText(SPUtil.readString(SP_NAME, APISP_NAME));//读取当前服务器地址
+            }
+        }));//进入服务器地址设置
+
 
         voiceSeekBar = view.findViewById(R.id.BubbleSeekBar_voice);
         voiceSeekBar.setOnProgressChangedListener(new VoiceProgressChangedListener());
@@ -75,6 +93,8 @@ public class SetFragment extends BaseFragment {
         tv_schoolname.setText(SPUtil.readString(SP_NAME, SchoolName));
         tv_appversion.setText(AppUtils.getAppVersionName(Myapplication.getInstance().getApplicationContext()));
         tv_id.setText(AppUtils.getLocalMacAddressFromWifiInfo(Myapplication.getInstance().getApplicationContext()));
+
+        tv_curent_adress.setText(SPUtil.readString(SP_NAME, APISP_NAME));//读取当前服务器地址
 
     }
 
@@ -126,6 +146,16 @@ public class SetFragment extends BaseFragment {
         @Override
         public void getProgressOnFinally(int progress, float progressFloat) {
             Log.i(TAG, "getProgressOnFinally: " + progress);
+
+        }
+    }
+
+    private class setOnclickLister implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+
+            }
 
         }
     }

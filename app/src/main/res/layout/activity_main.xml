@@ -29,6 +29,14 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="144px"
         android:background="@drawable/set_imagebutton_selector"/>
+    <!--二维码-->
+    <ImageView
+        android:id="@+id/iv_recode"
+        android:layout_width="180px"
+        android:layout_height="268px"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="60px"
+        android:src="@drawable/qrecorde"/>
 
     <!--网络状态栏按钮-->
     <ImageView

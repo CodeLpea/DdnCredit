@@ -14,10 +14,10 @@
         <LinearLayout
             android:layout_width="200px"
             android:layout_height="match_parent">
-            <include layout="@layout/fragment_attend_leftinfo"></include>
+            <include layout="@layout/attend_leftinfo"></include>
         </LinearLayout>
 
-        <include layout="@layout/fragment_attend_rightphoto"></include>
+        <include layout="@layout/attend_rightphoto"></include>
 
 
     </LinearLayout>

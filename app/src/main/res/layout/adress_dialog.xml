@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/logindialog_shape_corners"
+    android:background="@drawable/adressdialog_shape_corners"
     >
-    <EditText
-        android:id="@+id/et_passwd_input"
+    <AutoCompleteTextView
+        android:id="@+id/actv_adress"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:gravity="center"
-        android:hint="请输入密码"
+        android:hint="请输入服务器地址"
         android:textColorHint="@color/white"
         android:textColor="@color/texthit"
         android:textSize="30dp"
@@ -22,11 +22,11 @@
         android:id="@+id/btn_sure"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_below="@+id/et_passwd_input"
+        android:layout_below="@+id/actv_adress"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:text="确定"
+        android:text="保存"
         android:textSize="40sp"
         android:textColor="@drawable/text_selector"
         android:background="@drawable/button_selector"/>
@@ -40,7 +40,7 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginBottom="50dp"
-        android:text="取消"
+        android:text="退出"
         android:textSize="40sp"
         android:textColor="@drawable/text_selector"
         android:background="@drawable/button_selector"/>

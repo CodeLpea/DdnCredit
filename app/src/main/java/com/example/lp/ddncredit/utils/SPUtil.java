@@ -18,6 +18,8 @@ import static com.example.lp.ddncredit.constant.Constants.SERIAL1_FLOW_CONTROL;
 import static com.example.lp.ddncredit.constant.Constants.SERIAL1_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SERIAL1_PARITY_BIT;
 import static com.example.lp.ddncredit.constant.Constants.SERIAL1_STOP_BIT;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.ADRESS_RECODE_NAME;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.APISP_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.APPVERSION;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.AUTHORIZATION_INFO;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.BLUETOOTH_ADDRESS;
@@ -231,13 +233,14 @@ public class SPUtil {
                 defaulConfig.edit().putString(SERIAL1_STOP_BIT, Myapplication.getInstance().getString(R.string.stop_bit_1)).apply();
                 defaulConfig.edit().putString(SERIAL1_FLOW_CONTROL, Myapplication.getInstance().getString(R.string.flow_control_None)).apply();
 
-
                 defaulConfig.edit().putInt(VOICE_LEVEL, 5).apply();
                 defaulConfig.edit().putFloat(VOICE_SPEED_LEVEL, 1.0f).apply();
 
-
                 defaulConfig.edit().putInt(SchoolID, 5).apply();
                 defaulConfig.edit().putString(SchoolName, "didano").apply();
+
+                defaulConfig.edit().putString(APISP_NAME, "http://api.didano.com/").apply();
+                defaulConfig.edit().putString(ADRESS_RECODE_NAME, "http://api.didano.com/:-P").apply();
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none">
-
-    <FrameLayout
+    android:background="@drawable/setlayout_corners"
+    android:id="@+id/framelayout_set"
+    >
+    <!--可滑动的ScrollView -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:id="@+id/sl_set"
+        android:scrollbars="none"
+        >
+        <!--竖直布局 -->
         <LinearLayout
             android:id="@+id/ll_set"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/setlayout_corners"
             android:orientation="vertical"
             android:padding="30dp">
-
+            <!--设备信息标题 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -24,7 +28,7 @@
                 android:text="设备信息"
                 android:textColor="@color/col_lightgrap"
                 android:textSize="22sp" />
-
+            <!--设备ID -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -52,7 +56,7 @@
                     android:textColor="@color/col_lightgrap"
                     android:textSize="20sp" />
             </RelativeLayout>
-
+            <!--学校名称 -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -80,7 +84,7 @@
                     android:textColor="@color/col_lightgrap"
                     android:textSize="20sp" />
             </RelativeLayout>
-
+            <!--APP版本号 -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
@@ -109,7 +113,7 @@
                     android:textSize="20sp" />
             </RelativeLayout>
 
-
+            <!--配置栏标题 -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -118,7 +122,7 @@
                 android:text="配置"
                 android:textColor="@color/col_lightgrap"
                 android:textSize="22sp" />
-
+            <!--音量配置 -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -162,7 +166,7 @@
                     app:bsb_track_size="6dp" />
 
             </RelativeLayout>
-
+            <!--语速配置 -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -209,6 +213,63 @@
             </RelativeLayout>
 
 
+            <!--服务器地址配置 -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/layout_style_boder"
+                android:gravity="center_vertical"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp">
+
+                <TextView
+                    android:id="@+id/tv_adress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="服务器地址"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+
+                <TextView
+                    android:id="@+id/tv_addrees_title"
+                    android:layout_below="@+id/tv_adress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="当前服务器地址:"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+
+                    />
+                <TextView
+                    android:layout_below="@+id/tv_adress"
+                    android:id="@+id/tv_current_adress"
+                    android:layout_width="400dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/tv_addrees_title"
+                    android:paddingLeft="10dp"
+                    android:text="http:123.52.8.0.com"
+                    android:textColor="@color/col_lightgrap"
+                    android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/iv_adress_set"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tv_adress"
+                    android:src="@drawable/ic_settings"
+                    />
+
+
+
+            </RelativeLayout>
+
+
         </LinearLayout>
-    </FrameLayout>
-</ScrollView>
+
+    </ScrollView>
+</FrameLayout>
