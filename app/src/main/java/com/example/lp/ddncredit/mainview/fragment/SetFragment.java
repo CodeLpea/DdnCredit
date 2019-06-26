@@ -24,7 +24,6 @@ import com.example.lp.ddncredit.utils.voice.TtsSpeek;
 import com.xw.repo.BubbleSeekBar;
 
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.APISP_NAME;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.API_BASE;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolName;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_LEVEL;

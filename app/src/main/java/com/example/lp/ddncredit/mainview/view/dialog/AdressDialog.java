@@ -5,26 +5,32 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.text.InputType;
 import android.text.TextUtils;
-import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.lp.ddncredit.R;
+import com.example.lp.ddncredit.http.CloudClient;
+import com.example.lp.ddncredit.http.model.ResponseEntry;
+import com.example.lp.ddncredit.http.model.SchoolStudentsInfoEntry;
+import com.example.lp.ddncredit.http.model.UpgradePackageVersionInfoEntry;
 import com.example.lp.ddncredit.mainview.view.adapter.AutoCompleteAdapter;
 import com.example.lp.ddncredit.mainview.view.bgToast;
 import com.example.lp.ddncredit.utils.SPUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.ADRESS_RECODE_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.APISP_NAME;
@@ -54,6 +60,9 @@ public class AdressDialog implements View.OnClickListener {
     private AutoCompleteTextView autoCompleteTextView;
     private Button mSureBtn;
     private Button mCancelBtn;
+    private Button mTestBtn;
+    private ImageView mCanceliv, mDeleteiv;
+    private TextView mTextAdress, mTextTime, mTextDetail;
     private Window window;
 
     private AdressResultListenr mAdressResultListenr;
@@ -83,6 +92,15 @@ public class AdressDialog implements View.OnClickListener {
     }
 
     private void initData() {//初始化数据
+
+        initAutoCompleteTextView();
+        autoCompleteTextView.setText(SPUtil.readString(SP_NAME, APISP_NAME));
+    }
+
+    /**
+     * 初始化AutoCompleteTextView相关
+     */
+    private void initAutoCompleteTextView() {
         ArrayList<String> mOriginalValues = new ArrayList<>();
         String[] mCustomHistoryArray = getHistoryArray();
         mOriginalValues.addAll(Arrays.asList(mCustomHistoryArray));
@@ -116,18 +134,31 @@ public class AdressDialog implements View.OnClickListener {
         });
 
         autoCompleteTextView.setAdapter(mCustomAdapter);       //设置适配器
-        autoCompleteTextView.setThreshold(1);                  //最低索引数字
-
+        autoCompleteTextView.setThreshold(1); //最低索引数字
     }
 
 
     //初始化控件
     private void initView() {
         autoCompleteTextView = window.findViewById(R.id.actv_adress);
-        mSureBtn =  window.findViewById(R.id.btn_sure);
+
+        mSureBtn = window.findViewById(R.id.btn_sure);
         mCancelBtn = window.findViewById(R.id.btn_cancel);
+        mTestBtn = window.findViewById(R.id.btn_test);
+
+        mCanceliv = window.findViewById(R.id.iv_cancel);
+        mDeleteiv = window.findViewById(R.id.iv_delete);
+
+        mTextAdress = window.findViewById(R.id.tv_currentApi);
+        mTextTime = window.findViewById(R.id.tv_spendtime);
+        mTextDetail = window.findViewById(R.id.tv_sl_detail);
+
         mSureBtn.setOnClickListener(this);
         mCancelBtn.setOnClickListener(this);
+        mCanceliv.setOnClickListener(this);
+        mTestBtn.setOnClickListener(this);
+        mDeleteiv.setOnClickListener(this);
+
     }
 
     private void initWindow() {
@@ -161,18 +192,38 @@ public class AdressDialog implements View.OnClickListener {
                 hideNavigationBar(window);
                 break;
             case R.id.btn_sure:
+                bgToast.myToast((Activity) mContext, "保存成功", 0, 200);
                 saveHistoryByAutoCompleteTextView(autoCompleteTextView);
                 dissMissDialog(1);
                 break;
             case R.id.btn_cancel:
                 dissMissDialog(0);
                 break;
+            case R.id.iv_cancel:
+                dissMissDialog(0);
+                break;
+            case R.id.iv_delete://清空输入框
+                autoCompleteTextView.setText("");
+                break;
+            case R.id.btn_test://测试服务器地址
+                if (!TextUtils.isEmpty(autoCompleteTextView.getText().toString().trim())) {
+                    bgToast.myToast((Activity) mContext, "开始测试", 0, 200);
+                    mTestBtn.setText("正在测试");
+                    mTestBtn.setTextColor(mContext.getResources().getColorStateList(R.color.editTitleColor));
+                    mTestBtn.setPressed(true);
+                    showDetil("", "");//清空详细
+                    TestApi(autoCompleteTextView.getText().toString().trim());
+                } else {
+                    bgToast.myToast((Activity) mContext, "地址不能为空", 0, 200);
+                }
+
+                break;
         }
 
     }
 
-    private void dissMissDialog(int i){
-        if(mAlertDialog!=null){
+    private void dissMissDialog(int i) {
+        if (mAlertDialog != null) {
             mAlertDialog.dismiss();
             mAdressResultListenr.AdressResult(i);
         }
@@ -182,9 +233,9 @@ public class AdressDialog implements View.OnClickListener {
     /**
      * 读取索引
      * 并转换为数组
-     * */
+     */
     private String[] getHistoryArray() {
-        String[] array =getHistoryString().split(SP_SEPARATOR);//按照:-P的间隔读取历史记录
+        String[] array = getHistoryString().split(SP_SEPARATOR);//按照:-P的间隔读取历史记录
         if (array.length > MAX_HISTORY_COUNT) {         // 最多只提示最近的50条历史记录
             String[] newArray = new String[MAX_HISTORY_COUNT];
             System.arraycopy(array, 0, newArray, 0, MAX_HISTORY_COUNT); // 实现数组间的内容复制
@@ -195,28 +246,30 @@ public class AdressDialog implements View.OnClickListener {
 
     /**
      * 读取索引
-     * */
+     */
     private String getHistoryString() {
-        String history=SPUtil.readString(SP_NAME, ADRESS_RECODE_NAME);
+        String history = SPUtil.readString(SP_NAME, ADRESS_RECODE_NAME);
         return history;
     }
+
     /**
      * 保存索引
-     * */
+     */
     private void setHistoryString(String details) {
-        SPUtil.writeString(SP_NAME,ADRESS_RECODE_NAME,details);
+        SPUtil.writeString(SP_NAME, ADRESS_RECODE_NAME, details);
     }
+
     /**
      * 保存Api
-     * */
-    private void saveApi(String s){
-        SPUtil.writeString(SP_NAME, APISP_NAME,s);
+     */
+    private void saveApi(String s) {
+        SPUtil.writeString(SP_NAME, APISP_NAME, s);
     }
 
     private void saveHistoryByAutoCompleteTextView(AutoCompleteTextView view) {
         String text = view.getText().toString().trim();     // 去掉前后的空白符
         if (TextUtils.isEmpty(text)) {      // null or ""
-            bgToast.myToast((Activity) mContext,"输入为空，不能保存",0,200);
+            bgToast.myToast((Activity) mContext, "输入为空，不能保存", 0, 200);
             return;
         }
         saveApi(text);//保存到Sp中
@@ -236,5 +289,84 @@ public class AdressDialog implements View.OnClickListener {
         }
     }
 
+    private long spendTime = 0;
+
+    /**
+     * 测试服务器连接
+     */
+    private void TestApi(String testApi) {
+        /*
+         * 设置测试服务器的地址
+         * */
+        setApi(testApi);
+
+        mTextAdress.setText("当前地址：" +testApi);
+        spendTime = System.currentTimeMillis();
+        /*
+         * 注册设备
+         * 注册成功获取学校信息
+         * */
+        CloudClient.getInstance().getUpgradePackageVersionInfoForTest(new Callback<ResponseEntry<UpgradePackageVersionInfoEntry>>() {
+            @Override
+            public void onResponse(Call<ResponseEntry<UpgradePackageVersionInfoEntry>> call, Response<ResponseEntry<UpgradePackageVersionInfoEntry>> response) {
+                testSchoolStudentInfo();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntry<UpgradePackageVersionInfoEntry>> call, Throwable t) {
+                Log.e(TAG, "onResponse: " + call.toString());
+                showDetil("用时：" + String.valueOf(spendTime) + "ms", call.toString());
+                reSetTestBtn();
+                reSetApi();
+            }
+        });
+
+
+    }
+
+    private void reSetTestBtn() {
+        mTestBtn.setText("测试");
+        mTestBtn.setTextColor(mContext.getResources().getColorStateList(R.color.black));
+        mTestBtn.setPressed(false);
+    }
+
+    private void testSchoolStudentInfo() {
+        CloudClient.getInstance().getSchoolStudentForTest(new Callback<ResponseEntry<SchoolStudentsInfoEntry>>() {
+            @Override
+            public void onResponse(Call<ResponseEntry<SchoolStudentsInfoEntry>> call, Response<ResponseEntry<SchoolStudentsInfoEntry>> response) {
+                spendTime = System.currentTimeMillis() - spendTime;
+                showDetil("用时：" + String.valueOf(spendTime) + "ms", response.body().toString());
+                reSetTestBtn();
+                reSetApi();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntry<SchoolStudentsInfoEntry>> call, Throwable t) {
+                Log.e(TAG, "onResponse: " + call.toString());
+                showDetil("用时：" + String.valueOf(spendTime) + "ms", call.toString());
+                reSetTestBtn();
+                reSetApi();
+            }
+        });
+    }
+
+    private void showDetil(String time, String Detail) {
+        mTextTime.setText(String.valueOf(time));
+        mTextDetail.setText(Detail);
+    }
+
+    /***
+     * 复原地址
+     * */
+    private void reSetApi() {
+        CloudClient.getInstance().init(SPUtil.readString(SP_NAME, APISP_NAME));//修改地址然后进行测试，测试完成之后改回地址
+    }
+
+    /***
+     * 暂时设置地址
+     * */
+    private void setApi(String api) {
+        CloudClient.getInstance().init(api);//修改地址然后进行测试，测试完成之后改回地址
+    }
 
 }

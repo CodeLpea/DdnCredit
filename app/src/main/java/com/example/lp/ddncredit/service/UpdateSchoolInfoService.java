@@ -93,7 +93,7 @@ public class UpdateSchoolInfoService extends IntentService {
             List<StudentInfoEntry> students = studentsInfoEntry.getStudents();
             if(students != null) {
                 for (int i = 0; i < students.size(); i++) {
-                    Log.i(TAG, i + "-->" + students.get(i).toString());
+                   // Log.i(TAG, i + "-->" + students.get(i).toString());
                     StudentInfoDb studentInfoDBEntry = new StudentInfoDb();
                     studentInfoDBEntry.setStuId(students.get(i).getId());
                     studentInfoDBEntry.setName(students.get(i).getName());

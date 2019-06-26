@@ -16,7 +16,8 @@ import com.example.lp.ddncredit.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.API_BASE;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.API_TUOYUBAO_BASE;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.API_XIAONUO_BASE;
 
 
 public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
@@ -98,7 +99,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
             convertView = inflater.inflate(R.layout.simple_dropdown_item_1line, null);
             holder.tv = (TextView) convertView.findViewById(R.id.tv_simple_item);
             holder.iv = (ImageView) convertView.findViewById(R.id.iv_simple_item);
-            if(mObjects.get(position).toString().equals(API_BASE)){
+            if(mObjects.get(position).toString().equals(API_TUOYUBAO_BASE)||mObjects.get(position).toString().equals(API_XIAONUO_BASE)){
                 holder.iv.setVisibility(View.INVISIBLE);//为默认值的时候无法删除
             }
             convertView.setTag(holder);

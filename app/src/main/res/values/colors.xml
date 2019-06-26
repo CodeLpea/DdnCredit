@@ -14,6 +14,7 @@
     <color name="attendleft">#23adb3</color>		<!-- 浅灰色 -->
     <color name="attendright">#d6eeef</color>		<!-- 浅灰色 -->
     <color name="setttingbulue">#46b4df</color>		<!-- 浅灰色 -->
+    <color name="setttingwhite">#faf9f8</color>		<!-- 浅灰色 -->
 
 
 </resources>

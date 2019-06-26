@@ -126,9 +126,10 @@ public interface Constants {
          * 服务器地址
          * */
 
-        String API_BASE ="http://api.didano.com/";
-        String APISP_NAME ="APISP_NAME";
-        String ADRESS_RECODE_NAME ="ADRESS_RECODE_NAME";
+        String API_TUOYUBAO_BASE ="http://api.didano.com/";//默认的托育宝正式服务器地址
+        String API_XIAONUO_BASE ="http://120.77.237.242:8081/";//默认的小诺的正式服务器地址
+        String APISP_NAME ="APISP_NAME";//服务器地址的key
+        String ADRESS_RECODE_NAME ="ADRESS_RECODE_NAME";//所有服务器地址的索引key
     }
 
 }

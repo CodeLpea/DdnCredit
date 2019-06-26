@@ -18,6 +18,7 @@ import com.example.lp.ddncredit.http.model.ParentAttendancedInfoEntry;
 import com.example.lp.ddncredit.http.model.ParentAttendancedStatusRequest;
 import com.example.lp.ddncredit.http.model.UpgradePackageVersionInfoEntry;
 import com.example.lp.ddncredit.http.model.UpgradePackageVersionInfoRequest;
+import com.example.lp.ddncredit.utils.SPUtil;
 import com.google.gson.Gson;
 
 
@@ -33,11 +34,13 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.example.lp.ddncredit.constant.Constants.SOFTWARE_SYSTEM_TYTE;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.API_BASE;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.APISP_NAME;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
 
 
 /**
@@ -52,10 +55,13 @@ public class CloudClient {
     private static NetWorkAPIs mAPIs = null;
     private static Gson mGson = null;
     private CloudClient(){
-        init();
+
+        init(SPUtil.readString(SP_NAME, APISP_NAME));
+     /*   Log.e(TAG, "小诺地址: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SERVER_DOMAIN));*/
     }
 
-    private void init(){
+    public void init(String API_ADRESS){
+        Log.e(TAG, "修改API_ADRESS: "+API_ADRESS);
         //创建OkHttp对象
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.addInterceptor(headerInterceptor)
@@ -66,7 +72,7 @@ public class CloudClient {
         mRetrofit = new Retrofit.Builder()
                // .baseUrl("http://www.didano.cn")
                 //.baseUrl(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SERVER_DOMAIN))
-                .baseUrl(API_BASE)
+                .baseUrl(API_ADRESS)
                 .client(client.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -144,7 +150,24 @@ public class CloudClient {
         }
         return studentsInfoEntry;
     }
-
+    /**
+     * 获取学校的学生信息
+     * 用作测试服务器地址
+     * @return 异步返回学生信息，失败返回null
+     */
+    public SchoolStudentsInfoEntry getSchoolStudentForTest(Callback<ResponseEntry<SchoolStudentsInfoEntry>> callback){
+        Log.e(TAG, "获取学校的学生信息getSchoolStudentList: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STUDENTS_LIST_URL));
+        SchoolStudentsInfoEntry studentsInfoEntry = null;
+        Call<ResponseEntry<SchoolStudentsInfoEntry>> call = mAPIs.getSchoolStudentList(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STUDENTS_LIST_URL));
+        ResponseEntry<SchoolStudentsInfoEntry> response;
+        try{
+            //异步操作
+            call.enqueue(callback);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return studentsInfoEntry;
+    }
     /**
      * 获取学校职工信息
      * @return 成功返回职工信息，失败返回null
@@ -301,6 +324,26 @@ public class CloudClient {
             e.printStackTrace();
         }
 
+        return versionInfo;
+    }
+
+    /**
+     * 获取当前服务器上最新升级包版本信息
+     * 用作测试服务器地址
+     * @return 异步 返回成功返回 true, 失败返回false
+     */
+    public UpgradePackageVersionInfoEntry getUpgradePackageVersionInfoForTest(Callback<ResponseEntry<UpgradePackageVersionInfoEntry>> callback){
+        Log.e(TAG, "获取当前服务器上最新升级包版本信息getUpgradePackageVersionInfo: "+InvisibleConfig.getConfig(InvisibleConfigKey.GET_APP_VERSION_URL));
+        UpgradePackageVersionInfoEntry versionInfo = null;
+        UpgradePackageVersionInfoRequest upgradePackageVersionInfoRequest = new UpgradePackageVersionInfoRequest();
+        upgradePackageVersionInfoRequest.setHardWareDeviceType("NuoShua");
+        upgradePackageVersionInfoRequest.setHardWareDeviceNumber(AppUtils.getLocalMacAddressFromWifiInfo(Myapplication.getInstance()));
+        upgradePackageVersionInfoRequest.setCurrentApkVersion(AppUtils.getAppVersionName(Myapplication.getInstance().getApplicationContext()));
+        upgradePackageVersionInfoRequest.setSoftWareType(SOFTWARE_SYSTEM_TYTE);
+        String requestStr = mGson.toJson(upgradePackageVersionInfoRequest);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestStr);
+        Call<ResponseEntry<UpgradePackageVersionInfoEntry>> call = mAPIs.getUpgradePackageVersionInfo(InvisibleConfig.getConfig(InvisibleConfigKey.GET_APP_VERSION_URL), body);
+        call.enqueue(callback);
         return versionInfo;
     }
 }

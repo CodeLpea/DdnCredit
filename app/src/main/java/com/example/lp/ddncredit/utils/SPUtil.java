@@ -240,7 +240,7 @@ public class SPUtil {
                 defaulConfig.edit().putString(SchoolName, "didano").apply();
 
                 defaulConfig.edit().putString(APISP_NAME, "http://api.didano.com/").apply();
-                defaulConfig.edit().putString(ADRESS_RECODE_NAME, "http://api.didano.com/:-P").apply();
+                defaulConfig.edit().putString(ADRESS_RECODE_NAME, "http://api.didano.com/:-Phttp://120.77.237.242:8081/:-P").apply();
             }
         } catch (Exception e) {
             e.printStackTrace();

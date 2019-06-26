@@ -1,48 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/adressdialog_shape_corners"
-    >
-    <AutoCompleteTextView
-        android:id="@+id/actv_adress"
+    android:orientation="vertical">
+    <!--标题-->
+    <RelativeLayout
+        android:id="@+id/tite"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:gravity="center"
-        android:hint="请输入服务器地址"
-        android:textColorHint="@color/white"
-        android:textColor="@color/texthit"
-        android:textSize="30dp"
-        android:background="@drawable/edit_textshape"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"/>
-    <!--确定按钮-->
-    <Button
-        android:id="@+id/btn_sure"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_below="@+id/actv_adress"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:text="保存"
-        android:textSize="40sp"
-        android:textColor="@drawable/text_selector"
-        android:background="@drawable/button_selector"/>
-    <!--取消按钮-->
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_below="@+id/btn_sure"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginBottom="50dp"
-        android:text="退出"
-        android:textSize="40sp"
-        android:textColor="@drawable/text_selector"
-        android:background="@drawable/button_selector"/>
+        android:layout_height="100px"
+        android:layout_margin="10px">
 
-</RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="服务器设置和测试"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:id="@+id/iv_cancel"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_arrow_back" />
+
+
+    </RelativeLayout>
+    <!--输入、功能按钮区域 -->
+    <RelativeLayout
+        android:id="@+id/rl_address"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:layout_margin="20px"
+        android:background="@drawable/layout_style_boder"
+        android:padding="20px">
+
+        <AutoCompleteTextView
+            android:id="@+id/actv_adress"
+            android:layout_width="400px"
+            android:layout_height="80px"
+            android:layout_centerVertical="true"
+            android:background="@drawable/layout_style_boder"
+            android:gravity="center"
+            android:hint="请输入服务器地址"
+            android:textColor="@color/black"
+            android:textColorHint="@color/col_lightgrap"
+            android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="40px"
+            android:layout_height="40px"
+            android:src="@drawable/ic_delete"
+            android:layout_toRightOf="@+id/actv_adress"
+            android:layout_centerInParent="true"
+            />
+
+        <!--测试按钮-->
+        <Button
+            android:id="@+id/btn_test"
+            android:layout_width="240px"
+            android:layout_height="80px"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_selector"
+            android:text="测试"
+            android:textColor="@drawable/text_selector"
+            android:textSize="20sp" />
+        <!--确定按钮-->
+        <Button
+            android:id="@+id/btn_sure"
+            android:layout_width="240px"
+            android:layout_height="80px"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/button_selector"
+            android:text="保存"
+            android:textColor="@drawable/text_selector"
+            android:textSize="20sp" />
+        <!--取消按钮-->
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="240px"
+            android:layout_height="80px"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/btn_sure"
+            android:layout_marginTop="10px"
+            android:background="@drawable/button_selector"
+            android:text="退出"
+            android:textColor="@drawable/text_selector"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <!--结果展示区域 -->
+    <RelativeLayout
+        android:id="@+id/cl_test"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20px"
+        android:background="@drawable/layout_style_boder"
+        android:orientation="vertical">
+        <TextView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/tv_detail"
+            android:layout_width="240px"
+            android:layout_height="60px"
+            android:layout_marginTop="16dp"
+            android:text="------详情------"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+        <!-- 当前地址：-->
+        <TextView
+            android:layout_alignParentLeft="true"
+            android:id="@+id/tv_currentApi"
+            android:layout_width="400px"
+            android:layout_height="60px"
+            android:layout_marginStart="8dp"
+            android:text="当前地址："
+            android:layout_marginTop="8dp"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+        <!-- 用时：-->
+        <TextView
+            android:layout_alignParentRight="true"
+            android:id="@+id/tv_spendtime"
+            android:layout_width="240px"
+            android:layout_height="60px"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="用时："
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            />
+
+
+        <ScrollView
+            android:layout_margin="10px"
+            android:padding="10px"
+            android:background="@drawable/layout_style_boder"
+            android:layout_below="@+id/tv_currentApi"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tv_sl_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="code:\r\nmessage\r\ndata_len\r\nsuccess\r\ndata\r\n"
+                android:textSize="20sp"
+                />
+
+
+        </ScrollView>
+
+    </RelativeLayout>
+</LinearLayout>
