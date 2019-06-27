@@ -41,6 +41,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.example.lp.ddncredit.constant.Constants.SOFTWARE_SYSTEM_TYTE;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.APISP_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
+import static com.example.lp.ddncredit.utils.StringTool.isHttpUrl;
+import static com.example.lp.ddncredit.utils.StringTool.showKeyAdress;
 
 
 /**
@@ -54,14 +56,15 @@ public class CloudClient {
     private static Retrofit mRetrofit = null;
     private static NetWorkAPIs mAPIs = null;
     private static Gson mGson = null;
-    private CloudClient(){
 
+    private CloudClient() {
         init(SPUtil.readString(SP_NAME, APISP_NAME));
-     /*   Log.e(TAG, "小诺地址: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SERVER_DOMAIN));*/
+        /*   Log.e(TAG, "小诺地址: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SERVER_DOMAIN));*/
     }
 
-    public void init(String API_ADRESS){
-        Log.e(TAG, "修改API_ADRESS: "+API_ADRESS);
+    public void init(String API_ADRESS) {
+        Log.e(TAG, "修改API_ADRESS: " + showKeyAdress(API_ADRESS));
+        Log.i(TAG, "是否为网址: " + isHttpUrl(showKeyAdress(API_ADRESS)));
         //创建OkHttp对象
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.addInterceptor(headerInterceptor)
@@ -70,9 +73,9 @@ public class CloudClient {
                 .writeTimeout(10, TimeUnit.SECONDS);
         //创建retrofit对象
         mRetrofit = new Retrofit.Builder()
-               // .baseUrl("http://www.didano.cn")
+                // .baseUrl("http://www.didano.cn")
                 //.baseUrl(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SERVER_DOMAIN))
-                .baseUrl(API_ADRESS)
+                .baseUrl(showKeyAdress(API_ADRESS))//需要先转换地址，以免为中文显示的地址
                 .client(client.build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -82,15 +85,15 @@ public class CloudClient {
         mGson = new Gson();
     }
 
-    private static class CloudClientInner{
+    private static class CloudClientInner {
         private static CloudClient mInstance = new CloudClient();
     }
 
-    public static CloudClient getInstance(){
+    public static CloudClient getInstance() {
         return CloudClientInner.mInstance;
     }
 
-    private static Interceptor headerInterceptor = new Interceptor(){
+    private static Interceptor headerInterceptor = new Interceptor() {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request().newBuilder().
@@ -107,9 +110,10 @@ public class CloudClient {
 
     /**
      * 获取绑定学校的Key值
+     *
      * @return 失败返回null
      */
-    public SchoolKeyEntry getSchoolKeyStr(){
+    public SchoolKeyEntry getSchoolKeyStr() {
         SchoolKeyEntry key = null;
         Call<ResponseEntry<SchoolKeyEntry>> call = mAPIs.getSchoolKey(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_KEY_URL));
         ResponseEntry<SchoolKeyEntry> response;
@@ -119,7 +123,7 @@ public class CloudClient {
              */
             response = call.execute().body();
             //{"code":"1","message":"Access deny","data_len":"1234567890","success":"false"}
-            if(response != null && response.getCode() == ResponseEntry.SUCCESS) {
+            if (response != null && response.getCode() == ResponseEntry.SUCCESS) {
                 key = response.getData();
             }
         } catch (Exception e) {
@@ -132,57 +136,62 @@ public class CloudClient {
 
     /**
      * 获取学校的学生信息
+     *
      * @return 成功返回学生信息，失败返回null
      */
-    public SchoolStudentsInfoEntry getSchoolStudentList(){
+    public SchoolStudentsInfoEntry getSchoolStudentList() {
 
-        Log.e(TAG, "获取学校的学生信息getSchoolStudentList: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STUDENTS_LIST_URL));
+        Log.e(TAG, "获取学校的学生信息getSchoolStudentList: " + InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STUDENTS_LIST_URL));
         SchoolStudentsInfoEntry studentsInfoEntry = null;
         Call<ResponseEntry<SchoolStudentsInfoEntry>> call = mAPIs.getSchoolStudentList(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STUDENTS_LIST_URL));
         ResponseEntry<SchoolStudentsInfoEntry> response;
-        try{
+        try {
             response = call.execute().body();
-            if(response != null && response.getCode() == ResponseEntry.SUCCESS){
+            if (response != null && response.getCode() == ResponseEntry.SUCCESS) {
                 studentsInfoEntry = response.getData();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return studentsInfoEntry;
     }
+
     /**
      * 获取学校的学生信息
      * 用作测试服务器地址
+     *
      * @return 异步返回学生信息，失败返回null
      */
-    public SchoolStudentsInfoEntry getSchoolStudentForTest(Callback<ResponseEntry<SchoolStudentsInfoEntry>> callback){
-        Log.e(TAG, "获取学校的学生信息getSchoolStudentList: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STUDENTS_LIST_URL));
+    public SchoolStudentsInfoEntry getSchoolStudentForTest(Callback<ResponseEntry<SchoolStudentsInfoEntry>> callback) {
+        Log.e(TAG, "获取学校的学生信息getSchoolStudentList: " + InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STUDENTS_LIST_URL));
         SchoolStudentsInfoEntry studentsInfoEntry = null;
         Call<ResponseEntry<SchoolStudentsInfoEntry>> call = mAPIs.getSchoolStudentList(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STUDENTS_LIST_URL));
         ResponseEntry<SchoolStudentsInfoEntry> response;
-        try{
+        try {
             //异步操作
             call.enqueue(callback);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return studentsInfoEntry;
     }
+
     /**
      * 获取学校职工信息
+     *
      * @return 成功返回职工信息，失败返回null
      */
-    public SchoolStaffsInfoEntry getSchoolStaffList(){
-        Log.e(TAG, "获取学校职工信息getSchoolStaffList: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STAFFS_LIST_URL));
+    public SchoolStaffsInfoEntry getSchoolStaffList() {
+        Log.e(TAG, "获取学校职工信息getSchoolStaffList: " + InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STAFFS_LIST_URL));
         SchoolStaffsInfoEntry staffsInfoEntry = null;
         Call<ResponseEntry<SchoolStaffsInfoEntry>> call = mAPIs.getSchoolStaffList(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SCHOOL_STAFFS_LIST_URL));
         ResponseEntry<SchoolStaffsInfoEntry> response;
-        try{
+        try {
             response = call.execute().body();
-            if(response != null && response.getCode() == ResponseEntry.SUCCESS){
+            if (response != null && response.getCode() == ResponseEntry.SUCCESS) {
                 staffsInfoEntry = response.getData();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return staffsInfoEntry;
@@ -190,20 +199,21 @@ public class CloudClient {
 
     /**
      * 获取服务器时间
+     *
      * @return 成功返回服务器时间，失败返回null
      */
-    public ServerTimeEntry getServerTime(){
+    public ServerTimeEntry getServerTime() {
         ServerTimeEntry time = null;
         Call<ResponseEntry<ServerTimeEntry>> call = mAPIs.getServerTime(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SERVER_TIME_URL));
         ResponseEntry<ServerTimeEntry> response;
-        try{
+        try {
             response = call.execute().body();
-            if(response != null && response.getCode() == ResponseEntry.SUCCESS){
+            if (response != null && response.getCode() == ResponseEntry.SUCCESS) {
                 Log.i(TAG, "getServerTime : code : " + response.getCode() + " message : " + response.getMessage()
-                + " data_len : " + response.getData_len() + " success : " + response.isSuccess());
+                        + " data_len : " + response.getData_len() + " success : " + response.isSuccess());
                 time = response.getData();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return time;
@@ -212,33 +222,34 @@ public class CloudClient {
 
     /**
      * 在上传接送记录之前，先检查服务器上当前刷卡人的状态
+     *
      * @param request 查询请求
      * @return 成功返回StuAttendancedStatusResponse对象，失败返回null
      */
-    public ParentAttendancedStatusResponse queryStudentAttendancedStatus(ParentAttendancedStatusRequest request){
-        Log.e(TAG, "上传接送记录queryStudentAttendancedStatus: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_VALID_BRUSH_URL));
+    public ParentAttendancedStatusResponse queryStudentAttendancedStatus(ParentAttendancedStatusRequest request) {
+        Log.e(TAG, "上传接送记录queryStudentAttendancedStatus: " + InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_VALID_BRUSH_URL));
         ParentAttendancedStatusResponse stuAttendancedStatusResponse = null;
         String requestStr = mGson.toJson(request);
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestStr);
         Call<ResponseEntry<ParentAttendancedStatusResponse>> call = mAPIs.queryStudentAttendancedStatus(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_VALID_BRUSH_URL), body);
         ResponseEntry<ParentAttendancedStatusResponse> response;
         long start = System.currentTimeMillis();
-        try{
+        try {
             response = call.execute().body();
             long end = System.currentTimeMillis();
             Log.i(TAG, call.request().url().uri().getPath() + " time : " + (end - start) + " ms");
-            if(response != null ){
+            if (response != null) {
                 int code = response.getCode();
                 Log.i(TAG, "response : " + mGson.toJson(response));
-                if(code == ResponseEntry.SUCCESS) {
+                if (code == ResponseEntry.SUCCESS) {
                     stuAttendancedStatusResponse = response.getData();
                 }
             }
-        }catch (SocketTimeoutException e){
+        } catch (SocketTimeoutException e) {
             e.printStackTrace();
             long end = System.currentTimeMillis();
             Log.i(TAG, call.request().url().uri().getPath() + " timeout : " + (end - start) + " ms");
-        } catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -247,24 +258,25 @@ public class CloudClient {
 
     /**
      * 上传家长接送信息
+     *
      * @param attendancedInfoEntry
      */
-    public boolean uploadParentAttendancedInfo(ParentAttendancedInfoEntry attendancedInfoEntry){
-        Log.e(TAG, "上传家长接送信息uploadParentAttendancedInfo: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SUBMIT_TAKE_AWAY_URL));
+    public boolean uploadParentAttendancedInfo(ParentAttendancedInfoEntry attendancedInfoEntry) {
+        Log.e(TAG, "上传家长接送信息uploadParentAttendancedInfo: " + InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SUBMIT_TAKE_AWAY_URL));
         boolean result = false;
         String requestStr = mGson.toJson(attendancedInfoEntry);
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestStr);
         Call<ResponseEntry> call = mAPIs.uploadStudentAttendancedInfo(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SUBMIT_TAKE_AWAY_URL), body);
         ResponseEntry response;
-        try{
+        try {
             response = call.execute().body();
-            if(response != null){
-                if(response.getCode() == ResponseEntry.SUCCESS){
+            if (response != null) {
+                if (response.getCode() == ResponseEntry.SUCCESS) {
                     Log.i(TAG, mGson.toJson(response));
                     result = true;
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -273,22 +285,23 @@ public class CloudClient {
 
     /**
      * 上传员工考勤信息
+     *
      * @param attendancedInfoEntry
      */
-    public boolean uploadStaffAttendancedInfo(StaffAttendancedInfoEntry attendancedInfoEntry){
-        Log.e(TAG, "上传员工考勤信息uploadStaffAttendancedInfo: "+InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SUBMIT_STAFF_SIGN_URL));
+    public boolean uploadStaffAttendancedInfo(StaffAttendancedInfoEntry attendancedInfoEntry) {
+        Log.e(TAG, "上传员工考勤信息uploadStaffAttendancedInfo: " + InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SUBMIT_STAFF_SIGN_URL));
         boolean result = false;
         String requestStr = mGson.toJson(attendancedInfoEntry);
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestStr);
         Call<ResponseEntry> call = mAPIs.uploadStaffAttendancedInfo(InvisibleConfig.getConfig(InvisibleConfigKey.KINDERGARTEN_SUBMIT_STAFF_SIGN_URL), body);
         ResponseEntry response;
-        try{
+        try {
             response = call.execute().body();
-            if(response != null && response.getCode() == ResponseEntry.SUCCESS){
+            if (response != null && response.getCode() == ResponseEntry.SUCCESS) {
                 Log.i(TAG, "uploadStaffAttendancedInfo--> " + mGson.toJson(response));
                 result = true;
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -297,10 +310,11 @@ public class CloudClient {
 
     /**
      * 获取当前服务器上最新升级包版本信息
+     *
      * @return 成功返回 true, 失败返回false
      */
-    public UpgradePackageVersionInfoEntry getUpgradePackageVersionInfo(String appVersion){
-        Log.e(TAG, "获取当前服务器上最新升级包版本信息getUpgradePackageVersionInfo: "+InvisibleConfig.getConfig(InvisibleConfigKey.GET_APP_VERSION_URL));
+    public UpgradePackageVersionInfoEntry getUpgradePackageVersionInfo(String appVersion) {
+        Log.e(TAG, "获取当前服务器上最新升级包版本信息getUpgradePackageVersionInfo: " + InvisibleConfig.getConfig(InvisibleConfigKey.GET_APP_VERSION_URL));
         UpgradePackageVersionInfoEntry versionInfo = null;
         UpgradePackageVersionInfoRequest upgradePackageVersionInfoRequest = new UpgradePackageVersionInfoRequest();
         upgradePackageVersionInfoRequest.setHardWareDeviceType("NuoShua");
@@ -311,16 +325,16 @@ public class CloudClient {
         RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=utf-8"), requestStr);
         Call<ResponseEntry<UpgradePackageVersionInfoEntry>> call = mAPIs.getUpgradePackageVersionInfo(InvisibleConfig.getConfig(InvisibleConfigKey.GET_APP_VERSION_URL), body);
         ResponseEntry<UpgradePackageVersionInfoEntry> response;
-        try{
+        try {
             response = call.execute().body();
-            if(response != null) {
+            if (response != null) {
                 int code = response.getCode();
                 Log.i(TAG, "response : " + mGson.toJson(response));
                 if (code == ResponseEntry.SUCCESS) {
                     versionInfo = response.getData();
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -330,10 +344,11 @@ public class CloudClient {
     /**
      * 获取当前服务器上最新升级包版本信息
      * 用作测试服务器地址
+     *
      * @return 异步 返回成功返回 true, 失败返回false
      */
-    public UpgradePackageVersionInfoEntry getUpgradePackageVersionInfoForTest(Callback<ResponseEntry<UpgradePackageVersionInfoEntry>> callback){
-        Log.e(TAG, "获取当前服务器上最新升级包版本信息getUpgradePackageVersionInfo: "+InvisibleConfig.getConfig(InvisibleConfigKey.GET_APP_VERSION_URL));
+    public UpgradePackageVersionInfoEntry getUpgradePackageVersionInfoForTest(Callback<ResponseEntry<UpgradePackageVersionInfoEntry>> callback) {
+        Log.e(TAG, "获取当前服务器上最新升级包版本信息getUpgradePackageVersionInfo: " + InvisibleConfig.getConfig(InvisibleConfigKey.GET_APP_VERSION_URL));
         UpgradePackageVersionInfoEntry versionInfo = null;
         UpgradePackageVersionInfoRequest upgradePackageVersionInfoRequest = new UpgradePackageVersionInfoRequest();
         upgradePackageVersionInfoRequest.setHardWareDeviceType("NuoShua");

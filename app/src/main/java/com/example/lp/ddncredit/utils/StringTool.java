@@ -1,6 +1,13 @@
 package com.example.lp.ddncredit.utils;
 
 import java.math.BigInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.API_TUOYUBAO_BASE;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.API_XIAONUO_BASE;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NAME_TUOYUBAO_BASE;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NAME_XIAONUO_BASE;
 
 /**
  * Created by lochy on 15/5/12.
@@ -10,13 +17,14 @@ public class StringTool {
 
     /**
      * 通过uid转换为RFid
+     *
      * @param data
      * @return
      */
     public static BigInteger getRfid(String data) {
         StringBuffer stringBuffer = new StringBuffer();
 
-        for (int i = 0; i < data.length();) {
+        for (int i = 0; i < data.length(); ) {
             int end = i + 2;
             stringBuffer.insert(0, data.substring(i, end));
             i = end;
@@ -26,6 +34,7 @@ public class StringTool {
         BigInteger bigInteger = new BigInteger(s.trim(), 16);
         return bigInteger;
     }
+
     public static String byteHexToSting(byte[] data) {
         if (data == null) {
             return null;
@@ -78,7 +87,7 @@ public class StringTool {
 
     public static byte[] urlStringToBytes(String urlString) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i=0; i<urlString.length(); ) {
+        for (int i = 0; i < urlString.length(); ) {
             if (urlString.charAt(i) == '%') {
                 if ((i + 2) < urlString.length()) {
                     stringBuilder.append(urlString.substring(i + 1, i + 3));
@@ -96,4 +105,58 @@ public class StringTool {
     private static byte charToByte(char c) {
         return (byte) "0123456789ABCDEFabcdef".indexOf(c);
     }
+
+
+    /**
+     * 将可见地址隐藏
+     */
+    public static String hideKeyAdress(String adress) {
+        String reuslt = adress;
+        /*
+         *将可见地址隐藏
+         * */
+        if (adress.equals(API_TUOYUBAO_BASE)) {
+            reuslt = NAME_TUOYUBAO_BASE;
+        } else if (adress.equals(API_XIAONUO_BASE)) {
+            reuslt = NAME_XIAONUO_BASE;
+        }
+        return reuslt;
+    }
+
+    /**
+     * 将隐藏地址显示
+     */
+    public static String showKeyAdress(String adress) {
+        String reuslt = adress;
+        /*
+         * 将隐藏地址显示
+         * */
+        if (adress.equals(NAME_TUOYUBAO_BASE)) {
+            reuslt = API_TUOYUBAO_BASE;
+        } else if (adress.equals(NAME_XIAONUO_BASE)) {
+            reuslt = API_XIAONUO_BASE;
+        } else if (adress.length() < 1) {//如果位数小于1，则表示在本地没有读取到
+            reuslt = API_TUOYUBAO_BASE;//则默认为托育宝幼儿园
+        }
+        return reuslt;
+    }
+
+    /**
+     * 判断是否为网址
+     */
+    public static boolean isHttpUrl(String urls) {
+        boolean isurl = false;
+        String regex = "(((https|http)?://)?([a-z0-9]+[.])|(www.))"
+                + "\\w+[.|\\/]([a-z0-9]{0,})?[[.]([a-z0-9]{0,})]+((/[\\S&&[^,;\u4E00-\u9FA5]]+)+)?([.][a-z0-9]{0,}+|/?)";//设置正则表达式
+
+        String regex2 = "[a-zA-z]+://[^\\s]*";
+        Pattern pat = Pattern.compile(regex2.trim());//对比
+        Matcher mat = pat.matcher(urls.trim());
+        isurl = mat.matches();//判断是否匹配
+        if (isurl) {
+            isurl = true;
+        }
+        return isurl;
+    }
+
 }

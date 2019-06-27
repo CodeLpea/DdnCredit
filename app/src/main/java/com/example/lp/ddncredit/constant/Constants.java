@@ -125,7 +125,8 @@ public interface Constants {
         /**
          * 服务器地址
          * */
-
+        String NAME_TUOYUBAO_BASE ="托育宝正式服务器";//key名，用来隐藏和解释地址
+        String NAME_XIAONUO_BASE ="小诺正式服务器";//key名，用来隐藏和解释地址
         String API_TUOYUBAO_BASE ="http://api.didano.com/";//默认的托育宝正式服务器地址
         String API_XIAONUO_BASE ="http://120.77.237.242:8081/";//默认的小诺的正式服务器地址
         String APISP_NAME ="APISP_NAME";//服务器地址的key

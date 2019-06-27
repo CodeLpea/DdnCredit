@@ -38,6 +38,9 @@ import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAM
 import static com.example.lp.ddncredit.mainview.view.dialog.AttendDialog.mDialogHeight;
 import static com.example.lp.ddncredit.mainview.view.dialog.AttendDialog.mDialogWith;
 import static com.example.lp.ddncredit.utils.NavigationBarUtil.hideNavigationBar;
+import static com.example.lp.ddncredit.utils.StringTool.isHttpUrl;
+import static com.example.lp.ddncredit.utils.StringTool.showKeyAdress;
+
 
 /**
  * 服务器地址设置Dialog
@@ -92,7 +95,6 @@ public class AdressDialog implements View.OnClickListener {
     }
 
     private void initData() {//初始化数据
-
         initAutoCompleteTextView();
         autoCompleteTextView.setText(SPUtil.readString(SP_NAME, APISP_NAME));
     }
@@ -206,15 +208,21 @@ public class AdressDialog implements View.OnClickListener {
                 autoCompleteTextView.setText("");
                 break;
             case R.id.btn_test://测试服务器地址
-                if (!TextUtils.isEmpty(autoCompleteTextView.getText().toString().trim())) {
-                    bgToast.myToast((Activity) mContext, "开始测试", 0, 200);
-                    mTestBtn.setText("正在测试");
-                    mTestBtn.setTextColor(mContext.getResources().getColorStateList(R.color.editTitleColor));
-                    mTestBtn.setPressed(true);
-                    showDetil("", "");//清空详细
-                    TestApi(autoCompleteTextView.getText().toString().trim());
+                Log.e(TAG, "测试服务器地址是否符合格式: " + isHttpUrl(showKeyAdress(autoCompleteTextView.getText().toString().trim())));
+                if (mTestBtn.getText().equals("测试")) {
+                    if (!TextUtils.isEmpty(autoCompleteTextView.getText().toString().trim())
+                            && isHttpUrl(showKeyAdress(autoCompleteTextView.getText().toString().trim()))) {//不为空切要符合格式
+                        bgToast.myToast((Activity) mContext, "开始测试", 0, 200);
+                        mTestBtn.setText("正在测试");
+                        mTestBtn.setTextColor(mContext.getResources().getColorStateList(R.color.editTitleColor));
+                        mTestBtn.setPressed(true);
+                        showDetil("", "");//清空详细
+                        TestApi(autoCompleteTextView.getText().toString().trim());
+                    } else {
+                        bgToast.myToast((Activity) mContext, "地址不能为空，且要符合url格式", 0, 200);
+                    }
                 } else {
-                    bgToast.myToast((Activity) mContext, "地址不能为空", 0, 200);
+                    bgToast.myToast((Activity) mContext, "正在测试，请勿重复点击", 0, 200);
                 }
 
                 break;
@@ -300,7 +308,7 @@ public class AdressDialog implements View.OnClickListener {
          * */
         setApi(testApi);
 
-        mTextAdress.setText("当前地址：" +testApi);
+        mTextAdress.setText("当前地址：" + testApi);
         spendTime = System.currentTimeMillis();
         /*
          * 注册设备

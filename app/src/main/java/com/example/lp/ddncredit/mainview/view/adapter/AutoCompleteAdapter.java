@@ -18,6 +18,8 @@ import java.util.List;
 
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.API_TUOYUBAO_BASE;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.API_XIAONUO_BASE;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NAME_TUOYUBAO_BASE;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NAME_XIAONUO_BASE;
 
 
 public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
@@ -67,11 +69,11 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
         return simpleItemHeight;                // 5 * 2 + 28(dp) => 103(px)
     }
 
-    public void setSupportPreview(boolean isSupportPreview){
+    public void setSupportPreview(boolean isSupportPreview) {
         this.isSupportPreview = isSupportPreview;
     }
 
-    public void setSupportPreview(boolean isSupportPreview, char previewChar){
+    public void setSupportPreview(boolean isSupportPreview, char previewChar) {
         this.isSupportPreview = isSupportPreview;
         this.previewChar = previewChar;
     }
@@ -99,7 +101,7 @@ public class AutoCompleteAdapter extends BaseAdapter implements Filterable {
             convertView = inflater.inflate(R.layout.simple_dropdown_item_1line, null);
             holder.tv = (TextView) convertView.findViewById(R.id.tv_simple_item);
             holder.iv = (ImageView) convertView.findViewById(R.id.iv_simple_item);
-            if(mObjects.get(position).toString().equals(API_TUOYUBAO_BASE)||mObjects.get(position).toString().equals(API_XIAONUO_BASE)){
+            if (mObjects.get(position).toString().equals(NAME_XIAONUO_BASE) || mObjects.get(position).toString().equals(NAME_TUOYUBAO_BASE)) {
                 holder.iv.setVisibility(View.INVISIBLE);//为默认值的时候无法删除
             }
             convertView.setTag(holder);

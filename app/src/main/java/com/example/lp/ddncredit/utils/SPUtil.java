@@ -28,6 +28,8 @@ import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.COLORS
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.EXPLORE;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.HoldValuePostion;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.HoldValues;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NAME_TUOYUBAO_BASE;
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NAME_XIAONUO_BASE;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NET_IP;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NET_OPSE;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NET_PORT;
@@ -239,8 +241,8 @@ public class SPUtil {
                 defaulConfig.edit().putInt(SchoolID, 5).apply();
                 defaulConfig.edit().putString(SchoolName, "didano").apply();
 
-                defaulConfig.edit().putString(APISP_NAME, "http://api.didano.com/").apply();
-                defaulConfig.edit().putString(ADRESS_RECODE_NAME, "http://api.didano.com/:-Phttp://120.77.237.242:8081/:-P").apply();
+                defaulConfig.edit().putString(APISP_NAME, NAME_TUOYUBAO_BASE).apply();//默认地址为托育宝地址
+                defaulConfig.edit().putString(ADRESS_RECODE_NAME, NAME_TUOYUBAO_BASE + ":-P" + NAME_XIAONUO_BASE + ":-P").apply();
             }
         } catch (Exception e) {
             e.printStackTrace();

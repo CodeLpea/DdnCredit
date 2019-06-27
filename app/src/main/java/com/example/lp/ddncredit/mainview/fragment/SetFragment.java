@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.lp.ddncredit.Myapplication;
@@ -28,6 +26,7 @@ import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAM
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolName;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_LEVEL;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_SPEED_LEVEL;
+
 
 /**
  * 设置界面碎片
