@@ -241,6 +241,8 @@ public class AdressDialog implements View.OnClickListener {
     /**
      * 读取索引
      * 并转换为数组
+     *
+     * @return 返回间隔后的索引数组
      */
     private String[] getHistoryArray() {
         String[] array = getHistoryString().split(SP_SEPARATOR);//按照:-P的间隔读取历史记录
@@ -254,6 +256,8 @@ public class AdressDialog implements View.OnClickListener {
 
     /**
      * 读取索引
+     *
+     * @return 返回从sp中读取到的索引值，格式为 xxx:-pyyyy:-pzzzz:-p  按照 :-p 进行间隔
      */
     private String getHistoryString() {
         String history = SPUtil.readString(SP_NAME, ADRESS_RECODE_NAME);
@@ -262,18 +266,27 @@ public class AdressDialog implements View.OnClickListener {
 
     /**
      * 保存索引
+     *
+     * @param details 需要保存的索引
      */
     private void setHistoryString(String details) {
         SPUtil.writeString(SP_NAME, ADRESS_RECODE_NAME, details);
     }
 
     /**
-     * 保存Api
+     * 保存Apid地址
+     *
+     * @param s 需要保存的地址
      */
     private void saveApi(String s) {
         SPUtil.writeString(SP_NAME, APISP_NAME, s);
     }
 
+    /**
+     * 根据当前AutoCompleteTExtView中的内容保存到sp中
+     *
+     * @param view 当前的AutoCompleteTextView
+     */
     private void saveHistoryByAutoCompleteTextView(AutoCompleteTextView view) {
         String text = view.getText().toString().trim();     // 去掉前后的空白符
         if (TextUtils.isEmpty(text)) {      // null or ""
@@ -301,6 +314,8 @@ public class AdressDialog implements View.OnClickListener {
 
     /**
      * 测试服务器连接
+     *
+     * @param testApi 用于测试的服务器地址
      */
     private void TestApi(String testApi) {
         /*
@@ -332,6 +347,9 @@ public class AdressDialog implements View.OnClickListener {
 
     }
 
+    /**
+     * 在测试完成之后，还原测试按钮
+     */
     private void reSetTestBtn() {
         mTestBtn.setText("测试");
         mTestBtn.setTextColor(mContext.getResources().getColorStateList(R.color.black));
@@ -358,6 +376,12 @@ public class AdressDialog implements View.OnClickListener {
         });
     }
 
+    /**
+     * 显示测试结果
+     *
+     * @param time   测试用时
+     * @param Detail 测试结果详情
+     */
     private void showDetil(String time, String Detail) {
         mTextTime.setText(String.valueOf(time));
         mTextDetail.setText(Detail);
@@ -371,7 +395,9 @@ public class AdressDialog implements View.OnClickListener {
     }
 
     /***
+     *
      * 暂时设置地址
+     *
      * */
     private void setApi(String api) {
         CloudClient.getInstance().init(api);//修改地址然后进行测试，测试完成之后改回地址

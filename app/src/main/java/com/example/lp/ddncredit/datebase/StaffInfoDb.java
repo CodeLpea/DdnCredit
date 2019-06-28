@@ -12,6 +12,7 @@ public class StaffInfoDb extends LitePalSupport {
     private long rfid;
     private String name;
     private String phone;
+    private String veriFace;
     private int type;
 
     public Long getId() {
@@ -62,6 +63,14 @@ public class StaffInfoDb extends LitePalSupport {
         this.type = type;
     }
 
+    public String getVeriFace() {
+        return veriFace;
+    }
+
+    public void setVeriFace(String veriFace) {
+        this.veriFace = veriFace;
+    }
+
     @Override
     public String toString() {
         return "StaffInfoDb{" +
@@ -70,6 +79,7 @@ public class StaffInfoDb extends LitePalSupport {
                 ", rfid=" + rfid +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
+                ", veriFace='" + veriFace + '\'' +
                 ", type=" + type +
                 '}';
     }

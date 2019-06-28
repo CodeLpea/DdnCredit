@@ -72,11 +72,21 @@ public class AttendDialog {
     }
 
     private void setLeftData(AttendShowBean attendBean) {
-        tv_role.setText("角色："+attendBean.getRelation());
-        tv_babyname.setText("宝宝："+attendBean.getBabyname());
-        tv_clazzname.setText("班级："+attendBean.getClazzname());
-        tv_icnumber.setText("IC："+attendBean.getIcnumber());
-        tv_attendtime.setText("时间："+attendBean.getAttendtime());
+        if(attendBean.getRelation().equals("老师")){
+            tv_role.setText("角色："+attendBean.getRelation());
+            tv_babyname.setText("姓名："+attendBean.getBabyname());
+            tv_clazzname.setText("IC："+attendBean.getIcnumber());
+            tv_icnumber.setText("时间："+attendBean.getAttendtime());
+            tv_attendtime.setVisibility(View.INVISIBLE);
+        }else {
+            tv_attendtime.setVisibility(View.VISIBLE);
+            tv_role.setText("角色："+attendBean.getRelation());
+            tv_babyname.setText("宝宝："+attendBean.getBabyname());
+            tv_clazzname.setText("班级："+attendBean.getClazzname());
+            tv_icnumber.setText("IC："+attendBean.getIcnumber());
+            tv_attendtime.setText("时间："+attendBean.getAttendtime());
+        }
+
     }
 
     private Window SetDialogWindow(Window window) {
@@ -112,12 +122,20 @@ public class AttendDialog {
     private void notifyData(AttendShowBean attendBean) {
         timerCount=5;//延长时间
         attendGridAdapter.notifiData(attendBean);
-        tv_role.setText("角色："+attendBean.getRelation());
-        tv_babyname.setText("宝宝："+attendBean.getBabyname());
-        tv_clazzname.setText("班级："+attendBean.getClazzname());
-        tv_icnumber.setText("IC："+attendBean.getIcnumber());
-        tv_attendtime.setText("时间："+attendBean.getAttendtime());
-
+        if(attendBean.getRelation().equals("老师")){
+            tv_role.setText("角色："+attendBean.getRelation());
+            tv_babyname.setText("姓名："+attendBean.getBabyname());
+            tv_clazzname.setText("IC："+attendBean.getIcnumber());
+            tv_icnumber.setText("时间："+attendBean.getAttendtime());
+            tv_attendtime.setVisibility(View.INVISIBLE);
+        }else {
+            tv_attendtime.setVisibility(View.VISIBLE);
+            tv_role.setText("角色："+attendBean.getRelation());
+            tv_babyname.setText("宝宝："+attendBean.getBabyname());
+            tv_clazzname.setText("班级："+attendBean.getClazzname());
+            tv_icnumber.setText("IC："+attendBean.getIcnumber());
+            tv_attendtime.setText("时间："+attendBean.getAttendtime());
+        }
     }
 
     private void initLeftDataView(Window window) {

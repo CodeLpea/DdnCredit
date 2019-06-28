@@ -13,6 +13,7 @@ public class StaffInfoEntry {
      "rfid": "719544755",
      "id": "5603",
      "type": "32",
+     "veriFace": "xxxxx.jpg",
      "phone": "18228117027"
      },
      */
@@ -25,6 +26,8 @@ public class StaffInfoEntry {
     private String mPhone;
     @SerializedName("rfid")
     private String mRfid;
+    @SerializedName("veriFace")
+    private String mveriFace;
     @SerializedName("type")
     private int mType;
 
@@ -68,14 +71,23 @@ public class StaffInfoEntry {
         this.mType = type;
     }
 
+    public String getMveriFace() {
+        return mveriFace;
+    }
+
+    public void setMveriFace(String mveriFace) {
+        this.mveriFace = mveriFace;
+    }
+
     @Override
     public String toString() {
         return "StaffInfoEntry{" +
                 "mName='" + mName + '\'' +
-                ", mId='" + mId + '\'' +
+                ", mId=" + mId +
                 ", mPhone='" + mPhone + '\'' +
                 ", mRfid='" + mRfid + '\'' +
-                ", mType='" + mType + '\'' +
+                ", mveriFace='" + mveriFace + '\'' +
+                ", mType=" + mType +
                 '}';
     }
 }

@@ -135,6 +135,7 @@ public class UpdateSchoolInfoService extends IntentService {
                     staffInfoDBEntry.setStaffID(staffs.get(i).getId());
                     staffInfoDBEntry.setName(staffs.get(i).getName());
                     staffInfoDBEntry.setPhone(staffs.get(i).getPhone());
+                    staffInfoDBEntry.setVeriFace(staffs.get(i).getMveriFace());
                     String rfid = staffs.get(i).getRfid();
                     if(rfid != null && !rfid.trim().isEmpty()) {
                         staffInfoDBEntry.setRfid(Long.parseLong(rfid.trim()));
