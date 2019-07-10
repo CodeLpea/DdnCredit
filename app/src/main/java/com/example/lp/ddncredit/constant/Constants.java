@@ -70,7 +70,7 @@ public interface Constants {
     float DEFAULT_CACHE_FEATURE_THRESHOLD = 0.4f;
 
     //远程控制相关
-    int SOFTWARE_SYSTEM_TYTE = 6;
+    int SOFTWARE_SYSTEM_TYTE = 8;
 
     //使用模式(仅电子班牌模式:该模式下只获取Web网页信息和操作设置界面)
     String ONLY_ELECTRONIC_CLASS_CARD_MODE = "only_electronic_class_card_mode";

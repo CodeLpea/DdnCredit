@@ -24,7 +24,7 @@ import static com.example.lp.ddncredit.utils.NavigationBarUtil.hideNavigationBar
 
 public class AttendDialog {
     private AlertDialog mAlertDialog;
-    private TextView tv_role, tv_babyname, tv_clazzname, tv_icnumber, tv_attendtime;
+    private TextView tv_role, tv_babyname, tv_clazzname, tv_icnumber, tv_attendtime,tv_attendpoint;
     private Button backbotton;
     private AttendGridAdapter attendGridAdapter;
     private AttendGridView attendGridView;
@@ -77,6 +77,7 @@ public class AttendDialog {
             tv_babyname.setText("姓名："+attendBean.getBabyname());
             tv_clazzname.setText("IC："+attendBean.getIcnumber());
             tv_icnumber.setText("时间："+attendBean.getAttendtime());
+            tv_attendpoint.setText(R.string.attendteacherpointphoto);
             tv_attendtime.setVisibility(View.INVISIBLE);
         }else {
             tv_attendtime.setVisibility(View.VISIBLE);
@@ -85,6 +86,7 @@ public class AttendDialog {
             tv_clazzname.setText("班级："+attendBean.getClazzname());
             tv_icnumber.setText("IC："+attendBean.getIcnumber());
             tv_attendtime.setText("时间："+attendBean.getAttendtime());
+            tv_attendpoint.setText(R.string.attendpointphoto);
         }
 
     }
@@ -127,6 +129,7 @@ public class AttendDialog {
             tv_babyname.setText("姓名："+attendBean.getBabyname());
             tv_clazzname.setText("IC："+attendBean.getIcnumber());
             tv_icnumber.setText("时间："+attendBean.getAttendtime());
+            tv_attendpoint.setText(R.string.attendteacherpointphoto);
             tv_attendtime.setVisibility(View.INVISIBLE);
         }else {
             tv_attendtime.setVisibility(View.VISIBLE);
@@ -135,6 +138,7 @@ public class AttendDialog {
             tv_clazzname.setText("班级："+attendBean.getClazzname());
             tv_icnumber.setText("IC："+attendBean.getIcnumber());
             tv_attendtime.setText("时间："+attendBean.getAttendtime());
+            tv_attendpoint.setText(R.string.attendpointphoto);
         }
     }
 
@@ -144,6 +148,7 @@ public class AttendDialog {
         tv_clazzname = window.findViewById(R.id.tv_clazzname);
         tv_icnumber = window.findViewById(R.id.tv_icnumber);
         tv_attendtime = window.findViewById(R.id.tv_attendtime);
+        tv_attendpoint = window.findViewById(R.id.tv_attendpoint);
 
         backbotton = window.findViewById(R.id.bt_attendback);
 

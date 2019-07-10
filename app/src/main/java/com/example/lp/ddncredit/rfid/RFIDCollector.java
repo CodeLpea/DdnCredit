@@ -79,7 +79,7 @@ public class RFIDCollector {
                     }
                 /*    long endTime = System.currentTimeMillis();    //获取结束时间
                     Log.i(TAG, "run: "+ "总程序运行时间：" + (endTime - startTime) + "ms\n\n" );  //输出程序运行时间*/
-                    delay(400);
+                    delay(80);
                 }catch(Exception e){
                     e.printStackTrace();
                     continue;
