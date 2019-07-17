@@ -50,9 +50,9 @@ public class SoftWareUpgradeService extends IntentService {
             if(file != null){
                 int ret = softWareUpgradeInstaller.silentInstall(getApplicationContext(), file);
                 //说明，安装成功之后。APP会立即退出，后面的代码不会执行，因此升级包的删除放在软件重启广播中执行
-                if(ret == 0){
+               /* if(ret == 0){
                     break;
-                }
+                }*/
             }
             //检查网络是否接通
             while(!NetUtil.isNetworkConnected(getApplicationContext())){

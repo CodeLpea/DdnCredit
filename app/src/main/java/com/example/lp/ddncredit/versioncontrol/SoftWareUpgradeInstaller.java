@@ -17,6 +17,7 @@ import com.example.lp.ddncredit.utils.ShellUtils;
 import com.example.lp.ddncredit.utils.TimeUtil;
 import com.liulishuo.okdownload.DownloadTask;
 import com.liulishuo.okdownload.SpeedCalculator;
+import com.liulishuo.okdownload.StatusUtil;
 import com.liulishuo.okdownload.core.breakpoint.BlockInfo;
 import com.liulishuo.okdownload.core.breakpoint.BreakpointInfo;
 import com.liulishuo.okdownload.core.cause.EndCause;
@@ -113,9 +114,9 @@ public class SoftWareUpgradeInstaller {
                 // .setFilename("upgrade.zip")
                 .setAutoCallbackToUIThread(true)
                 // the minimal interval millisecond for callback progress
-                .setMinIntervalMillisCallbackProcess(16)
+                .setMinIntervalMillisCallbackProcess(30)
                 // ignore the same task has already completed in the past.
-                .setPassIfAlreadyCompleted(false)
+                .setPassIfAlreadyCompleted(true)
                 .build();
 
         //开始下载任务
@@ -209,14 +210,12 @@ public class SoftWareUpgradeInstaller {
         String[] fileMD5Str = fileName.split("\\.");
         if(fileMD5Str != null){
                 ShellUtils.CommandResult result = ShellUtils.execCommand("pm install -r " + filePath, true, true);
-                if(result != null){
-                    //Log.i(TAG, "successMsg=" + result.successMsg + " errorMsg=" + result.errorMsg);
-                    updateProgress("安装成功");
-                }else{
+                 Log.i(TAG, "silentInstall:result "+result.result);
+                 Log.i(TAG, "silentInstall:successMsg "+result.successMsg.trim());
+                 Log.i(TAG, "silentInstall:errorMsg "+result.errorMsg.trim());
+               if(result.errorMsg.trim().contains("apkFailure")){
                     updateProgress("安装失败");
                 }
-
-
         }else{
             exec_result = -1;
         }

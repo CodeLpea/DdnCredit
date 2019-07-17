@@ -51,8 +51,8 @@ public class UpdateSchoolInfoService extends IntentService {
         //网络连通，获取学校信息，耗时操作，可以在
         while(true){
             if(getSchoolInfoList()&&isRunning){
-                Log.i(TAG, "获取信息成功，间隔二十分钟更新: ");
-                TimeUtil.delayMs(20 * 60000);//获取成功就二十分钟更新一次
+                Log.i(TAG, "获取信息成功，间隔二分钟更新: ");
+                TimeUtil.delayMs(20 * 6000);//获取成功就二分钟更新一次
             }else {
                 Log.i(TAG, "获取信息不成功，每间隔十秒重新尝试: ");
                 TimeUtil.delayMs(10 * 1000);//不成功，每间隔十秒重新尝试
