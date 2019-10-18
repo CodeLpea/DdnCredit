@@ -7,6 +7,7 @@ import android.util.Log;
 import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.rfid.RFIDCollectService;
 import com.example.lp.ddncredit.versioncontrol.SoftWareUpgradeService;
+import com.example.lp.ddncredit.websocket.service.WebSocketService;
 
 /**
  * 服务管理
@@ -62,6 +63,11 @@ public class ServiceManager {
             Intent netWorkIntent = new Intent(mContext, NetWorkService.class);
             mContext.startService(netWorkIntent);
         }
+        //开启WebSorket服务
+        if(!WebSocketService.isServiceRunning()) {
+            Intent websorketIntent = new Intent(mContext, WebSocketService.class);
+            mContext.startService(websorketIntent);
+        }
 
     }
 
@@ -82,22 +88,28 @@ public class ServiceManager {
             mContext.stopService(SoftWareIntent);
         }
         //停止下载信息服务
-        if(!UpdateSchoolInfoService.isServiceRunning()) {
+        if(UpdateSchoolInfoService.isServiceRunning()) {
             Intent UpdateInfoIntent = new Intent(mContext, UpdateSchoolInfoService.class);
             mContext.stopService(UpdateInfoIntent);
         }
 
         //停止考勤信息服务
-        if(!UploadAttendService.isServiceRunning()) {
+        if(UploadAttendService.isServiceRunning()) {
             Intent UpdateParentInfoIntent = new Intent(mContext, UploadAttendService.class);
             mContext.stopService(UpdateParentInfoIntent);
         }
 
         //关闭网络探测，未上传信息数量报告服务
-        if(!NetWorkService.isServiceRunning()) {
+        if(NetWorkService.isServiceRunning()) {
             Intent netWorkIntent = new Intent(mContext, NetWorkService.class);
             mContext.stopService(netWorkIntent);
         }
-      
+        //关闭WebSorket服务
+        if(WebSocketService.isServiceRunning()) {
+            Intent websorketIntent = new Intent(mContext, WebSocketService.class);
+            mContext.stopService(websorketIntent);
+        }
+
+
     }
 }
