@@ -1,12 +1,16 @@
 package com.example.lp.ddncredit.websocket;
 
-import android.os.SystemClock;
+import android.os.Build;
 import android.util.Log;
 
-import com.example.lp.ddncredit.websocket.bean.HardWareInfo;
+import com.example.lp.ddncredit.Myapplication;
+import com.example.lp.ddncredit.utils.AppUtils;
+import com.example.lp.ddncredit.utils.TimeUtil;
+import com.example.lp.ddncredit.websocket.bean.RunningInfo;
+import com.example.lp.ddncredit.websocket.bean.SoftWareVersionsInfo;
 
 /**
- * 信息采集线程
+ * 测试使用的信息采集线程
  * 采集本机硬件信息状态
  * 启动记录
  * 摄像头，刷卡器状态
@@ -23,6 +27,7 @@ public class InfoCollector implements Runnable {
             Log.i(TAG, "-------------InfoCollector十秒钟采集一次信息----------");
             TimeDelay(10 * 1000);
             hardWareCollect();
+            SoftWareVersionsInfo();
         }
 
 
@@ -50,17 +55,31 @@ public class InfoCollector implements Runnable {
         }
     }
 
+    /*硬件信息的采集*/
     private void hardWareCollect() {
         Log.i(TAG, "---------测试信息开始采集-----------: ");
-        HardWareInfo hardWareInfo = new HardWareInfo();
-        hardWareInfo.setTest1(String.valueOf(SystemClock.currentThreadTimeMillis()));
-        hardWareInfo.setTest2(String.valueOf(SystemClock.currentThreadTimeMillis()));
-        hardWareInfo.setTest3(String.valueOf(SystemClock.currentThreadTimeMillis()));
-        hardWareInfo.setTest4(String.valueOf(SystemClock.currentThreadTimeMillis()));
-        Log.i(TAG,
-                "---------------------hardWareCollect: " +
-                        "\n" + hardWareInfo.toString());
+        RunningInfo runningInfo=new RunningInfo();
+        runningInfo.setCreditStatus(TimeUtil.getYMDHMSDate001());
+        runningInfo.setCameraStatus(TimeUtil.getYMDHMSDate001());
+        runningInfo.setVoiceStatus(TimeUtil.getYMDHMSDate001());
+        runningInfo.upload();
+        Log.i(TAG, "hardWareCollect: "+runningInfo.toString());
 
-        hardWareInfo.upload();
     }
+
+    //软件版本信息采集
+    private void SoftWareVersionsInfo(){
+        SoftWareVersionsInfo info = new SoftWareVersionsInfo();
+        //获取app版本号
+        info.setSoftware(AppUtils.getAppVersionName(Myapplication.getInstance()));
+        //获取android系统版本号
+        info.setSystem(Build.VERSION.RELEASE);
+        info.setTime(TimeUtil.getYMDHMSDate001());
+        //获取内核版本号
+        info.upload();
+        Log.i(TAG,
+                "---------------------SoftWareVersionsInfo: " +
+                        "\n" + info.toString());
+    }
+
 }

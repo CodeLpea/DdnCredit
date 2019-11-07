@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
@@ -50,6 +51,7 @@ import com.example.lp.ddncredit.service.ServiceManager;
 import com.example.lp.ddncredit.utils.BitmapUtil;
 import com.example.lp.ddncredit.utils.SPUtil;
 import com.example.lp.ddncredit.utils.voice.TtsSpeek;
+import com.example.lp.ddncredit.websocket.bean.RunningInfo;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -115,6 +117,8 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //横屏显示
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         MainObjectInstance = new MainObject(this);//弱引用初始化
         ServiceManager.getInstance().startServices();//开启所有服务
       /*  getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
@@ -331,9 +335,17 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
 
         } catch (CameraAccessException e) {
             e.printStackTrace();
+            setCameraInfo(e.getMessage());
         }
     }
-
+    /**
+     * 将摄像头异常信息传到诊断平台
+     * */
+    private void setCameraInfo(String info){
+        RunningInfo runningInfo=new RunningInfo();
+        runningInfo.setCameraStatus(info);
+        runningInfo.upload();
+    }
     /**
      * 获取相机的状态
      */

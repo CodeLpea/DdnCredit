@@ -2,6 +2,7 @@ package com.example.lp.ddncredit.rfid;
 
 import android.content.Context;
 
+import com.example.lp.ddncredit.websocket.bean.RunningInfo;
 import com.rfid.reader.Reader;
 
 import java.io.IOException;
@@ -31,6 +32,7 @@ public class RFIDCollector {
             reader= ReaderIml.getInstance().getReader();
         }catch(IOException e){
             e.printStackTrace();
+            setCreditInfo(e.getMessage());
             return;
         }catch (SecurityException e){
             e.printStackTrace();
@@ -95,5 +97,14 @@ public class RFIDCollector {
         }catch(InterruptedException e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 将刷卡器异常信息传到诊断平台
+     * */
+    private void setCreditInfo(String info){
+        RunningInfo runningInfo=new RunningInfo();
+        runningInfo.setCreditStatus(info);
+        runningInfo.upload();
     }
 }

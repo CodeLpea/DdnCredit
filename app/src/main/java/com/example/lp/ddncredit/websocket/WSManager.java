@@ -128,6 +128,7 @@ public class WSManager {
             }
             Log.i(TAG, "----------client——before: "+client);
             client = new WSClient(new URI(WSConstant.BASE_API));
+            Log.i(TAG, "connect:BASE_API "+WSConstant.BASE_API);
             Log.i(TAG, "----------client——after "+client);
             setWsStatus(WSStatus.CONNECTTING);
             client.connect();

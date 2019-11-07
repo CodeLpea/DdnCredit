@@ -36,7 +36,7 @@ public class WebSocketService extends Service {
         isRunning = true;
         //备注：还需考虑网络状态变化
         //启动采集线程
-        new Thread(new InfoCollector()).start();
+//        new Thread(new InfoCollector()).start();
         //启动WebSorket
         boolean isOk = WSManager.getInstance().init();
         //如果初始化成功，则开始进行发送信息

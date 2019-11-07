@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.utils.SPUtil;
+import com.example.lp.ddncredit.websocket.bean.RunningInfo;
 
 import java.util.Locale;
 
@@ -54,13 +55,29 @@ public class TtsSpeek {
                     int result = textToSpeech.setLanguage(Locale.CHINA);//安卓自带的Pico TTS，并不支持中文。所以需要安装 科大讯飞 tts1.0语音包。需要手动完成。
                     Log.i(TAG, "TtsSpeek:status "+status);
                     Log.i(TAG, "TtsSpeek:result "+result);
-                    if (result != TextToSpeech.LANG_COUNTRY_AVAILABLE && result != TextToSpeech.LANG_AVAILABLE){
+                    if (result == TextToSpeech.LANG_AVAILABLE){
+                        Log.e(TAG, "onInit: 不支持当前语言");
+                        setVoiceInfo("不支持中文语音包，需要手动安装科大讯飞tts");
+
                     }
                     setSpeed( SPUtil.readFloat(SP_NAME, VOICE_SPEED_LEVEL));
+                }else {
+                    Log.e(TAG, "onInit: 语音初始化失败");
+                    setVoiceInfo("语音初始化失败");
                 }
             }
         });
     }
+
+    /**
+     *语音模块异常信息传到诊断平台
+     * */
+    private void setVoiceInfo(String info){
+        RunningInfo runningInfo=new RunningInfo();
+        runningInfo.setVoiceStatus(info);
+        runningInfo.upload();
+    }
+
     /**
      * 排队播放
      * 设置语音大小 0-15

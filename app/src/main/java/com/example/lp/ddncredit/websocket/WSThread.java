@@ -45,12 +45,8 @@ public class WSThread extends Thread {
      * @return 成功 true 失败 false
      */
     public boolean stopThread() {
-        try {
-            isThreadLoop = false;
-            join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        isThreadLoop = false;
+        interrupt();
         return true;
     }
 
@@ -58,10 +54,10 @@ public class WSThread extends Thread {
     @Override
     public void run() {
         while (isThreadLoop) {
-            TimeDelay(2 * 1000);
+            TimeDelay(10 * 1000);
             //检查是否连接上服务器
             while (WSManager.getInstance().getWsStatus() != WSStatus.CONNECT_SUCCESS) {
-                TimeDelay(100);
+                TimeDelay(1000);
 //                    Logger.i("====wait==" + WSManager.getInstance().getWsStatus());
             }
             //检查是否有数据要上传
