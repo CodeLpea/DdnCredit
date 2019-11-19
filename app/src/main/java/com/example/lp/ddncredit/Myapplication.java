@@ -1,10 +1,15 @@
 package com.example.lp.ddncredit;
 
 import android.app.Application;
+import android.os.Build;
+import android.util.Log;
 
+import com.example.lp.ddncredit.utils.AppUtils;
 import com.example.lp.ddncredit.utils.SPUtil;
+import com.example.lp.ddncredit.utils.TimeUtil;
 import com.example.lp.ddncredit.utils.voice.TtsSpeek;
 import com.example.lp.ddncredit.attendance.FfidResultEventBusReceiver;
+import com.example.lp.ddncredit.websocket.bean.SoftWareVersionsInfo;
 
 import org.litepal.LitePal;
 
@@ -31,6 +36,7 @@ public class Myapplication  extends Application{
         initSP();
         initEventBus();
         initVoice();
+        SoftWareVersionsInfo();
     }
 
 
@@ -53,6 +59,20 @@ public class Myapplication  extends Application{
         TtsSpeek.getInstance();//初始化tts，避免第一句说话慢
     }
 
+//软件版本信息采集
+    private void SoftWareVersionsInfo(){
+        SoftWareVersionsInfo info = new SoftWareVersionsInfo();
+        //获取app版本号
+        info.setSoftware(AppUtils.getAppVersionName(Myapplication.getInstance()));
+        //获取android系统版本号
+        info.setSystem(Build.VERSION.RELEASE);
+        info.setTime(TimeUtil.getNowDate());
+        //获取内核版本号
+        info.upload();
+        Log.i(TAG,
+                "---------------------SoftWareVersionsInfo: " +
+                        "\n" + info.toString());
+    }
 
 
 
