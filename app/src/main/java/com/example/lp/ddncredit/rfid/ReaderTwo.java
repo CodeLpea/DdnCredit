@@ -15,7 +15,8 @@ import static com.example.lp.ddncredit.utils.StringTool.hdHex;
 import static com.example.lp.ddncredit.utils.StringTool.isHexStrValid;
 
 /**
- * 获取Reader第一种刷卡器实例的单例
+ * 获取Reader第二种刷卡器实例的单例
+ * 智新班牌USB读卡方法
  * lp
  */
 public class ReaderTwo implements Reader {
@@ -41,9 +42,7 @@ public class ReaderTwo implements Reader {
             if (call_contactLess == null) {
                 call_contactLess = new function_S8(Myapplication.getInstance());
                 call_contactLess.SetTransPara(0x20, 1137, 41234);
-
                 Log.i(TAG, "ReaderTwo: 开启");
-
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,6 +100,8 @@ public class ReaderTwo implements Reader {
                 //获取卡号 UID
 //                Log.e(TAG, "pSnrM1: " + String.valueOf(pSnrM1));
                 result = call_contactLess.fw_card_str(hdev, (short) 1, pSnrM1);
+                //每次都必须关闭，不然会崩溃
+                call_contactLess.fw_exit(hdev);
                 //4A0FFBE0
 //                Log.e(TAG, "pSnrM1: " + String.valueOf(pSnrM1));
 
@@ -122,6 +123,7 @@ public class ReaderTwo implements Reader {
         } else {
             Log.e(TAG, "_Link reader failed");
         }
+
         return rfid;
     }
 }
