@@ -24,6 +24,7 @@ import com.example.lp.ddncredit.http.model.UpgradePackageVersionInfoEntry;
 import com.example.lp.ddncredit.mainview.view.adapter.AutoCompleteAdapter;
 import com.example.lp.ddncredit.mainview.view.bgToast;
 import com.example.lp.ddncredit.utils.SPUtil;
+import com.example.lp.ddncredit.utils.ScreeUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,9 +36,8 @@ import retrofit2.Response;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.ADRESS_RECODE_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.APISP_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
-import static com.example.lp.ddncredit.mainview.view.dialog.AttendDialog.mDialogHeight;
-import static com.example.lp.ddncredit.mainview.view.dialog.AttendDialog.mDialogWith;
 import static com.example.lp.ddncredit.utils.NavigationBarUtil.hideNavigationBar;
+import static com.example.lp.ddncredit.utils.ScreeUtils.getDisplayMetrics;
 import static com.example.lp.ddncredit.utils.StringTool.isHttpUrl;
 import static com.example.lp.ddncredit.utils.StringTool.showKeyAdress;
 
@@ -169,8 +169,8 @@ public class AdressDialog implements View.OnClickListener {
         window.setContentView(R.layout.adress_dialog);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams params = window.getAttributes();
-        params.width = mDialogWith;
-        params.height = mDialogHeight;
+        params.width = (int) (getDisplayMetrics().x* ScreeUtils.Xscale);
+        params.height = (int) (getDisplayMetrics().y*ScreeUtils.Yscale);
         window.setAttributes(params);
 
     }

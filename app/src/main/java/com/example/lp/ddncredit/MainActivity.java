@@ -49,6 +49,7 @@ import com.example.lp.ddncredit.mainview.view.dialog.AttendDialog;
 import com.example.lp.ddncredit.mainview.view.dialog.LoginClickDialogListenr;
 import com.example.lp.ddncredit.service.ServiceManager;
 import com.example.lp.ddncredit.utils.BitmapUtil;
+import com.example.lp.ddncredit.utils.Desity;
 import com.example.lp.ddncredit.utils.SPUtil;
 import com.example.lp.ddncredit.utils.voice.TtsSpeek;
 import com.example.lp.ddncredit.websocket.bean.RunningInfo;
@@ -95,6 +96,9 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
     private AttendDialog attendDialog;
     private AlertDialog alertDialog;
 
+
+    private Fragment currentFragment;
+
     /**
      * 用于显示图像的显示角度
      */
@@ -117,6 +121,8 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        /*屏幕适配*/
+        Desity.setAppDesity(Myapplication.getInstance(),this);
         //横屏显示
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         MainObjectInstance = new MainObject(this);//弱引用初始化
@@ -157,24 +163,27 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
     @Override
     public boolean loginResult(int i) {
         boolean result = false;
-        Fragment fragment = getVisibleFragment();
         switch (i) {
             case 0:
+                Log.e(TAG, "loginResult: 密码错误");
                 bgToast.myToast(this, "密码错误", 0, 200);
                 TtsSpeek.getInstance().SpeechFlush("密码错误", SPUtil.readInt(SP_NAME, VOICE_LEVEL));
                 break;
             case 1:
-                switchFragment(fragment);
-
+                Log.e(TAG, "loginResult: switchFragment");
+                switchFragment(currentFragment);
                 break;
             case 2:
                 Log.i(TAG, "遗弃回调类型，隐藏底部栏: ");
                 break;
             case 3:
-                if (fragment.equals(expressionFragment)) {
+                Log.i(TAG, "loginResult: 3");
+                if (currentFragment.equals(expressionFragment)) {
+                    Log.i(TAG, "loginResult: 弹出密码框");
                     result = true;
                 } else {
-                    switchFragment(fragment);
+                    Log.i(TAG, "loginResult: switchFragment");
+                    switchFragment(currentFragment);
                 }
                 break;
         }
@@ -223,6 +232,7 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
         fragmentTransaction.add(R.id.framelayout, setFragment);//replace的形式是每次都刷新，add show不会刷新，只是hide隐藏起来
         fragmentTransaction.hide(setFragment);
         fragmentTransaction.show(expressionFragment);//只显示表情界面
+        currentFragment=expressionFragment;
         fragmentTransaction.commit();
     }
 
@@ -232,6 +242,7 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
             Log.i(TAG, "反转显示expressionFragment: ");
             fragmentTransaction.hide(setFragment);
             fragmentTransaction.show(expressionFragment);//只显示表情界面
+            currentFragment=expressionFragment;
             fragmentTransaction.commit();
             imageButton.setBackground(getResources().getDrawable(R.drawable.set));
             bgToast.myToast(this, "考勤模式", 0, 200);
@@ -240,6 +251,7 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
             Log.i(TAG, "反转显示setFragment: ");
             fragmentTransaction.hide(expressionFragment);
             fragmentTransaction.show(setFragment);//只显示设置
+            currentFragment=setFragment;
             fragmentTransaction.commit();
             imageButton.setBackground(getResources().getDrawable(R.drawable.mian));
             bgToast.myToast(this, "设置模式", 0, 200);

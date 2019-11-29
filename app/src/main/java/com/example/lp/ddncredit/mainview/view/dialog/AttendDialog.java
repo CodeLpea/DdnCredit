@@ -16,27 +16,28 @@ import com.example.lp.ddncredit.R;
 import com.example.lp.ddncredit.mainview.view.AttendGridView;
 import com.example.lp.ddncredit.mainview.view.adapter.AttendGridAdapter;
 import com.example.lp.ddncredit.mainview.view.adapter.AttendShowBean;
+import com.example.lp.ddncredit.utils.ScreeUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import static com.example.lp.ddncredit.utils.NavigationBarUtil.hideNavigationBar;
+import static com.example.lp.ddncredit.utils.ScreeUtils.getDisplayMetrics;
 
 public class AttendDialog {
     private AlertDialog mAlertDialog;
-    private TextView tv_role, tv_babyname, tv_clazzname, tv_icnumber, tv_attendtime,tv_attendpoint;
+    private TextView tv_role, tv_babyname, tv_clazzname, tv_icnumber, tv_attendtime, tv_attendpoint;
     private Button backbotton;
     private AttendGridAdapter attendGridAdapter;
     private AttendGridView attendGridView;
     private View dilogview;
     private Context context;
     private Window window;
-    public static final int mDialogWith = 1280;
-    public static final int mDialogHeight = 800;
+
     private static AttendDialog instance;
 
     public static AttendDialog getInstance() {
-        if(instance==null){
+        if (instance == null) {
             instance = new AttendDialog();
         }
         return instance;
@@ -72,20 +73,20 @@ public class AttendDialog {
     }
 
     private void setLeftData(AttendShowBean attendBean) {
-        if(attendBean.getRelation().equals("老师")){
-            tv_role.setText("角色："+attendBean.getRelation());
-            tv_babyname.setText("姓名："+attendBean.getBabyname());
-            tv_clazzname.setText("IC："+attendBean.getIcnumber());
-            tv_icnumber.setText("时间："+attendBean.getAttendtime());
+        if (attendBean.getRelation().equals("老师")) {
+            tv_role.setText("角色：" + attendBean.getRelation());
+            tv_babyname.setText("姓名：" + attendBean.getBabyname());
+            tv_clazzname.setText("IC：" + attendBean.getIcnumber());
+            tv_icnumber.setText("时间：" + attendBean.getAttendtime());
             tv_attendpoint.setText(R.string.attendteacherpointphoto);
             tv_attendtime.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             tv_attendtime.setVisibility(View.VISIBLE);
-            tv_role.setText("角色："+attendBean.getRelation());
-            tv_babyname.setText("宝宝："+attendBean.getBabyname());
-            tv_clazzname.setText("班级："+attendBean.getClazzname());
-            tv_icnumber.setText("IC："+attendBean.getIcnumber());
-            tv_attendtime.setText("时间："+attendBean.getAttendtime());
+            tv_role.setText("角色：" + attendBean.getRelation());
+            tv_babyname.setText("宝宝：" + attendBean.getBabyname());
+            tv_clazzname.setText("班级：" + attendBean.getClazzname());
+            tv_icnumber.setText("IC：" + attendBean.getIcnumber());
+            tv_attendtime.setText("时间：" + attendBean.getAttendtime());
             tv_attendpoint.setText(R.string.attendpointphoto);
         }
 
@@ -94,8 +95,8 @@ public class AttendDialog {
     private Window SetDialogWindow(Window window) {
         window = mAlertDialog.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
-        params.width = mDialogWith;
-        params.height = mDialogHeight;
+        params.width = (int) (getDisplayMetrics().x* ScreeUtils.Xscale);
+        params.height = (int) (getDisplayMetrics().y*ScreeUtils.Yscale);
         window.setAttributes(params);
         window.setContentView(R.layout.attend_dialog);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -116,28 +117,28 @@ public class AttendDialog {
         mAlertDialog = new AlertDialog.Builder(context).create();
         mAlertDialog.setCanceledOnTouchOutside(false);
         mAlertDialog.setCancelable(false);
-       /* mAlertDialog.setView(view);*/
+        /* mAlertDialog.setView(view);*/
         return mAlertDialog;
     }
 
 
     private void notifyData(AttendShowBean attendBean) {
-        timerCount=5;//延长时间
+        timerCount = 5;//延长时间
         attendGridAdapter.notifiData(attendBean);
-        if(attendBean.getRelation().equals("老师")){
-            tv_role.setText("角色："+attendBean.getRelation());
-            tv_babyname.setText("姓名："+attendBean.getBabyname());
-            tv_clazzname.setText("IC："+attendBean.getIcnumber());
-            tv_icnumber.setText("时间："+attendBean.getAttendtime());
+        if (attendBean.getRelation().equals("老师")) {
+            tv_role.setText("角色：" + attendBean.getRelation());
+            tv_babyname.setText("姓名：" + attendBean.getBabyname());
+            tv_clazzname.setText("IC：" + attendBean.getIcnumber());
+            tv_icnumber.setText("时间：" + attendBean.getAttendtime());
             tv_attendpoint.setText(R.string.attendteacherpointphoto);
             tv_attendtime.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             tv_attendtime.setVisibility(View.VISIBLE);
-            tv_role.setText("角色："+attendBean.getRelation());
-            tv_babyname.setText("宝宝："+attendBean.getBabyname());
-            tv_clazzname.setText("班级："+attendBean.getClazzname());
-            tv_icnumber.setText("IC："+attendBean.getIcnumber());
-            tv_attendtime.setText("时间："+attendBean.getAttendtime());
+            tv_role.setText("角色：" + attendBean.getRelation());
+            tv_babyname.setText("宝宝：" + attendBean.getBabyname());
+            tv_clazzname.setText("班级：" + attendBean.getClazzname());
+            tv_icnumber.setText("IC：" + attendBean.getIcnumber());
+            tv_attendtime.setText("时间：" + attendBean.getAttendtime());
             tv_attendpoint.setText(R.string.attendpointphoto);
         }
     }
@@ -186,30 +187,30 @@ public class AttendDialog {
 
     private Timer loginTimer;
     private TimerTask timerTask;
-    private int timerCount=5;
+    private int timerCount = 5;
 
     private void StartTimer() {
-        if(loginTimer!=null&&timerTask!=null){
+        if (loginTimer != null && timerTask != null) {
             StopTimer();
         }
         loginTimer = new Timer();
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                if(timerCount>0){
+                if (timerCount > 0) {
                     backbotton.post(new Runnable() {
                         @Override
                         public void run() {
-                            backbotton.setText(timerCount+"s后返回");
+                            backbotton.setText(timerCount + "s后返回");
                         }
                     });
                     timerCount--;
-                }else {
+                } else {
                     dissmissDilog();//退出，并回收timer
                 }
             }
         };
-        loginTimer.schedule(timerTask, 1000,1000);//每1秒钟执行
+        loginTimer.schedule(timerTask, 1000, 1000);//每1秒钟执行
     }
 
     private void StopTimer() {
@@ -217,9 +218,8 @@ public class AttendDialog {
         timerTask.cancel();
         loginTimer = null;
         timerTask = null;
-        timerCount=5;
+        timerCount = 5;
     }
-
 
 
 }

@@ -5,9 +5,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.util.Log;
 
 import com.example.lp.ddncredit.Myapplication;
+
+import java.net.NetworkInterface;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * AppUtils
@@ -75,11 +80,40 @@ public class AppUtils {
      * @return
      */
     public static String getLocalMacAddressFromWifiInfo(Context context) {
-        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        WifiInfo winfo = wifi.getConnectionInfo();
-        String mac = winfo.getMacAddress();
-        mac = mac.replace(":", "");
-        return mac;
+        //大于安卓5.1
+        if(Build.VERSION.SDK_INT >= 19){
+            try {
+            List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface nif : all) {
+                if (!nif.getName().equalsIgnoreCase("wlan0")) continue;
+
+                byte[] macBytes = nif.getHardwareAddress();
+                if (macBytes == null) {
+                    return "";
+                }
+
+                StringBuilder res1 = new StringBuilder();
+                for (byte b : macBytes) {
+                    res1.append(String.format("%02X:", b));
+                }
+
+                if (res1.length() > 0) {
+                    res1.deleteCharAt(res1.length() - 1);
+                }
+                return res1.toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        }else {
+            WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo winfo = wifi.getConnectionInfo();
+            String  mac = winfo.getMacAddress();
+            mac = mac.replace(":", "");
+            return mac;
+        }
+
+        return "02:00:00:00:00:00";
     }
     /**
      * 根据wifi信息获取本地mac

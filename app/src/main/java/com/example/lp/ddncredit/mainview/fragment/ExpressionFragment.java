@@ -14,6 +14,7 @@ import com.example.lp.ddncredit.mainview.expression.ExpressionTimer;
 import com.example.lp.ddncredit.mainview.view.adapter.AttendShowBean;
 import com.example.lp.ddncredit.mainview.view.bgToast;
 import com.example.lp.ddncredit.mainview.view.dialog.AttendDialog;
+import com.example.lp.ddncredit.utils.ScreeUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -27,6 +28,7 @@ import pl.droidsonroids.gif.GifImageView;
 public class ExpressionFragment extends BaseFragment {
     private static final String TAG = "ExpressionFragment";
     private GifImageView gifImageView;
+    private ViewGroup viewGroup;
     private ExpressionTimer mExpressionTimer;
 
     private static long mLastRfidTime = 0;
@@ -46,8 +48,11 @@ public class ExpressionFragment extends BaseFragment {
      * 初始化控件
      */
     private void initView(View view) {
+
         gifImageView = view.findViewById(R.id.giv_express);
-        setGifViewSize(gifImageView);
+        viewGroup=view.findViewById(R.id.framelayout_expression);
+        ScreeUtils.setLayout(viewGroup,this.getActivity());
+//        setGifViewSize(gifImageView);
         gifImageView.setImageDrawable((ExpressionManager.getInstance().getGifDrawable(0)));//第一次先放个表情
 
     }

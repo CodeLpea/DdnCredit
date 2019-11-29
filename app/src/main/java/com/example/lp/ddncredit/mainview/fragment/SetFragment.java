@@ -18,6 +18,7 @@ import com.example.lp.ddncredit.mainview.view.bgToast;
 import com.example.lp.ddncredit.mainview.view.dialog.AdressDialog;
 import com.example.lp.ddncredit.utils.AppUtils;
 import com.example.lp.ddncredit.utils.SPUtil;
+import com.example.lp.ddncredit.utils.ScreeUtils;
 import com.example.lp.ddncredit.utils.voice.TtsSpeek;
 import com.xw.repo.BubbleSeekBar;
 
@@ -55,7 +56,7 @@ public class SetFragment extends BaseFragment {
 
     private void initView(View view) {
         frameLayout = view.findViewById(R.id.framelayout_set);
-        setFrameLayout(frameLayout);
+        ScreeUtils.setLayout(frameLayout,this.getActivity());
         tv_id = view.findViewById(R.id.text_dev_id);
         tv_schoolname = view.findViewById(R.id.text_schoolName);
         tv_appversion = view.findViewById(R.id.text_app_ver);

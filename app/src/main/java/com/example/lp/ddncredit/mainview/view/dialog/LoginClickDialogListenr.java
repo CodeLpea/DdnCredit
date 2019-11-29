@@ -51,6 +51,7 @@ public class LoginClickDialogListenr implements View.OnClickListener {
 
 
     public AlertDialog showAlertDialog() {
+        Log.i(TAG, "showAlertDialog: ");
         //创建dialog 这种方式
         mAlertDialog = new AlertDialog.Builder(mContext).create();
         LayoutInflater factory = LayoutInflater.from(mContext);
@@ -86,6 +87,8 @@ public class LoginClickDialogListenr implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Log.i(TAG, "===onClick==" + view.getId());
+        Log.i(TAG, "R.id.ib_set: "+R.id.ib_set);
+
         switch (view.getId()) {
             case R.id.btn_sure:
                 Log.i(TAG, "===onClick=1=");
@@ -103,6 +106,7 @@ public class LoginClickDialogListenr implements View.OnClickListener {
                 break;
             case R.id.ib_set:
                if(mLoginResultListenr.loginResult(3)){//判断是否弹出密码框
+                   Log.i(TAG, "弹出密码框: ");
                    showAlertDialog();
                    hideNavigationBar(window);
                    StartTimer();
