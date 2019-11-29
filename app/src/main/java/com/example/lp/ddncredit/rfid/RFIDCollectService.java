@@ -37,7 +37,7 @@ public class RFIDCollectService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         isRunning = true;
         mRfidCollector = new RFIDCollector(getApplicationContext());
-        mRfidCollector.setOnDataReceiveListener(new RFIDOnDataReceiveListener(getApplicationContext())).execute();
+        mRfidCollector.setOnDataReceiveListener(new RfiDataReceiverListener()).execute();
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -49,7 +49,8 @@ public class RFIDCollectService extends Service {
         if(mRfidCollector != null){
             mRfidCollector.stop();
             mRfidCollector = null;
-            ReaderIml.getInstance().closeReader();
+            ReaderOne.getInstance().close();
+            ReaderTwo.getInstance().close();
         }
     }
 

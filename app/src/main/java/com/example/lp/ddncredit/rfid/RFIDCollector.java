@@ -1,9 +1,9 @@
 package com.example.lp.ddncredit.rfid;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.lp.ddncredit.websocket.bean.RunningInfo;
-import com.rfid.reader.Reader;
 
 import java.io.IOException;
 
@@ -15,27 +15,25 @@ import java.io.IOException;
 public class RFIDCollector {
     private static final String TAG = "RFIDCollector";
     private Context mContext;
-    private Reader reader;
+    private  Reader reader;
 
-    private OnDataReceiveListener mOnDataReceiveListener;
+    private RfidDataListener mOnDataReceiveListener;
     public RFIDCollector(Context context){
         mContext = context;
     }
 
-    public RFIDCollector setOnDataReceiveListener(OnDataReceiveListener listener){
+    public RFIDCollector setOnDataReceiveListener(RfidDataListener listener){
         mOnDataReceiveListener = listener;
         return this;
     }
 
     public void execute(){
         try{
-            reader= ReaderIml.getInstance().getReader();
-        }catch(IOException e){
+//            reader=new ReaderOne();
+            reader=new ReaderTwo();
+        }catch(Exception e){
             e.printStackTrace();
             setCreditInfo(e.getMessage());
-            return;
-        }catch (SecurityException e){
-            e.printStackTrace();
             return;
         }
         isRunning = true;
@@ -57,9 +55,7 @@ public class RFIDCollector {
         }
     }
 
-    public static interface OnDataReceiveListener{
-        void process(byte[] data, int size);
-    }
+
 
     //线程
     private Thread mRead = null;
@@ -70,18 +66,12 @@ public class RFIDCollector {
             while(isRunning){
                 //检查是否有数据
                 try{
-                    byte[] errCode = new byte[1];
-                    byte[] uid = new byte[32];
-                    byte[] uidLen = new byte[1];
-                    int result;
-                    //long startTime = System.currentTimeMillis();
-                    result = reader.Iso14443a_GetUid(uid, uidLen, errCode);
-                    if (result == 0) {
-                        mOnDataReceiveListener.process(uid, uidLen[0]);
+                    Long rfid = reader.getRfid();
+//                    Log.e(TAG, "rfid: "+rfid);
+                    if(mOnDataReceiveListener!=null&&rfid!=null){
+                        mOnDataReceiveListener.process(rfid);
                     }
-                /*    long endTime = System.currentTimeMillis();    //获取结束时间
-                    Log.i(TAG, "run: "+ "总程序运行时间：" + (endTime - startTime) + "ms\n\n" );  //输出程序运行时间*/
-                    delay(80);
+                    delay(100);
                 }catch(Exception e){
                     e.printStackTrace();
                     continue;

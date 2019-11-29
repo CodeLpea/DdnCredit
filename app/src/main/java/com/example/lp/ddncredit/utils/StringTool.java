@@ -46,7 +46,31 @@ public class StringTool {
         }
         return stringBuffer.toString();
     }
+    /**
+     * 高低算法
+     * */
+    public static String hdHex(String  hex,int lenght){
+        String hexex[]=new String[lenght/2];
+        String newHex="";
+        //8057204A
+        //4A205780
+        for(int i=0;i<hex.length()/2;i++){
+            String temstr=hex.substring(hex.length()-2-i*2,hex.length()-i*2);
+            hexex[i]=temstr;
+//            System.out.println("temstr  "+temstr);
+        }
+        for (String s : hexex) {
+            newHex=newHex+s;
+        }
+//        System.out.println( "newHex: "+newHex);
+        return hex;
 
+    }
+
+    public static boolean isHexStrValid(String str) {
+        String pattern = "^[0-9A-F]+$";
+        return Pattern.compile(pattern).matcher(str).matches();
+    }
     /**
      * byte[]转变为16进制String字符, 每个字节2位, 不足补0
      */

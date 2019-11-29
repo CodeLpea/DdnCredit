@@ -11,7 +11,7 @@
                     android:layout_height="34px"
                     android:src="@drawable/ic_attendpoint"
                     android:rotation="-45"
-                    android:layout_marginTop="382px"
+                    android:layout_marginTop="380px"
                     android:layout_marginLeft="-24px"
                     />
                 <com.example.lp.ddncredit.mainview.view.AttendGridView

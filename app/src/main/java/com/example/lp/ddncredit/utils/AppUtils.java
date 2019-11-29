@@ -100,7 +100,11 @@ public class AppUtils {
                 if (res1.length() > 0) {
                     res1.deleteCharAt(res1.length() - 1);
                 }
-                return res1.toString();
+
+                String mac= String.valueOf(res1);
+                mac = mac.replace(":", "");
+                Log.i("mac", "mac: "+mac);
+                return mac.toString();
             }
         } catch (Exception e) {
             e.printStackTrace();

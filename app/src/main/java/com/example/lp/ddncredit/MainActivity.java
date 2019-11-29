@@ -126,7 +126,6 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
         //横屏显示
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         MainObjectInstance = new MainObject(this);//弱引用初始化
-        ServiceManager.getInstance().startServices();//开启所有服务
       /*  getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);//设置全屏
         //不管是否使用actionbar主题,下面这句代码都有效(api21及以上)
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//设置透明导航栏*/

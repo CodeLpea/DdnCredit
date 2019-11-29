@@ -33,23 +33,12 @@ public class Myapplication  extends Application{
         super.onCreate();
         instance=this;
         LitePal.initialize(this);//初始化LitePal数据库
-        initSP();
         initEventBus();
         initVoice();
         SoftWareVersionsInfo();
     }
 
 
-    private void initSP() {
-        /**
-         * 指定app.xml存储位置
-         * 避免更新app后配置文件读取失败
-         */
-        SPUtil.assignDir(CONFIG_DIR);
-        //生成默认的配置文件
-        SPUtil.setDefaultConfig(CONFIG_DIR);
-
-    }
 
     private void initEventBus() {
         FfidResultEventBusReceiver.getInstance().inject(this).register();

@@ -49,27 +49,28 @@ public class AttendGridAdapter extends BaseAdapter {
         ImageView imageView =  convertView.findViewById(R.id.iv_photo);
         gv.setHorizontalSpacing(10);
         gv.setVerticalSpacing(10);
+        /*还可以采用新建单独的图片view解决尺寸问题*/
         if (attendBean.getReletions().size()>3){
-            gv.setPadding(0,10,10,10);
-            params.height = 380;
-            params.width = 285;
+            gv.setPadding(0,0,0,0);
+            params.height=380;
+            params.width=285;
+
         }else if(attendBean.getReletions().size()==3) {
-            gv.setPadding(0,180,10,0);
-            gv.setHorizontalSpacing(10);
-            params.height = 380;
-            params.width = 285;
+            gv.setPadding(0,180,0,0);
+            params.height=440;
+            params.width=330;
+
         }else if(attendBean.getReletions().size()<3) {
-            gv.setPadding(0,80,0,0);
-            gv.setHorizontalSpacing(10);
-            params.height = 640;
-            params.width = 480;
+            gv.setPadding(0,180,0,0);
+            params.height=640;
+            params.width=480;
         }
         relativeLayout.setLayoutParams(params);
         Glide.with(context)
                 .load(attendBean.getUrls().get(position))
                 .placeholder(R.drawable.attenddefault)//图片加载出来前，显示的图片
                 .error(R.drawable.attenddefault)//图片加载失败后，显示的图片
-                .override(params.width, params.height)//指定图片大小
+                //.override(params.width, params.height)//指定图片大小
                 .into(imageView);
 
         Button buttonName=convertView.findViewById(R.id.ib_photoname);

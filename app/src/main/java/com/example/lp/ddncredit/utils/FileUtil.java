@@ -331,8 +331,7 @@ public class FileUtil {
     public static void getFiles(File file, List<File> fileList, FileFilter fileFilter){
         if(file.isDirectory()) {
             File[] files = file.listFiles(fileFilter);
-            for (File f:
-                    files) {
+            for (File f: files) {
                 getFiles(f, fileList, fileFilter);
             }
         }else{
