@@ -19,6 +19,9 @@ public class ScreeUtils {
     public static float Yscale = (float) (800.0 / 1080.0);
     public static float Xscale = (float) (1280.0 / 1920.0);
 
+    /**
+     * 获取屏幕的尺寸信息
+     * */
     public static Point getDisplayMetrics() {
         DisplayMetrics dm = new DisplayMetrics();
         dm = Myapplication.getInstance().getResources().getDisplayMetrics();
@@ -30,11 +33,12 @@ public class ScreeUtils {
     /**
      * setScroolViewSize
      * 设置位置及其大小
-     *
+     * 采用了Desity屏幕适配方法之后，就不比使用缩放比例的形式来适配大小和位置了
      * @param
      */
     public static void setLayout(ViewGroup view, Activity activity) {
         int NavigationBarHeight = getNavigationBarHeight();//获取底部状态栏高度
+        Log.i("setLayout  ", NavigationBarHeight+"");
         Point displayMetrics = getDisplayMetrics();
         int height = displayMetrics.y;
         int width = displayMetrics.x;
@@ -47,15 +51,18 @@ public class ScreeUtils {
         Log.e("setLayout", "dpTop :" + dpTop);
         Log.e("setLayout", "dpLeft :" + dpLeft);
         Log.e("setLayout", "(int) (leftYscale * height) :" + (int) (leftYscale * height));
-        Log.e("setLayout", "(int) (leftYscale * width) :" + (int) (leftYscale * width));
-        margin.setMargins(dpLeft, dpTop, 0, 0);
+        Log.e("setLayout", "(int) (leftXscale * width) :" + (int) (leftXscale * width));
+//        margin.setMargins(dpLeft, dpTop, 0, 0);
+        margin.setMargins(320, 140, 0, 0);
 
         DisplayMetrics metric = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metric);
 
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(margin);
-        layoutParams.width = (int) (Xscale * width);
-        layoutParams.height = (int) (Yscale * height);
+//        layoutParams.width = (int) (Xscale * width);
+//        layoutParams.height = (int) (Yscale * height);
+        layoutParams.width = 1280;
+        layoutParams.height = 800;
         Log.e("setLayout", " layoutParams.width :" + layoutParams.width);
         Log.e("setLayout", "layoutParams.height :" + layoutParams.height);
         view.setLayoutParams(layoutParams);

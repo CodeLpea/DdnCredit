@@ -29,8 +29,9 @@ public class RFIDCollector {
 
     public void execute(){
         try{
-//            reader=new ReaderOne();
-            reader=new ReaderTwo();
+            /*决定使用哪种刷卡模块*/
+            reader=new ReaderOne();
+//            reader=new ReaderTwo();
         }catch(Exception e){
             e.printStackTrace();
             setCreditInfo(e.getMessage());

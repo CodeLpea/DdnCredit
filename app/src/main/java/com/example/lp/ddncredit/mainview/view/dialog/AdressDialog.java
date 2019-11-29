@@ -169,8 +169,10 @@ public class AdressDialog implements View.OnClickListener {
         window.setContentView(R.layout.adress_dialog);
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         WindowManager.LayoutParams params = window.getAttributes();
-        params.width = (int) (getDisplayMetrics().x* ScreeUtils.Xscale);
-        params.height = (int) (getDisplayMetrics().y*ScreeUtils.Yscale);
+//        params.width = (int) (getDisplayMetrics().x* ScreeUtils.Xscale);
+//        params.height = (int) (getDisplayMetrics().y*ScreeUtils.Yscale);
+        params.width = 1280;
+        params.height = 800;
         window.setAttributes(params);
 
     }
