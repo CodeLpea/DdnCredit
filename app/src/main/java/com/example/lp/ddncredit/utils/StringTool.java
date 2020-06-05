@@ -24,6 +24,7 @@ public class StringTool {
     public static BigInteger getRfid(String data) {
         StringBuffer stringBuffer = new StringBuffer();
 
+        /*hd,高低位转换*/
         for (int i = 0; i < data.length(); ) {
             int end = i + 2;
             stringBuffer.insert(0, data.substring(i, end));
@@ -46,24 +47,25 @@ public class StringTool {
         }
         return stringBuffer.toString();
     }
+
     /**
      * 高低算法
-     * */
-    public static String hdHex(String  hex,int lenght){
-        String hexex[]=new String[lenght/2];
-        String newHex="";
+     */
+    public static String hdHex(String hex, int lenght) {
+        String hexex[] = new String[lenght / 2];
+        String newHex = "";
         //8057204A
         //4A205780
-        for(int i=0;i<hex.length()/2;i++){
-            String temstr=hex.substring(hex.length()-2-i*2,hex.length()-i*2);
-            hexex[i]=temstr;
+        for (int i = 0; i < hex.length() / 2; i++) {
+            String temstr = hex.substring(hex.length() - 2 - i * 2, hex.length() - i * 2);
+            hexex[i] = temstr;
 //            System.out.println("temstr  "+temstr);
         }
         for (String s : hexex) {
-            newHex=newHex+s;
+            newHex = newHex + s;
         }
 //        System.out.println( "newHex: "+newHex);
-        return hex;
+        return newHex;
 
     }
 
@@ -71,6 +73,7 @@ public class StringTool {
         String pattern = "^[0-9A-F]+$";
         return Pattern.compile(pattern).matcher(str).matches();
     }
+
     /**
      * byte[]转变为16进制String字符, 每个字节2位, 不足补0
      */

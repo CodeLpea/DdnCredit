@@ -197,7 +197,7 @@ public class MainActivity extends BaseActivity implements NetworkListener, Login
     public void attendEvent(AttendShowBean attendShowBean) {
         Log.i(TAG, "表情界面得到表情变化:");
 
-        alertDialog = attendDialog.showChoiceDialog(attendShowBean, MainActivity.this);//初始化弹出框
+        alertDialog = attendDialog.showChoiceDialog(attendShowBean,getBitmap(), MainActivity.this);//初始化弹出框
 
 
 

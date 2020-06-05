@@ -12,37 +12,20 @@ import com.example.lp.ddncredit.R;
 import java.io.File;
 import java.lang.reflect.Field;
 
-import static com.example.lp.ddncredit.constant.Constants.SERIAL1_BAUDRATE;
-import static com.example.lp.ddncredit.constant.Constants.SERIAL1_DATA_BIT;
-import static com.example.lp.ddncredit.constant.Constants.SERIAL1_FLOW_CONTROL;
-import static com.example.lp.ddncredit.constant.Constants.SERIAL1_NAME;
-import static com.example.lp.ddncredit.constant.Constants.SERIAL1_PARITY_BIT;
-import static com.example.lp.ddncredit.constant.Constants.SERIAL1_STOP_BIT;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.ADRESS_RECODE_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.APISP_NAME;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.APPVERSION;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.AUTHORIZATION_INFO;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.BLUETOOTH_ADDRESS;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.BcdDevice;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.COLORSPINEER;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.EXPLORE;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.HoldValuePostion;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.HoldValues;
+
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NAME_TUOYUBAO_BASE;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NAME_XIAONUO_BASE;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NET_IP;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NET_OPSE;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NET_PORT;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NET_USER;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.ProductId;
+
+
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolID;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolName;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.TOKEN;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_LEVEL;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VOICE_SPEED_LEVEL;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.VendorId;
-import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.isExplore;
+
 
 
 /**
@@ -207,43 +190,14 @@ public class SPUtil {
      */
     public static void setDefaultConfig(String dir) {
         try {
-            if (!FileUtil.isFileExist(dir + "/" + SP_NAME + ".xml")) {
-                SharedPreferences defaulConfig = getSharedPreferences(SP_NAME);
+            if (SPUtil.readString(SP_NAME, APISP_NAME).equals("")) {
                 Log.i("setdefauletect_NAME", "=========================");
-                //远程故障定位服务器URL
-                defaulConfig.edit().putString(TOKEN, "token").apply();
-                defaulConfig.edit().putString(AUTHORIZATION_INFO, "info").apply();
-                defaulConfig.edit().putString(BLUETOOTH_ADDRESS, "80:50:70:60:20").apply();
-                defaulConfig.edit().putInt(EXPLORE, 15).apply();
-                defaulConfig.edit().putInt(COLORSPINEER, 0).apply();
-                defaulConfig.edit().putInt(HoldValuePostion, 0).apply();
-                defaulConfig.edit().putString(HoldValues, "0.1").apply();
-
-                defaulConfig.edit().putBoolean(isExplore, true).apply();
-                defaulConfig.edit().putInt(ProductId, 10011).apply();
-                defaulConfig.edit().putInt(VendorId, 10086).apply();
-                defaulConfig.edit().putString(BcdDevice, "007").apply();
-                defaulConfig.edit().putString(APPVERSION, "1.0").apply();
-                defaulConfig.edit().putString(NET_IP, "192.168.8.24").apply();
-                defaulConfig.edit().putString(NET_PORT, "8000").apply();
-                defaulConfig.edit().putString(NET_USER, "admin").apply();
-                defaulConfig.edit().putString(NET_OPSE, "XiaoNuo2018").apply();
-                defaulConfig.edit().putString(SERIAL1_NAME, "/dev/ttyS1").apply();
-                defaulConfig.edit().putString(SERIAL1_BAUDRATE, "9600").apply();
-                defaulConfig.edit().putString(SERIAL1_DATA_BIT, Myapplication.getInstance().getString(R.string.data_bit_8)).apply();
-                defaulConfig.edit().putString(SERIAL1_PARITY_BIT, Myapplication.getInstance().getString(R.string.parity_bit_None)).apply();
-                defaulConfig.edit().putString(SERIAL1_STOP_BIT, Myapplication.getInstance().getString(R.string.stop_bit_1)).apply();
-                defaulConfig.edit().putString(SERIAL1_FLOW_CONTROL, Myapplication.getInstance().getString(R.string.flow_control_None)).apply();
-
-                defaulConfig.edit().putInt(VOICE_LEVEL, 5).apply();
-                defaulConfig.edit().putFloat(VOICE_SPEED_LEVEL, 1.0f).apply();
-
-                defaulConfig.edit().putInt(SchoolID, 5).apply();
-                defaulConfig.edit().putString(SchoolName, "didano").apply();
-
-                defaulConfig.edit().putString(APISP_NAME, NAME_TUOYUBAO_BASE).apply();//默认地址为托育宝地址
-                defaulConfig.edit().putString(ADRESS_RECODE_NAME, NAME_TUOYUBAO_BASE + ":-P" + NAME_XIAONUO_BASE + ":-P").apply();
+                writeInt(SP_NAME,VOICE_LEVEL,15);
+                writeFloat(SP_NAME,VOICE_SPEED_LEVEL,1.0f);
+                writeString(SP_NAME, APISP_NAME, NAME_TUOYUBAO_BASE);//默认地址为托育宝地址
+                writeString(SP_NAME, ADRESS_RECODE_NAME, NAME_TUOYUBAO_BASE + ":-P" + NAME_XIAONUO_BASE + ":-P");
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

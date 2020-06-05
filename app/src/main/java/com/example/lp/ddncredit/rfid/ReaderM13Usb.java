@@ -6,11 +6,8 @@ import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.utils.StringTool;
 import com.example.lp.ddncredit.websocket.bean.RunningInfo;
 
-import java.math.BigInteger;
-
 import Lib.FWReader.S8.function_S8;
 
-import static com.example.lp.ddncredit.utils.StringTool.byteHexToSting;
 import static com.example.lp.ddncredit.utils.StringTool.hdHex;
 import static com.example.lp.ddncredit.utils.StringTool.isHexStrValid;
 
@@ -19,30 +16,30 @@ import static com.example.lp.ddncredit.utils.StringTool.isHexStrValid;
  * 智新班牌USB读卡方法
  * lp
  */
-public class ReaderTwo implements Reader {
-    private static final String TAG = "ReaderTwo";
+public class ReaderM13Usb implements Reader {
+    private static final String TAG = "ReaderM13Usb";
 
     private function_S8 call_contactLess;
 
     int result = 0, hdev = 1;
 
 
-    private static ReaderTwo instance;
+    private static ReaderM13Usb instance;
 
     // 单例模式中获取唯一的ReaderIml实例
-    public static ReaderTwo getInstance() {
+    public static ReaderM13Usb getInstance() {
         if (instance == null) {
-            instance = new ReaderTwo();
+            instance = new ReaderM13Usb();
         }
         return instance;
     }
 
-    public ReaderTwo() {
+    public ReaderM13Usb() {
         try {
             if (call_contactLess == null) {
                 call_contactLess = new function_S8(Myapplication.getInstance());
                 call_contactLess.SetTransPara(0x20, 1137, 41234);
-                Log.i(TAG, "ReaderTwo: 开启");
+                Log.i(TAG, "ReaderM13Usb: 开启");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,7 +84,7 @@ public class ReaderTwo implements Reader {
     public Long startRead() {
         char[] pModVer = new char[512];
         char[] pSnrM1 = new char[255];
-        Long rfid=null;
+        Long rfid = null;
         // TODO Auto-generated method stub
         do {
             hdev = call_contactLess.fw_init_ex(2, null, 0);
@@ -113,10 +110,10 @@ public class ReaderTwo implements Reader {
                 if (!hexStrValid) {
                     return null;
                 }
-                //高低位算法
-                String strUid = hdHex(substring, substring.length());
+//                //高低位算法
+//                String strUid = hdHex(substring, substring.length());
                 //十六进制转换为十进制
-                rfid=StringTool.getRfid(strUid).longValue();
+                rfid = StringTool.getRfid(substring).longValue();
 //                Log.e(TAG, "UID: " + rfid);
 
             }

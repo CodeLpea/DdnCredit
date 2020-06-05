@@ -5,8 +5,8 @@
     <solid
         android:color="@color/attendleft"/>
 
-    <corners
-        android:bottomLeftRadius="24px"
-        android:topLeftRadius="24px"
-      />
+    <!--<corners-->
+        <!--android:bottomLeftRadius="24px"-->
+        <!--android:topLeftRadius="24px"-->
+      <!--/>-->
 </shape>

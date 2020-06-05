@@ -2,6 +2,7 @@ package com.example.lp.ddncredit.mainview.view.dialog;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.lp.ddncredit.R;
@@ -27,6 +29,7 @@ import static com.example.lp.ddncredit.utils.ScreeUtils.getDisplayMetrics;
 public class AttendDialog {
     private AlertDialog mAlertDialog;
     private TextView tv_role, tv_babyname, tv_clazzname, tv_icnumber, tv_attendtime, tv_attendpoint;
+    private ImageView iv_now_picture;
     private Button backbotton;
     private AttendGridAdapter attendGridAdapter;
     private AttendGridView attendGridView;
@@ -34,6 +37,7 @@ public class AttendDialog {
     private Context context;
     private Window window;
 
+    private Bitmap nowBitmap=null;
     private static AttendDialog instance;
 
     public static AttendDialog getInstance() {
@@ -46,8 +50,9 @@ public class AttendDialog {
     /**
      * 选择对话框
      */
-    public AlertDialog showChoiceDialog(AttendShowBean attendBean, Context context) {
+    public AlertDialog showChoiceDialog(AttendShowBean attendBean, Bitmap bitmap, Context context) {
         this.context = context.getApplicationContext();
+        nowBitmap=bitmap;
         if (dilogview == null && window == null) {
             //获取到DialogView()，获取到dialogView，并设置一些属性
             dilogview = getDialogView();//
@@ -73,6 +78,9 @@ public class AttendDialog {
     }
 
     private void setLeftData(AttendShowBean attendBean) {
+        if(nowBitmap!=null){
+            iv_now_picture.setImageBitmap(nowBitmap);
+        }
         if (attendBean.getRelation().equals("老师")) {
             tv_role.setText("角色：" + attendBean.getRelation());
             tv_babyname.setText("姓名：" + attendBean.getBabyname());
@@ -127,25 +135,11 @@ public class AttendDialog {
     private void notifyData(AttendShowBean attendBean) {
         timerCount = 5;//延长时间
         attendGridAdapter.notifiData(attendBean);
-        if (attendBean.getRelation().equals("老师")) {
-            tv_role.setText("角色：" + attendBean.getRelation());
-            tv_babyname.setText("姓名：" + attendBean.getBabyname());
-            tv_clazzname.setText("IC：" + attendBean.getIcnumber());
-            tv_icnumber.setText("时间：" + attendBean.getAttendtime());
-            tv_attendpoint.setText(R.string.attendteacherpointphoto);
-            tv_attendtime.setVisibility(View.INVISIBLE);
-        } else {
-            tv_attendtime.setVisibility(View.VISIBLE);
-            tv_role.setText("角色：" + attendBean.getRelation());
-            tv_babyname.setText("宝宝：" + attendBean.getBabyname());
-            tv_clazzname.setText("班级：" + attendBean.getClazzname());
-            tv_icnumber.setText("IC：" + attendBean.getIcnumber());
-            tv_attendtime.setText("时间：" + attendBean.getAttendtime());
-            tv_attendpoint.setText(R.string.attendpointphoto);
-        }
+        setLeftData(attendBean);
     }
 
     private void initLeftDataView(Window window) {
+        iv_now_picture = window.findViewById(R.id.iv_now_picture);
         tv_role = window.findViewById(R.id.tv_Role);
         tv_babyname = window.findViewById(R.id.tv_babyname);
         tv_clazzname = window.findViewById(R.id.tv_clazzname);

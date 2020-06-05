@@ -50,7 +50,7 @@ public class RFIDCollectService extends Service {
             mRfidCollector.stop();
             mRfidCollector = null;
             ReaderOne.getInstance().close();
-            ReaderTwo.getInstance().close();
+            ReaderM13Usb.getInstance().close();
         }
     }
 

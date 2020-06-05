@@ -1,8 +1,11 @@
 package com.example.lp.ddncredit;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -22,10 +25,12 @@ public class BaseActivity extends PermissionActivity {
     private PermisonListener permisonListener;
     private String[] Permisons = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.CAMERA};
 
+    public static Activity activity;
     @Override
     protected void onResume() {
         super.onResume();
         Log.i(TAG, "onResume: ");
+        activity=this;
         //hideBottomUIMenu();
         hideNavigationBar(this.getWindow());
 
@@ -37,6 +42,7 @@ public class BaseActivity extends PermissionActivity {
         @Override
         public void onPermissionGranted() {
             //开启sp文件夹创建，否则创建失败
+            Log.i(TAG, "onPermissionGranted: ");
             initSP();
             ServiceManager.getInstance().startServices();//开启所有服务
         }
@@ -58,9 +64,11 @@ public class BaseActivity extends PermissionActivity {
          * 指定app.xml存储位置
          * 避免更新app后配置文件读取失败
          */
-        SPUtil.assignDir(CONFIG_DIR);
-        //生成默认的配置文件
+
+
+        Log.i(TAG, "initSP: ");
         SPUtil.setDefaultConfig(CONFIG_DIR);
+//        SPUtil.assignDir(CONFIG_DIR);
 
     }
 /**
@@ -76,6 +84,14 @@ public class BaseActivity extends PermissionActivity {
         return null;
     }
 
+    /**
+     * 用于m2读卡器
+     * */
+    public static final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+        }
+    };
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -1,6 +1,7 @@
 package com.example.lp.ddncredit.mainview.view.adapter;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,11 @@ public class AttendGridAdapter extends BaseAdapter {
         this.gv = gv;
     }
 
+    private void setGvParms(){
+        gv.setGravity(Gravity.CENTER);
+        gv.setHorizontalSpacing(10);
+        gv.setVerticalSpacing(10);
+    }
     @Override
     public int getCount() {
      return attendBean.getReletions().size();
@@ -47,8 +53,7 @@ public class AttendGridAdapter extends BaseAdapter {
         RelativeLayout relativeLayout =  convertView.findViewById(R.id.rel_photo);//获取每个页面内容的包裹布局，用来设置宽度高度
         ViewGroup.LayoutParams params = relativeLayout.getLayoutParams();
         ImageView imageView =  convertView.findViewById(R.id.iv_photo);
-        gv.setHorizontalSpacing(10);
-        gv.setVerticalSpacing(10);
+
         /*还可以采用新建单独的图片view解决尺寸问题*/
         if (attendBean.getReletions().size()>3){
             gv.setPadding(0,0,0,0);
@@ -61,10 +66,11 @@ public class AttendGridAdapter extends BaseAdapter {
             params.width=330;
 
         }else if(attendBean.getReletions().size()<3) {
-            gv.setPadding(0,180,0,0);
+            gv.setPadding(0,10,0,0);
             params.height=640;
             params.width=480;
         }
+
         relativeLayout.setLayoutParams(params);
         Glide.with(context)
                 .load(attendBean.getUrls().get(position))

@@ -117,8 +117,17 @@
 
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/iv_now_picture"
+        android:layout_above="@+id/rc_back"
+        android:layout_marginBottom="30px"
+        android:layout_centerHorizontal="true"
+        android:layout_width="180px"
+        android:layout_height="220px" />
+
     <!-- 返回按键-->
     <RelativeLayout
+        android:id="@+id/rc_back"
         android:layout_width="match_parent"
         android:layout_height="50px"
         android:layout_marginBottom="30px"
