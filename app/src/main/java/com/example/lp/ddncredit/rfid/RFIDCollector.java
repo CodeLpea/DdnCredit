@@ -30,8 +30,8 @@ public class RFIDCollector {
     public void execute(){
         try{
             /*决定使用哪种刷卡模块*/
-//            reader=new ReaderOne();
-            reader=new ReaderM2();
+            reader=new ReaderOne();
+//            reader=new ReaderM2();
 //            reader=new ReaderM13Usb();
 
         }catch(Exception e){

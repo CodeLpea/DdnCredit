@@ -49,6 +49,23 @@ public class StringTool {
     }
 
     /**
+     * 快速的转换byte为16进制字符串
+     */
+    public static String byteArrayToHexStr(byte[] byteArray, int bytelength) {
+        if (byteArray == null) {
+            return null;
+        }
+        char[] hexArray = "0123456789ABCDEF".toCharArray();
+        char[] hexChars = new char[bytelength * 2];
+        for (int j = 0; j < bytelength; j++) {
+            int v = byteArray[j] & 0xFF;
+            hexChars[j * 2] = hexArray[v >>> 4];
+            hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+        }
+        String hexStr = new String(hexChars);
+        return hexStr;
+    }
+    /**
      * 高低算法
      */
     public static String hdHex(String hex, int lenght) {
@@ -67,6 +84,27 @@ public class StringTool {
 //        System.out.println( "newHex: "+newHex);
         return newHex;
 
+    }
+    /**
+     * 高低位转换另一种方法
+     * 该方法高低转换效率更高，速度更快
+     */
+    public static String reverseHdHex(String hex) {
+        final char[] charArray = hex.toCharArray();
+        final int length = charArray.length;
+        final int times = length / 2;
+        for (int c1i = 0; c1i < times; c1i += 2) {
+            final int c2i = c1i + 1;
+            final char c1 = charArray[c1i];
+            final char c2 = charArray[c2i];
+            final int c3i = length - c1i - 2;
+            final int c4i = length - c1i - 1;
+            charArray[c1i] = charArray[c3i];
+            charArray[c2i] = charArray[c4i];
+            charArray[c3i] = c1;
+            charArray[c4i] = c2;
+        }
+        return new String(charArray);
     }
 
     public static boolean isHexStrValid(String str) {
