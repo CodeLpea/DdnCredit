@@ -30,12 +30,12 @@ public class AppRebootBroadCastReceiver extends BroadcastReceiver {
             Toast.makeText(context , "监听到启动APP的广播" , Toast.LENGTH_LONG).show();
             bootApplication(context);
         }else if (Intent.ACTION_PACKAGE_REPLACED.equals(intent.getAction())) {
-           // Toast.makeText(context , "监听到系统广播替换" , Toast.LENGTH_LONG).show();
-           // bootApplication(context);
+            Toast.makeText(context , "监听到系统广播替换" , Toast.LENGTH_LONG).show();
+            bootApplication(context);
         } else if (Intent.ACTION_PACKAGE_ADDED.equals(intent.getAction())) {
            // Toast.makeText(context , "监听到系统广播添加" , Toast.LENGTH_LONG).show();
         }else if (Intent.ACTION_PACKAGE_REMOVED.equals(intent.getAction())) {
-            Toast.makeText(context , "监听到系统广播移除" , Toast.LENGTH_LONG).show();
+//            Toast.makeText(context , "监听到系统广播移除" , Toast.LENGTH_LONG).show();
             //删除升级包
             deleteUpgradeApk();
         }

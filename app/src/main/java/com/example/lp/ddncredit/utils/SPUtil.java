@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.R;
+import com.example.lp.ddncredit.constant.Constants;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -19,6 +20,7 @@ import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NAME_T
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.NAME_XIAONUO_BASE;
 
 
+import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.RFID_MODE;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SP_NAME;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolID;
 import static com.example.lp.ddncredit.constant.Constants.SP_HDetect_NAME.SchoolName;
@@ -193,6 +195,7 @@ public class SPUtil {
             if (SPUtil.readString(SP_NAME, APISP_NAME).equals("")) {
                 Log.i("setdefauletect_NAME", "=========================");
                 writeInt(SP_NAME,VOICE_LEVEL,15);
+                writeInt(SP_NAME, RFID_MODE,0);
                 writeFloat(SP_NAME,VOICE_SPEED_LEVEL,1.0f);
                 writeString(SP_NAME, APISP_NAME, NAME_TUOYUBAO_BASE);//默认地址为托育宝地址
                 writeString(SP_NAME, ADRESS_RECODE_NAME, NAME_TUOYUBAO_BASE + ":-P" + NAME_XIAONUO_BASE + ":-P");

@@ -9,6 +9,7 @@ import android.util.Log;
 import com.example.lp.ddncredit.Myapplication;
 import com.example.lp.ddncredit.utils.AppUtils;
 import com.example.lp.ddncredit.utils.NetUtil;
+import com.example.lp.ddncredit.versioncontrol.SoftWareUpgradeService;
 import com.example.lp.ddncredit.websocket.bean.PushRequestInfo;
 import com.example.lp.ddncredit.websocket.bean.PushResponseInfo;
 import com.google.gson.Gson;
@@ -106,15 +107,14 @@ public class WSManager {
      */
     public boolean init() {
         Log.i(TAG, "-----------websocket init-----------------: ");
-        Log.i(TAG, "-----------isInitOk: "+isInitOk+"------------");
+        Log.i(TAG, "-----------isInitOk: " + isInitOk + "------------");
         /**
          * 已经初始化了，无需再次初始化
          */
-        if (isInitOk == true){
+        if (isInitOk == true) {
             return true;
-        }
-        else {
-            Log.i(TAG, "********************初始化:    "+isInitOk);
+        } else {
+            Log.i(TAG, "********************初始化:    " + isInitOk);
             isInitOk = connect();
 
             return isInitOk;
@@ -123,13 +123,13 @@ public class WSManager {
 
     public boolean connect() {
         try {
-            if (client != null){
+            if (client != null) {
                 client = null;
             }
-            Log.i(TAG, "----------client——before: "+client);
+            Log.i(TAG, "----------client——before: " + client);
             client = new WSClient(new URI(WSConstant.BASE_API));
-            Log.i(TAG, "connect:BASE_API "+WSConstant.BASE_API);
-            Log.i(TAG, "----------client——after "+client);
+            Log.i(TAG, "connect:BASE_API " + WSConstant.BASE_API);
+            Log.i(TAG, "----------client——after " + client);
             setWsStatus(WSStatus.CONNECTTING);
             client.connect();
             return true;
@@ -269,7 +269,7 @@ public class WSManager {
      * @param msg
      */
     public void dispatchMessage(String msg) {
-        Log.i(TAG,"receive push message:" + msg);
+        Log.i(TAG, "receive push message:" + msg);
         try {
             /**
              * 先回复该命令，再继续其它操作
@@ -296,24 +296,23 @@ public class WSManager {
                 /**
                  * 检查版本更新
                  */
-//                String serviceName = UpdateVersionService.class.getSimpleName();
-//                if(!AppUtil.isServiceRunning(serviceName)) {
-//                    Intent intent = new Intent(App.getContext(), UpdateVersionService.class);
-//                    App.getContext().startService(intent);
-//                }
+                if (!SoftWareUpgradeService.isServiceRunning()) {
+                    Intent intent = new Intent(Myapplication.getInstance(), SoftWareUpgradeService.class);
+                    Myapplication.getInstance().startService(intent);
+                }
 
             } else if (cmd.equals(REBOOT_SYSTEM)) {
                 /**
                  * 重启系统
                  */
-                Log.i(TAG,"reboot system...");
+                Log.i(TAG, "reboot system...");
 //                SystemUtil.rebootSystem2();
             } else if (cmd.equals(DOWNLOAD_LEAVE_MESSAGE)) {
                 //下载留言信息
-            }else if(cmd.equals(SYNCTHING_REPAIRING)){
+            } else if (cmd.equals(SYNCTHING_REPAIRING)) {
                 Log.i(TAG, "syncthong repairing...");
                 //重新配对同步软件
-              //  App.getSyncthingExecutor().repair();
+                //  App.getSyncthingExecutor().repair();
             }
 //            Log.getImpl().appenderFlush(false);
         } catch (Exception e) {

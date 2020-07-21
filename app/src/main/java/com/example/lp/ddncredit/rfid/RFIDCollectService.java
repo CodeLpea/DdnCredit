@@ -14,7 +14,6 @@ import android.util.Log;
  */
 public class RFIDCollectService extends Service {
     private static final String TAG = "RFIDCollectService";
-    private static RFIDCollector mRfidCollector = null;
     private static boolean isRunning = false;
 
     public RFIDCollectService(){
@@ -36,8 +35,7 @@ public class RFIDCollectService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         isRunning = true;
-        mRfidCollector = new RFIDCollector(getApplicationContext());
-        mRfidCollector.setOnDataReceiveListener(new RfiDataReceiverListener()).execute();
+        RFIDCollector.getInstance().setOnDataReceiveListener(new RfiDataReceiverListener()).execute();
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -46,15 +44,13 @@ public class RFIDCollectService extends Service {
     public void onDestroy() {
         super.onDestroy();
         Log.i(TAG, "onDestroy...");
-        if(mRfidCollector != null){
-            mRfidCollector.stop();
-            mRfidCollector = null;
-            ReaderOne.getInstance().close();
-            ReaderM13Usb.getInstance().close();
+        if(RFIDCollector.getInstance().isRunning){
+            RFIDCollector.getInstance().stop();
+
         }
     }
 
     public static boolean isServiceRunning(){
-        return (mRfidCollector != null ? true : false);
+        return (RFIDCollector.getInstance().isRunning);
     }
 }

@@ -211,6 +211,56 @@
                     app:bsb_track_size="6dp" />
 
             </RelativeLayout>
+            <!--刷卡配置 -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/layout_style_boder"
+                android:gravity="center_vertical"
+                android:paddingLeft="30dp"
+                android:paddingRight="30dp">
+
+                <TextView
+                    android:id="@+id/tv_rfid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="刷卡模式"
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
+                <CheckBox
+                    android:id="@+id/cb_reader_one"
+                    android:text="串口_ttyS1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_rfid"
+                    android:layout_marginTop="5dp"
+                    />
+                <CheckBox
+                    android:id="@+id/cb_reader_M2"
+                    android:text="串口_ttyS3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_rfid"
+                    android:layout_marginLeft="50dp"
+                    android:layout_toRightOf="@+id/cb_reader_one"
+                    android:layout_marginTop="5dp"
+                    />
+                <CheckBox
+                    android:id="@+id/cb_reader_M13"
+                    android:text="USB_M13"
+                    android:layout_toRightOf="@+id/cb_reader_M2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_rfid"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="50dp"
+                    />
+
+            </RelativeLayout>
+
 
 
             <!--服务器地址配置 -->

@@ -54,6 +54,9 @@ public interface Constants {
         String VOICE_LEVEL="VOICE_LEVEL";
         String VOICE_SPEED_LEVEL="VOICE_SPEED_LEVEL";
 
+        //刷卡器类型 0:串口tty1， 1：M2串口，2：M13USB
+        String RFID_MODE="RFID_MODE";
+
 
 
         /**

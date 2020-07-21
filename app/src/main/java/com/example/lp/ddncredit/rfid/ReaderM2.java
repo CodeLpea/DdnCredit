@@ -16,12 +16,12 @@ import static com.example.lp.ddncredit.utils.StringTool.byteHexToSting;
 public class ReaderM2 implements Reader {
 
     private com.rfid.reader.Reader reader;
-    private static ReaderOne instance;
+    private static ReaderM2 instance;
 
     // 单例模式中获取唯一的ReaderIml实例
-    public static ReaderOne getInstance() {
+    public static ReaderM2 getInstance() {
         if (instance == null) {
-            instance = new ReaderOne();
+            instance = new ReaderM2();
         }
         return instance;
     }
